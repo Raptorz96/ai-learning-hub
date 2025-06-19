@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutte le Lezioni - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Background Effects */
+        .bg-gradient {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background: var(--secondary);
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.9); }
+            75% { transform: translate(20px, 30px) scale(1.05); }
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.8rem 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 50px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tab:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .filter-tab.active {
+            background: var(--gradient);
+            color: white;
+            border: none;
+        }
+
+        /* Course Cards */
+        .courses-grid {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .course-card {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-source {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .course-description {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .lessons-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-item:hover {
+            transform: translateX(10px);
+            border-color: rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .lesson-number {
+            min-width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        .lesson-content {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .lesson-duration {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .lesson-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .status-available {
+            color: var(--success);
+        }
+
+        .status-coming {
+            color: var(--warning);
+        }
+
+        .status-locked {
+            color: #64748b;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filter-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#percorsi">Percorsi</a></li>
+                <li><a href="#risorse">Risorse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Tutte le Lezioni</h1>
+            <p class="page-subtitle">
+                Esplora il nostro catalogo completo di corsi sull'intelligenza artificiale
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Documenti Fonte</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">40+</div>
+                <div class="stat-label">Lezioni Totali</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15h</div>
+                <div class="stat-label">Di Contenuti</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Pratico</div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="filter-tab active" onclick="filterCourses('all')">
+                Tutti i Corsi
+            </div>
+            <div class="filter-tab" onclick="filterCourses('agents')">
+                🤖 Agenti AI
+            </div>
+            <div class="filter-tab" onclick="filterCourses('prompt')">
+                💬 Prompt Engineering
+            </div>
+            <div class="filter-tab" onclick="filterCourses('enterprise')">
+                🏢 Enterprise AI
+            </div>
+            <div class="filter-tab" onclick="filterCourses('usecases')">
+                💡 Use Cases
+            </div>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="courses-grid" id="courses-container">
+            
+            <!-- Course 1: OpenAI Agents Guide -->
+            <div class="course-card" data-category="agents">
+                <div class="course-header">
+                    <div>
+                        <h2 class="course-title">🤖 Costruire Agenti AI</h2>
+                        <span class="course-source">📄 OpenAI - Building Agents Guide</span>
+                    </div>
+                </div>
+                <p class="course-description">
+                    Impara a progettare e implementare agenti AI autonomi che possono eseguire task complessi. 
+                    Dal design all'orchestrazione, fino al deployment in produzione.
+                </p>
+                <div class="lessons-list">
+                    <a href="lezioni/agenti-openai/lezione-1.html" class="lesson-item">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">Introduzione agli Agenti AI</div>
+                            <div class="lesson-duration">20 min • Teoria + Esercizi</div>
+                        </div>
+                        <div class="lesson-status status-available">
+                            ✅ Disponibile
+                        </div>
+                    </a>
+                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="lesson-number">2</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">Fondamenti del Design</div>
+                            <div class="lesson-duration">25 min • Lab Pratico</div>
+                        </div>
+                        <div class="lesson-status status-coming">
+                            🚧 In arrivo
+                        </div>
+                    </div>
+                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="lesson-number">3</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">Tools e Instructions</div>
+                            <div class="lesson-duration">30 min • Progetto</div>
+                        </div>
+                        <div class="lesson-status status-coming">
+                            🚧 In arrivo
+                        </div>
+                    </div>
+                    <div class="lesson-item" style="opacity: 0.5; cursor: not-allowed;">
+                        <div class="lesson-number">4-6</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">+ 3 lezioni avanzate</div>
+                            <div class="lesson-duration">Orchestrazione, Multi-Agent, Guardrails</div>
+                        </div>
+                        <div class="lesson-status status-locked">
+                            🔒 Prossimamente
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 2: Prompt Engineering Google -->
+            <div class="course-card" data-category="prompt">
+                <div class="course-header">
+                    <div>
+                        <h2 class="course-title">💬 Prompt Engineering 101</h2>
+                        <span class="course-source">📄 Google - Prompt Guide</span>
+                    </div>
+                </div>
+                <p class="course-description">
+                    Padroneggia l'arte del prompt engineering. Impara tecniche base e avanzate per ottenere 
+                    risultati ottimali da qualsiasi modello AI.
+                </p>
+                <div class="lessons-list">
+                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">Cos'è un Prompt?</div>
+                            <div class="lesson-duration">15 min • Interattivo</div>
+                        </div>
+                        <div class="lesson-status status-coming">
+                            🚧 In arrivo
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 3: AI in Enterprise -->
+            <div class="course-card" data-category="enterprise">
+                <div class="course-header">
+                    <div>
+                        <h2 class="course-title">🏢 AI in Azienda</h2>
+                        <span class="course-source">📄 OpenAI - AI in the Enterprise</span>
+                    </div>
+                </div>
+                <p class="course-description">
+                    Scopri come implementare l'AI in contesti aziendali. Strategie, best practices e casi studio 
+                    per trasformare il tuo business.
+                </p>
+                <div class="lessons-list">
+                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">Strategia AI Aziendale</div>
+                            <div class="lesson-duration">30 min • Case Studies</div>
+                        </div>
+                        <div class="lesson-status status-coming">
+                            🚧 In arrivo
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 4: Anthropic Prompt Engineering -->
+            <div class="course-card" data-category="prompt">
+                <div class="course-header">
+                    <div>
+                        <h2 class="course-title">🎯 Prompt Engineering Avanzato</h2>
+                        <span class="course-source">📄 Anthropic - Prompt Engineering Overview</span>
+                    </div>
+                </div>
+                <p class="course-description">
+                    Tecniche avanzate di prompt engineering specifiche per Claude e altri modelli di frontiera. 
+                    Include chain-of-thought, few-shot learning e altro.
+                </p>
+                <div class="lessons-list">
+                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">Tecniche Avanzate</div>
+                            <div class="lesson-duration">25 min • Workshop</div>
+                        </div>
+                        <div class="lesson-status status-coming">
+                            🚧 In arrivo
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 5: 601 Use Cases -->
+            <div class="course-card" data-category="usecases">
+                <div class="course-header">
+                    <div>
+                        <h2 class="course-title">💡 601 Use Cases Reali</h2>
+                        <span class="course-source">📄 Google - 601 Real World AI Use Cases</span>
+                    </div>
+                </div>
+                <p class="course-description">
+                    Esplora centinaia di applicazioni pratiche dell'AI in ogni settore. 
+                    Trova ispirazione per i tuoi progetti e scopri nuove opportunità.
+                </p>
+                <div class="lessons-list">
+                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">AI nella Creatività</div>
+                            <div class="lesson-duration">20 min • Esempi</div>
+                        </div>
+                        <div class="lesson-status status-coming">
+                            🚧 In arrivo
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Filter courses by category
+        function filterCourses(category) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter course cards
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add hover effect to lesson items
+        document.querySelectorAll('.lesson-item').forEach(item => {
+            if (!item.style.cursor || item.style.cursor !== 'not-allowed') {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(10px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all course cards
+        document.querySelectorAll('.course-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
