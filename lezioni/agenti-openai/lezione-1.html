@@ -1,1 +1,798 @@
 
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 1: Introduzione agli Agenti AI - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .back-home {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Lesson Header */
+        .lesson-header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .lesson-meta {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .lesson-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            width: 16.66%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(20px); opacity: 0; }
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 3rem 0;
+            background: rgba(30, 41, 59, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Interactive Example */
+        .interactive-example {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-lang {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        pre {
+            color: #e2e8f0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Key Concepts */
+        .key-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .concept-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .concept-number {
+            background: var(--gradient);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Navigation */
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4rem 0 2rem;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.primary {
+            background: var(--gradient);
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .key-concepts {
+                grid-template-columns: 1fr;
+            }
+            
+            .lesson-nav {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="../../index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../index.html" class="back-home">← Torna alla Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <div class="lesson-meta">
+                📄 Fonte: OpenAI - A Practical Guide to Building Agents
+            </div>
+            <h1>Introduzione agli Agenti AI</h1>
+            <p class="lesson-subtitle">
+                Scopri cosa sono gli agenti AI, come funzionano e quando utilizzarli per automatizzare workflow complessi
+            </p>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span>Lezione 1 di 6</span>
+                <span>16% completato</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Section 1: Cos'è un Agente? -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🤖</div>
+                Cos'è un Agente AI?
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                Un agente AI è un sistema che <strong>esegue compiti in modo indipendente</strong> per tuo conto. 
+                A differenza del software tradizionale che automatizza workflow predefiniti, gli agenti possono 
+                prendere decisioni, adattarsi e completare obiettivi complessi con un alto grado di autonomia.
+            </p>
+
+            <div class="interactive-example">
+                <div class="example-header">
+                    <h3>🎯 Esempio Pratico</h3>
+                    <span class="example-badge">Interattivo</span>
+                </div>
+                
+                <p style="margin-bottom: 1.5rem;">
+                    Immagina di dover analizzare una transazione sospetta:
+                </p>
+                
+                <div class="key-concepts">
+                    <div class="concept-card">
+                        <h4 style="color: #f59e0b; margin-bottom: 1rem;">⚙️ Sistema Tradizionale</h4>
+                        <p>Funziona come una checklist:</p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem; color: #94a3b8;">
+                            <li>Importo > €1000? ✓</li>
+                            <li>Paese blacklist? ✓</li>
+                            <li>Orario notturno? ✓</li>
+                        </ul>
+                        <p style="margin-top: 1rem; color: #ef4444;">
+                            ❌ Rigido, basato su regole fisse
+                        </p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4 style="color: var(--success); margin-bottom: 1rem;">🧠 Agente AI</h4>
+                        <p>Ragiona come un investigatore:</p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem; color: #94a3b8;">
+                            <li>Analizza il contesto</li>
+                            <li>Valuta pattern nascosti</li>
+                            <li>Considera eccezioni</li>
+                        </ul>
+                        <p style="margin-top: 1rem; color: var(--success);">
+                            ✅ Flessibile, basato su ragionamento
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Caratteristiche Core -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">⚡</div>
+                Le 2 Caratteristiche Fondamentali
+            </h2>
+
+            <div class="key-concepts">
+                <div class="concept-card">
+                    <div class="concept-number">1</div>
+                    <h3 style="margin-bottom: 1rem;">Gestione del Workflow con LLM</h3>
+                    <p style="color: #94a3b8;">
+                        L'agente usa un Large Language Model per:
+                    </p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; color: #cbd5e1;">
+                        <li>Prendere decisioni autonome</li>
+                        <li>Riconoscere quando un task è completo</li>
+                        <li>Correggere proattivamente i propri errori</li>
+                        <li>Trasferire il controllo all'utente se necessario</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-number">2</div>
+                    <h3 style="margin-bottom: 1rem;">Accesso a Tools Esterni</h3>
+                    <p style="color: #94a3b8;">
+                        L'agente può interagire con sistemi esterni per:
+                    </p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; color: #cbd5e1;">
+                        <li>Raccogliere informazioni di contesto</li>
+                        <li>Eseguire azioni nel mondo reale</li>
+                        <li>Selezionare dinamicamente gli strumenti giusti</li>
+                        <li>Operare entro guardrail definiti</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - Esempio Base</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code># Un agente semplice con OpenAI SDK
+from agents import Agent
+
+weather_agent = Agent(
+    name="Weather Agent",
+    instructions="Sei un assistente che fornisce info meteo",
+    tools=[get_weather_tool],  # Tool per API meteo
+)
+
+# L'agente può ora:
+# - Comprendere richieste in linguaggio naturale
+# - Chiamare l'API meteo quando necessario
+# - Fornire risposte contestualizzate</code></pre>
+            </div>
+        </div>
+
+        <!-- Section 3: Quando Usare gli Agenti -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🎯</div>
+                Quando Costruire un Agente?
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                Gli agenti sono ideali per workflow che hanno resistito all'automazione tradizionale. 
+                Ecco i casi d'uso perfetti:
+            </p>
+
+            <div class="interactive-example">
+                <h3 style="margin-bottom: 1.5rem;">✅ Casi d'Uso Ideali</h3>
+                
+                <div style="display: grid; gap: 1rem;">
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <h4 style="color: var(--success); margin-bottom: 0.5rem;">
+                            🧩 Decision-making Complesso
+                        </h4>
+                        <p style="color: #cbd5e1;">
+                            Workflow con giudizi sfumati ed eccezioni, come l'approvazione di rimborsi nel customer service
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <h4 style="color: var(--success); margin-bottom: 0.5rem;">
+                            📚 Regole Difficili da Mantenere
+                        </h4>
+                        <p style="color: #cbd5e1;">
+                            Sistemi con regole complesse e intricate, come le security review dei vendor
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <h4 style="color: var(--success); margin-bottom: 0.5rem;">
+                            📄 Dati Non Strutturati
+                        </h4>
+                        <p style="color: #cbd5e1;">
+                            Interpretazione di linguaggio naturale o documenti, come processare richieste di assicurazione
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-section">
+            <h2 class="section-title">
+                <div class="section-icon">🎮</div>
+                Verifica le tue Conoscenze
+            </h2>
+
+            <div class="quiz-question">
+                <h3>Quale di queste NON è una caratteristica fondamentale di un agente AI?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        Usa un LLM per gestire l'esecuzione del workflow
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        Ha accesso a tools esterni per interagire con sistemi
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">
+                        Richiede sempre l'intervento umano per ogni decisione
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        Può correggere proattivamente i propri errori
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practical Exercise -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">💻</div>
+                Esercizio Pratico
+            </h2>
+
+            <div class="interactive-example">
+                <h3 style="margin-bottom: 1rem;">🚀 Il Tuo Primo Mini-Progetto</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    Pensa a un processo ripetitivo nella tua vita quotidiana o lavoro che potrebbe beneficiare di un agente AI.
+                </p>
+
+                <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(99, 102, 241, 0.3);">
+                    <h4 style="margin-bottom: 1rem;">📝 Completa questo esercizio:</h4>
+                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
+                        <li style="margin-bottom: 0.5rem;">
+                            <strong>Identifica il processo:</strong> Es. "Rispondere alle email dei clienti"
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <strong>Elenca le decisioni necessarie:</strong> Es. "Capire l'urgenza, categorizzare la richiesta"
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <strong>Identifica i tools necessari:</strong> Es. "Accesso a email, database clienti, sistema ticket"
+                        </li>
+                        <li>
+                            <strong>Definisci i guardrail:</strong> Es. "Non può approvare rimborsi sopra €500"
+                        </li>
+                    </ol>
+                </div>
+
+                <p style="margin-top: 1.5rem; text-align: center;">
+                    <em>Nella prossima lezione costruiremo insieme il tuo primo agente funzionante!</em>
+                </p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <a href="../../index.html" class="nav-btn">
+                ← Homepage
+            </a>
+            <div style="text-align: center;">
+                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Prossima lezione:</p>
+                <strong>Fondamenti del Design degli Agenti</strong>
+            </div>
+            <a href="lezione-2.html" class="nav-btn primary">
+                Continua →
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Copy code function
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            const text = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                button.innerText = '✅ Copiato!';
+                button.style.background = 'rgba(16, 185, 129, 0.2)';
+                button.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                button.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // Quiz answer checker
+        function checkAnswer(element, isCorrect) {
+            // Reset all options
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark the selected answer
+            if (isCorrect) {
+                element.classList.add('correct');
+                // Show success message
+                setTimeout(() => {
+                    const message = document.createElement('p');
+                    message.style.cssText = 'color: #10b981; margin-top: 1rem; text-align: center;';
+                    message.textContent = '✅ Corretto! Gli agenti operano in modo autonomo.';
+                    element.parentElement.parentElement.appendChild(message);
+                }, 300);
+            } else {
+                element.classList.add('incorrect');
+            }
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
