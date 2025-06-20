@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida: Integrare API Meteo Reali negli Agenti AI - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Weather Animation Background */
+        .weather-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        .weather-element {
+            position: absolute;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .sun {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #f59e0b 0%, #f59e0b 60%, transparent 70%);
+            border-radius: 50%;
+            top: 10%;
+            right: 10%;
+            box-shadow: 0 0 60px #f59e0b;
+        }
+
+        .cloud {
+            width: 100px;
+            height: 40px;
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 100px;
+            position: relative;
+        }
+
+        .cloud::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 50%;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 50%;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud1 { top: 20%; left: 20%; animation-delay: 0s; }
+        .cloud2 { top: 60%; left: 60%; animation-delay: 5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(30px, -20px); }
+            50% { transform: translate(-20px, 10px); }
+            75% { transform: translate(10px, -30px); }
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Guide Header */
+        .guide-header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .guide-badge {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--accent);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .guide-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .guide-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .toc h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .toc-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .toc-list a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 3rem 0;
+            background: rgba(30, 41, 59, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* API Comparison Cards */
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .api-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .api-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .api-logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .api-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .api-features {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .api-features li {
+            margin-bottom: 0.5rem;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            margin-top: 1rem;
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-lang {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            color: #e2e8f0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Steps */
+        .step {
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 2rem;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #cbd5e1;
+        }
+
+        /* Navigation */
+        .guide-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4rem 0 2rem;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .api-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Weather Animation Background -->
+    <div class="weather-bg">
+        <div class="weather-element sun"></div>
+        <div class="weather-element cloud cloud1"></div>
+        <div class="weather-element cloud cloud2"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="../lezioni.html">Lezioni</a></li>
+                <li><a href="../guide.html">Guide</a></li>
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Guide Header -->
+        <div class="guide-header">
+            <div class="guide-badge">
+                🌡️ Guida Avanzata
+            </div>
+            <h1>Agenti AI con API Meteo Reali</h1>
+            <p class="guide-subtitle">
+                Passa da dati simulati a informazioni meteo in tempo reale integrando API professionali nel tuo agente AI
+            </p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 Indice della Guida</h2>
+            <ul class="toc-list">
+                <li><a href="#introduzione">Introduzione: Perché usare API reali?</a></li>
+                <li><a href="#confronto">Confronto tra le principali API meteo</a></li>
+                <li><a href="#openweather">Implementazione con OpenWeatherMap</a></li>
+                <li><a href="#weatherapi">Implementazione con WeatherAPI</a></li>
+                <li><a href="#gestione-errori">Gestione errori e fallback</a></li>
+                <li><a href="#caching">Ottimizzazione con caching</a></li>
+                <li><a href="#best-practices">Best practices e sicurezza</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="content-section" id="introduzione">
+            <h2 class="section-title">
+                <div class="section-icon">🎯</div>
+                Perché Usare API Meteo Reali?
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Mentre i dati simulati sono perfetti per imparare, in produzione vorrai fornire informazioni accurate e aggiornate.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+                <div>
+                    <h3 style="color: var(--warning); margin-bottom: 1rem;">⚠️ Dati Simulati</h3>
+                    <ul style="color: #94a3b8; padding-left: 1.5rem;">
+                        <li>Sempre gli stessi valori</li>
+                        <li>Non riflettono la realtà</li>
+                        <li>Limitati a poche città</li>
+                        <li>Buoni solo per test</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: var(--success); margin-bottom: 1rem;">✅ API Reali</h3>
+                    <ul style="color: #cbd5e1; padding-left: 1.5rem;">
+                        <li>Dati in tempo reale</li>
+                        <li>Copertura globale</li>
+                        <li>Previsioni accurate</li>
+                        <li>Informazioni dettagliate</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>💡 Nota:</strong> L'agente AI rimane lo stesso - cambiamo solo la fonte dei dati meteo!
+            </div>
+        </div>
+
+        <!-- Section 2: API Comparison -->
+        <div class="content-section" id="confronto">
+            <h2 class="section-title">
+                <div class="section-icon">⚖️</div>
+                Confronto API Meteo
+            </h2>
+
+            <div class="api-grid">
+                <div class="api-card">
+                    <div class="api-logo">🌤️</div>
+                    <h3>OpenWeatherMap</h3>
+                    <p style="color: #94a3b8;">La più popolare e ben documentata</p>
+                    <ul class="api-features">
+                        <li>60 chiamate/minuto gratis</li>
+                        <li>Dati correnti + previsioni</li>
+                        <li>Supporto multilingua</li>
+                        <li>Documentazione eccellente</li>
+                    </ul>
+                    <span class="price-tag">Gratuito fino a 1000 call/giorno</span>
+                </div>
+
+                <div class="api-card">
+                    <div class="api-logo">🌦️</div>
+                    <h3>WeatherAPI</h3>
+                    <p style="color: #94a3b8;">Moderna e ricca di funzionalità</p>
+                    <ul class="api-features">
+                        <li>1 milione di call/mese gratis</li>
+                        <li>Previsioni orarie dettagliate</li>
+                        <li>Dati storici disponibili</li>
+                        <li>Alert meteo inclusi</li>
+                    </ul>
+                    <span class="price-tag">Molto generoso nel piano free</span>
+                </div>
+
+                <div class="api-card">
+                    <div class="api-logo">🌩️</div>
+                    <h3>AccuWeather</h3>
+                    <p style="color: #94a3b8;">Precisione professionale</p>
+                    <ul class="api-features">
+                        <li>50 chiamate/giorno gratis</li>
+                        <li>Previsioni ultra-precise</li>
+                        <li>MinuteCast™ technology</li>
+                        <li>API enterprise-grade</li>
+                    </ul>
+                    <span class="price-tag">Limitato ma molto accurato</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: OpenWeatherMap Implementation -->
+        <div class="content-section" id="openweather">
+            <h2 class="section-title">
+                <div class="section-icon">🛠️</div>
+                Implementazione con OpenWeatherMap
+            </h2>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3 style="margin-bottom: 1rem;">Ottieni la tua API Key</h3>
+                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
+                    <li>Vai su <a href="https://openweathermap.org/api" target="_blank" style="color: var(--primary);">openweathermap.org/api</a></li>
+                    <li>Clicca su "Sign Up" e crea un account gratuito</li>
+                    <li>Conferma l'email</li>
+                    <li>Vai su "API Keys" nel tuo profilo</li>
+                    <li>Copia la tua API key</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3 style="margin-bottom: 1rem;">Aggiorna il file .env</h3>
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">.env</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code># API Keys
+OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxx
+OPENWEATHERMAP_API_KEY=la-tua-api-key-qui</code></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3 style="margin-bottom: 1rem;">Implementa la funzione get_weather</h3>
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - weather_agent_real.py</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>import os
+import requests
+import json
+from dotenv import load_dotenv
+from openai import OpenAI
+
+# Carica le variabili d'ambiente
+load_dotenv()
+
+# Inizializza i client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+WEATHER_API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
+
+def get_weather(city: str) -> str:
+    """
+    Ottiene dati meteo REALI da OpenWeatherMap.
+    
+    Args:
+        city: Nome della città
+        
+    Returns:
+        JSON con dati meteo o errore
+    """
+    if not WEATHER_API_KEY:
+        return json.dumps({
+            "errore": "API key mancante",
+            "suggerimento": "Configura OPENWEATHERMAP_API_KEY nel file .env"
+        }, ensure_ascii=False)
+    
+    # Endpoint API
+    url = "https://api.openweathermap.org/data/2.5/weather"
+    
+    # Parametri della richiesta
+    params = {
+        "q": city,
+        "appid": WEATHER_API_KEY,
+        "units": "metric",  # Celsius
+        "lang": "it"        # Risposte in italiano
+    }
+    
+    try:
+        # Chiamata API
+        response = requests.get(url, params=params)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Estrai i dati rilevanti
+            weather_info = {
+                "città": data["name"],
+                "paese": data["sys"]["country"],
+                "temperatura": f"{round(data['main']['temp'])}°C",
+                "percepita": f"{round(data['main']['feels_like'])}°C",
+                "minima": f"{round(data['main']['temp_min'])}°C",
+                "massima": f"{round(data['main']['temp_max'])}°C",
+                "descrizione": data["weather"][0]["description"],
+                "umidità": f"{data['main']['humidity']}%",
+                "pressione": f"{data['main']['pressure']} hPa",
+                "vento": {
+                    "velocità": f"{data['wind']['speed']} m/s",
+                    "direzione": f"{data['wind'].get('deg', 'N/D')}°"
+                },
+                "nuvolosità": f"{data['clouds']['all']}%",
+                "alba": convert_timestamp(data['sys']['sunrise']),
+                "tramonto": convert_timestamp(data['sys']['sunset'])
+            }
+            
+            # Aggiungi pioggia se presente
+            if "rain" in data:
+                weather_info["pioggia"] = f"{data['rain'].get('1h', 0)} mm/h"
+            
+            return json.dumps(weather_info, ensure_ascii=False, indent=2)
+            
+        elif response.status_code == 404:
+            return json.dumps({
+                "errore": "Città non trovata",
+                "suggerimento": f"Verifica il nome '{city}' o prova con una città vicina"
+            }, ensure_ascii=False)
+            
+        else:
+            return json.dumps({
+                "errore": f"Errore API ({response.status_code})",
+                "messaggio": response.json().get("message", "Errore sconosciuto")
+            }, ensure_ascii=False)
+            
+    except requests.exceptions.RequestException as e:
+        return json.dumps({
+            "errore": "Errore di connessione",
+            "dettagli": str(e)
+        }, ensure_ascii=False)
+
+def convert_timestamp(timestamp):
+    """Converte timestamp Unix in orario leggibile"""
+    from datetime import datetime
+    return datetime.fromtimestamp(timestamp).strftime('%H:%M')
+
+# Definizione delle funzioni per OpenAI
+functions = [
+    {
+        "name": "get_weather",
+        "description": "Ottiene informazioni meteo dettagliate e in tempo reale per qualsiasi città del mondo",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "description": "Nome della città (es: Milano, New York, Tokyo)"
+                }
+            },
+            "required": ["city"]
+        }
+    }
+]
+
+def run_weather_agent(user_message: str):
+    """Esegue l'agente meteo con dati reali"""
+    print(f"\n👤 Utente: {user_message}")
+    
+    messages = [
+        {
+            "role": "system",
+            "content": """Sei un assistente meteorologico professionale con accesso a dati meteo in tempo reale.
+
+Quando l'utente chiede informazioni sul meteo:
+1. Identifica la città richiesta
+2. Usa get_weather per ottenere dati REALI e aggiornati
+3. Presenta le informazioni in modo chiaro e professionale
+4. Includi dettagli rilevanti come temperatura percepita, vento, umidità
+5. Dai consigli pratici basati sulle condizioni attuali
+6. Se appropriato, menziona alba/tramonto o condizioni particolari
+
+Rispondi sempre in italiano con tono professionale ma amichevole."""
+        },
+        {
+            "role": "user",
+            "content": user_message
+        }
+    ]
+    
+    # Prima chiamata per decidere se serve la funzione
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        functions=functions,
+        function_call="auto"
+    )
+    
+    message = response.choices[0].message
+    
+    if message.function_call:
+        # Estrai i parametri
+        function_args = json.loads(message.function_call.arguments)
+        print(f"\n🔧 Recupero dati reali per: {function_args['city']}")
+        
+        # Chiama la funzione
+        weather_data = get_weather(function_args["city"])
+        
+        # Aggiungi il risultato alla conversazione
+        messages.append({
+            "role": "function",
+            "name": "get_weather",
+            "content": weather_data
+        })
+        
+        # Seconda chiamata per generare la risposta
+        final_response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages
+        )
+        
+        final_message = final_response.choices[0].message.content
+        print(f"\n🤖 Assistente: {final_message}")
+        return final_message
+    else:
+        print(f"\n🤖 Assistente: {message.content}")
+        return message.content
+
+# Test dell'agente
+if __name__ == "__main__":
+    print("🌍 Assistente Meteo AI con Dati Reali")
+    print("=" * 50)
+    
+    # Test automatici
+    test_cities = [
+        "Roma",
+        "New York", 
+        "Tokyo",
+        "Sydney"
+    ]
+    
+    print("\n📊 Test con città diverse:")
+    for city in test_cities:
+        run_weather_agent(f"Com'è il tempo a {city}?")
+        print("\n" + "-" * 50)
+        input("\nPremi ENTER per il prossimo test...")
+    
+    # Modalità interattiva
+    print("\n💬 Modalità interattiva (digita 'exit' per uscire)")
+    while True:
+        user_input = input("\n👤 Tu: ")
+        if user_input.lower() in ['exit', 'quit', 'esci']:
+            print("👋 Arrivederci!")
+            break
+        run_weather_agent(user_input)</code></pre>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✅ Output di esempio con dati reali:</strong>
+                <pre style="margin-top: 1rem; background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
+👤 Utente: Com'è il tempo a Roma?
+
+🔧 Recupero dati reali per: Roma
+
+🤖 Assistente: A Roma in questo momento ci sono 18°C con cielo sereno. 
+La temperatura percepita è di 17°C, quindi potrebbe sembrare leggermente 
+più fresco. L'umidità è al 72% e il vento soffia a 2.1 m/s da 180°.
+
+Con queste condizioni piacevoli e il cielo sereno, è una serata perfetta 
+per una passeggiata. Ti consiglio una giacca leggera. Il tramonto è 
+previsto per le 18:47, quindi hai ancora un po' di luce naturale!
+                </pre>
+            </div>
+        </div>
+
+        <!-- Section 4: WeatherAPI Implementation -->
+        <div class="content-section" id="weatherapi">
+            <h2 class="section-title">
+                <div class="section-icon">🌈</div>
+                Alternativa: WeatherAPI
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                WeatherAPI offre più dati gratuiti e funzionalità avanzate. Ecco come implementarla:
+            </p>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - WeatherAPI Implementation</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code>def get_weather_advanced(city: str) -> str:
+    """
+    Usa WeatherAPI per dati ancora più dettagliati
+    """
+    WEATHERAPI_KEY = os.getenv("WEATHERAPI_KEY")
+    
+    url = "https://api.weatherapi.com/v1/current.json"
+    params = {
+        "key": WEATHERAPI_KEY,
+        "q": city,
+        "lang": "it"
+    }
+    
+    response = requests.get(url, params=params)
+    
+    if response.status_code == 200:
+        data = response.json()
+        
+        # WeatherAPI fornisce molti più dettagli
+        weather_info = {
+            "città": data["location"]["name"],
+            "regione": data["location"]["region"],
+            "paese": data["location"]["country"],
+            "ora_locale": data["location"]["localtime"],
+            "temperatura": f"{data['current']['temp_c']}°C",
+            "percepita": f"{data['current']['feelslike_c']}°C",
+            "descrizione": data["current"]["condition"]["text"],
+            "umidità": f"{data['current']['humidity']}%",
+            "vento": {
+                "velocità_kmh": f"{data['current']['wind_kph']} km/h",
+                "direzione": data['current']['wind_dir'],
+                "raffiche": f"{data['current']['gust_kph']} km/h"
+            },
+            "visibilità": f"{data['current']['vis_km']} km",
+            "indice_uv": data['current']['uv'],
+            "precipitazioni": f"{data['current']['precip_mm']} mm"
+        }
+        
+        return json.dumps(weather_info, ensure_ascii=False, indent=2)</code></pre>
+            </div>
+        </div>
+
+        <!-- Section 5: Error Handling -->
+        <div class="content-section" id="gestione-errori">
+            <h2 class="section-title">
+                <div class="section-icon">🛡️</div>
+                Gestione Errori e Fallback
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                In produzione, è fondamentale gestire i possibili errori delle API esterne:
+            </p>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - Sistema di Fallback Robusto</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code># Dizionario di fallback per città comuni
+FALLBACK_WEATHER = {
+    "milano": {
+        "temperatura": "15°C",
+        "descrizione": "variabile",
+        "nota": "⚠️ Dati di fallback - API temporaneamente non disponibile"
+    },
+    "roma": {
+        "temperatura": "18°C",
+        "descrizione": "soleggiato",
+        "nota": "⚠️ Dati di fallback - API temporaneamente non disponibile"
+    }
+}
+
+def get_weather_with_fallback(city: str) -> str:
+    """
+    Tenta prima l'API reale, poi fallback su dati statici
+    """
+    try:
+        # Prova prima l'API reale
+        result = get_weather(city)
+        data = json.loads(result)
+        
+        # Se c'è un errore nell'API
+        if "errore" in data:
+            # Prova il fallback
+            city_lower = city.lower()
+            if city_lower in FALLBACK_WEATHER:
+                return json.dumps(FALLBACK_WEATHER[city_lower], ensure_ascii=False)
+            else:
+                # Suggerisci città disponibili
+                return json.dumps({
+                    "errore": "Servizio temporaneamente limitato",
+                    "città_disponibili": list(FALLBACK_WEATHER.keys()),
+                    "suggerimento": "Riprova tra qualche minuto"
+                }, ensure_ascii=False)
+        
+        return result
+        
+    except Exception as e:
+        # Log dell'errore (in produzione useresti un vero logger)
+        print(f"⚠️ Errore API: {e}")
+        
+        # Usa fallback
+        city_lower = city.lower()
+        if city_lower in FALLBACK_WEATHER:
+            return json.dumps(FALLBACK_WEATHER[city_lower], ensure_ascii=False)
+        else:
+            return json.dumps({
+                "errore": "Servizio non disponibile",
+                "messaggio": "Riprova più tardi"
+            }, ensure_ascii=False)</code></pre>
+            </div>
+        </div>
+
+        <!-- Section 6: Caching -->
+        <div class="content-section" id="caching">
+            <h2 class="section-title">
+                <div class="section-icon">⚡</div>
+                Ottimizzazione con Cache
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Per ridurre le chiamate API e migliorare le performance, implementa un sistema di cache:
+            </p>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - Sistema di Cache Semplice</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code>from datetime import datetime, timedelta
+from typing import Dict, Optional, Tuple
+
+# Cache in memoria
+weather_cache: Dict[str, Tuple[str, datetime]] = {}
+CACHE_DURATION = timedelta(minutes=10)  # Cache valida per 10 minuti
+
+def get_weather_cached(city: str) -> str:
+    """
+    Ottiene dati meteo con sistema di cache
+    """
+    city_key = city.lower()
+    
+    # Controlla se abbiamo dati in cache
+    if city_key in weather_cache:
+        cached_data, timestamp = weather_cache[city_key]
+        
+        # Verifica se la cache è ancora valida
+        if datetime.now() - timestamp < CACHE_DURATION:
+            print(f"📦 Uso cache per {city} (salvata {(datetime.now() - timestamp).seconds}s fa)")
+            # Aggiungi nota sulla cache
+            data = json.loads(cached_data)
+            data["cache_info"] = f"Dati aggiornati {(datetime.now() - timestamp).seconds} secondi fa"
+            return json.dumps(data, ensure_ascii=False)
+    
+    # Se non in cache o scaduta, chiama l'API
+    print(f"🌐 Chiamata API per {city}")
+    fresh_data = get_weather(city)
+    
+    # Salva in cache solo se la chiamata ha successo
+    try:
+        data = json.loads(fresh_data)
+        if "errore" not in data:
+            weather_cache[city_key] = (fresh_data, datetime.now())
+    except:
+        pass
+    
+    return fresh_data
+
+# Pulizia periodica della cache
+def clean_cache():
+    """Rimuove elementi scaduti dalla cache"""
+    current_time = datetime.now()
+    expired_keys = [
+        key for key, (_, timestamp) in weather_cache.items()
+        if current_time - timestamp > CACHE_DURATION
+    ]
+    
+    for key in expired_keys:
+        del weather_cache[key]
+    
+    if expired_keys:
+        print(f"🧹 Rimossi {len(expired_keys)} elementi scaduti dalla cache")</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>💡 Vantaggi della Cache:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Riduce le chiamate API del 80-90%</li>
+                    <li>Risparmia sui costi delle API</li>
+                    <li>Migliora i tempi di risposta</li>
+                    <li>Riduce il carico sui server meteo</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Best Practices -->
+        <div class="content-section" id="best-practices">
+            <h2 class="section-title">
+                <div class="section-icon">🏆</div>
+                Best Practices e Sicurezza
+            </h2>
+
+            <div style="display: grid; gap: 1.5rem;">
+                <div class="alert alert-warning">
+                    <h4 style="margin-bottom: 0.5rem;">🔐 Sicurezza delle API Key</h4>
+                    <ul style="padding-left: 1.5rem;">
+                        <li>MAI committare API key su Git</li>
+                        <li>Usa sempre variabili d'ambiente</li>
+                        <li>Aggiungi <code>.env</code> al <code>.gitignore</code></li>
+                        <li>Ruota le key periodicamente</li>
+                        <li>Usa key diverse per dev/prod</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <h4 style="margin-bottom: 0.5rem;">📈 Monitoraggio e Limiti</h4>
+                    <ul style="padding-left: 1.5rem;">
+                        <li>Monitora l'uso delle API</li>
+                        <li>Implementa rate limiting</li>
+                        <li>Usa webhook per alert sui limiti</li>
+                        <li>Pianifica per picchi di traffico</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-info">
+                    <h4 style="margin-bottom: 0.5rem;">🌍 Gestione Internazionale</h4>
+                    <ul style="padding-left: 1.5rem;">
+                        <li>Supporta nomi città in più lingue</li>
+                        <li>Gestisci fusi orari correttamente</li>
+                        <li>Converti unità di misura (°C/°F)</li>
+                        <li>Localizza le descrizioni meteo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Codice di Produzione Completo</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - Setup Professionale</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code># config.py
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Config:
+    # API Keys
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    WEATHER_API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
+    
+    # API Settings
+    WEATHER_API_TIMEOUT = 10  # secondi
+    CACHE_DURATION_MINUTES = 10
+    MAX_RETRIES = 3
+    
+    # Rate Limiting
+    RATE_LIMIT_CALLS = 50
+    RATE_LIMIT_WINDOW = 60  # secondi
+    
+    # Fallback
+    ENABLE_FALLBACK = True
+    
+    @classmethod
+    def validate(cls):
+        """Valida la configurazione all'avvio"""
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("OPENAI_API_KEY mancante!")
+        
+        if not cls.WEATHER_API_KEY and not cls.ENABLE_FALLBACK:
+            raise ValueError("WEATHER_API_KEY mancante e fallback disabilitato!")
+        
+        return True
+
+# Uso
+if __name__ == "__main__":
+    Config.validate()
+    print("✅ Configurazione valida!")</code></pre>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="guide-nav">
+            <a href="../lezioni/agenti-openai/lezione-2.html" class="nav-btn">
+                ← Torna alla Lezione 2
+            </a>
+            <a href="../guide.html" class="nav-btn">
+                📚 Altre Guide
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Copy code function
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            const text = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                button.innerText = '✅ Copiato!';
+                button.style.background = 'rgba(16, 185, 129, 0.2)';
+                button.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                button.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
