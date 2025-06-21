@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione 3: Tools e Instructions Avanzate - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Tool Animation Background */
+        .tools-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        .tool-icon-float {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float-tool 20s infinite ease-in-out;
+        }
+
+        @keyframes float-tool {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -50px) rotate(90deg); }
+            50% { transform: translate(-30px, 30px) rotate(180deg); }
+            75% { transform: translate(30px, -30px) rotate(270deg); }
+        }
+
+        .tool-icon-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .tool-icon-float:nth-child(2) { top: 20%; right: 20%; animation-delay: 3s; }
+        .tool-icon-float:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 6s; }
+        .tool-icon-float:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 9s; }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .back-home {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Lesson Header */
+        .lesson-header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .lesson-meta {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .lesson-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            width: 50%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(20px); opacity: 0; }
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 3rem 0;
+            background: rgba(30, 41, 59, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Tool Categories */
+        .tool-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tool-category {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-category:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--gradient);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #f8fafc;
+        }
+
+        .category-description {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-examples {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tool-examples h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tool-examples ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tool-examples li {
+            color: #cbd5e1;
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tool-examples li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Interactive Tool Builder */
+        .tool-builder {
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .builder-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .builder-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .builder-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 0.8rem 1.2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .builder-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .builder-button {
+            padding: 0.8rem 2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .builder-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .builder-output {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: #10b981;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-lang {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        pre {
+            color: #e2e8f0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Best Practices Cards */
+        .best-practices {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .practice-card {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .practice-icon {
+            min-width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .practice-content h4 {
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .practice-content p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        /* Interactive Flow Diagram */
+        .flow-diagram {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .flow-nodes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-node {
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flow-node:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .flow-node.active {
+            background: var(--gradient);
+            border: none;
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #cbd5e1;
+        }
+
+        /* Navigation */
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4rem 0 2rem;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.primary {
+            background: var(--gradient);
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tool-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-nodes {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tools Background Animation -->
+    <div class="tools-bg">
+        <div class="tool-icon-float">🔧</div>
+        <div class="tool-icon-float">📊</div>
+        <div class="tool-icon-float">🎯</div>
+        <div class="tool-icon-float">⚡</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="../../index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../lezioni.html">← Tutte le Lezioni</a></li>
+                <li><a href="../../index.html" class="back-home">🏠 Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <div class="lesson-meta">
+                📄 Fonte: OpenAI - A Practical Guide to Building Agents
+            </div>
+            <h1>Tools e Instructions Avanzate</h1>
+            <p class="lesson-subtitle">
+                Padroneggia l'arte di creare tools potenti e istruzioni precise per agenti AI che risolvono problemi reali
+            </p>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span>Lezione 3 di 6</span>
+                <span>50% completato</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Section 1: Le Tre Categorie di Tools -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🔧</div>
+                Le Tre Categorie di Tools
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                I tools estendono le capacità del tuo agente permettendogli di interagire con il mondo esterno. 
+                Comprendere le tre categorie fondamentali ti aiuterà a progettare agenti più efficaci.
+            </p>
+
+            <div class="tool-categories">
+                <div class="tool-category">
+                    <div class="category-icon">📊</div>
+                    <h3 class="category-title">Data Tools</h3>
+                    <p class="category-description">
+                        Permettono all'agente di recuperare contesto e informazioni necessarie per eseguire il workflow.
+                    </p>
+                    <div class="tool-examples">
+                        <h4>Esempi comuni:</h4>
+                        <ul>
+                            <li>Query database SQL</li>
+                            <li>Lettura documenti PDF</li>
+                            <li>Ricerca web</li>
+                            <li>API di dati esterni</li>
+                            <li>Accesso a CRM</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="category-icon">⚡</div>
+                    <h3 class="category-title">Action Tools</h3>
+                    <p class="category-description">
+                        Consentono all'agente di compiere azioni concrete, modificare sistemi o comunicare con utenti.
+                    </p>
+                    <div class="tool-examples">
+                        <h4>Esempi comuni:</h4>
+                        <ul>
+                            <li>Invio email/SMS</li>
+                            <li>Update record CRM</li>
+                            <li>Creazione ticket</li>
+                            <li>Modifica database</li>
+                            <li>Controllo dispositivi IoT</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="category-icon">🎯</div>
+                    <h3 class="category-title">Orchestration Tools</h3>
+                    <p class="category-description">
+                        Gli agenti stessi possono fungere da tools per altri agenti, creando sistemi multi-agente.
+                    </p>
+                    <div class="tool-examples">
+                        <h4>Esempi comuni:</h4>
+                        <ul>
+                            <li>Agente di ricerca</li>
+                            <li>Agente di analisi</li>
+                            <li>Agente di scrittura</li>
+                            <li>Agente di traduzione</li>
+                            <li>Agente di validazione</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Creare Tools Efficaci -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">⚙️</div>
+                Principi per Creare Tools Efficaci
+            </h2>
+
+            <div class="best-practices">
+                <div class="practice-card">
+                    <div class="practice-icon">📐</div>
+                    <div class="practice-content">
+                        <h4>Standardizzazione</h4>
+                        <p>
+                            Ogni tool dovrebbe avere una definizione standardizzata con parametri chiari, 
+                            documentazione completa e gestione errori robusta.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🔄</div>
+                    <div class="practice-content">
+                        <h4>Riusabilità</h4>
+                        <p>
+                            Progetta tools che possano essere utilizzati da più agenti. Evita dipendenze 
+                            specifiche e mantieni interfacce pulite.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🛡️</div>
+                    <div class="practice-content">
+                        <h4>Sicurezza</h4>
+                        <p>
+                            Implementa validazione input, limiti di rate, e permessi appropriati. 
+                            Ogni tool dovrebbe fallire in modo sicuro.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">📊</div>
+                    <div class="practice-content">
+                        <h4>Monitoraggio</h4>
+                        <p>
+                            Aggiungi logging e metriche per tracciare l'uso, le performance e gli errori 
+                            di ogni tool in produzione.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Esempio: Tool di Ricerca Database</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - Tool ben progettato</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code>from typing import Dict, Any, Optional
+import logging
+from datetime import datetime
+from functools import wraps
+
+# Decorator per logging e rate limiting
+def tool_wrapper(max_calls_per_minute: int = 60):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            # Log della chiamata
+            logger.info(f"Tool {func.__name__} chiamato con args: {args}")
+            start_time = datetime.now()
+            
+            try:
+                # Esegui il tool
+                result = func(*args, **kwargs)
+                
+                # Log del successo
+                duration = (datetime.now() - start_time).total_seconds()
+                logger.info(f"Tool {func.__name__} completato in {duration}s")
+                
+                return result
+                
+            except Exception as e:
+                # Log dell'errore
+                logger.error(f"Tool {func.__name__} fallito: {str(e)}")
+                
+                # Ritorna errore strutturato
+                return {
+                    "success": False,
+                    "error": str(e),
+                    "error_type": type(e).__name__,
+                    "timestamp": datetime.now().isoformat()
+                }
+        
+        return wrapper
+    return decorator
+
+@tool_wrapper(max_calls_per_minute=30)
+def search_customer_database(
+    customer_id: Optional[str] = None,
+    email: Optional[str] = None,
+    phone: Optional[str] = None,
+    limit: int = 10
+) -> Dict[str, Any]:
+    """
+    Cerca clienti nel database aziendale.
+    
+    Args:
+        customer_id: ID univoco del cliente
+        email: Email del cliente
+        phone: Numero di telefono
+        limit: Numero massimo di risultati (max 100)
+        
+    Returns:
+        Dict con risultati o errore
+        
+    Raises:
+        ValueError: Se nessun parametro di ricerca fornito
+        DatabaseError: Se errore di connessione
+    """
+    # Validazione input
+    if not any([customer_id, email, phone]):
+        raise ValueError("Almeno un parametro di ricerca richiesto")
+    
+    if limit > 100:
+        limit = 100  # Limita per sicurezza
+    
+    # Sanitizza input per prevenire SQL injection
+    params = {}
+    if customer_id:
+        params['id'] = sanitize_input(customer_id)
+    if email:
+        params['email'] = validate_email(email)
+    if phone:
+        params['phone'] = sanitize_phone(phone)
+    
+    try:
+        # Query sicura con parametri
+        query = build_safe_query(params, limit)
+        results = db.execute(query, params)
+        
+        # Formatta risultati
+        customers = []
+        for row in results:
+            customers.append({
+                "id": row.id,
+                "name": row.name,
+                "email": row.email,
+                "phone": row.phone,
+                "status": row.status,
+                "created_at": row.created_at.isoformat()
+            })
+        
+        return {
+            "success": True,
+            "count": len(customers),
+            "customers": customers,
+            "query_params": params,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except DatabaseError as e:
+        # Gestione specifica errori database
+        logger.error(f"Database error: {e}")
+        raise
+    except Exception as e:
+        # Gestione errori generici
+        logger.error(f"Unexpected error: {e}")
+        raise
+
+# Definizione del tool per l'agente
+customer_search_tool = {
+    "name": "search_customer_database",
+    "description": "Cerca clienti nel database usando ID, email o telefono",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "customer_id": {
+                "type": "string",
+                "description": "ID univoco del cliente (opzionale)"
+            },
+            "email": {
+                "type": "string",
+                "description": "Email del cliente (opzionale)"
+            },
+            "phone": {
+                "type": "string",
+                "description": "Numero di telefono (opzionale)"
+            },
+            "limit": {
+                "type": "integer",
+                "description": "Numero massimo di risultati (default: 10, max: 100)"
+            }
+        },
+        "required": []  # Tutti opzionali ma almeno uno necessario
+    },
+    "function": search_customer_database
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Section 3: Tool Concatenation -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🔗</div>
+                Concatenazione di Tools
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                La vera potenza emerge quando combini più tools per creare workflow complessi. 
+                Ecco come progettare tools che lavorano bene insieme.
+            </p>
+
+            <div class="flow-diagram">
+                <h3 style="margin-bottom: 2rem;">Esempio: Workflow di Analisi Ordini</h3>
+                <div class="flow-nodes">
+                    <div class="flow-node" onclick="highlightNode(this, 'search')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
+                        <strong>Cerca Cliente</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            search_customer
+                        </p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" onclick="highlightNode(this, 'orders')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📦</div>
+                        <strong>Recupera Ordini</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            get_orders
+                        </p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" onclick="highlightNode(this, 'analyze')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                        <strong>Analizza Pattern</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            analyze_patterns
+                        </p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" onclick="highlightNode(this, 'report')">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
+                        <strong>Genera Report</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            create_report
+                        </p>
+                    </div>
+                </div>
+                <p style="margin-top: 2rem; color: #94a3b8;">
+                    <em>Clicca su ogni nodo per vedere il codice del tool</em>
+                </p>
+            </div>
+
+            <div id="tool-code-display" style="display: none;">
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang" id="tool-code-title">Python</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code id="tool-code-content"></code></pre>
+                </div>
+            </div>
+
+            <div class="alert alert-info" style="margin-top: 2rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--primary);">
+                    💡 Best Practice per Tools Concatenati
+                </h4>
+                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Output strutturati:</strong> Ogni tool deve restituire dati in formato JSON consistente
+                    </li>
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Gestione errori a cascata:</strong> Se un tool fallisce, i successivi devono gestirlo gracefully
+                    </li>
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Passaggio di contesto:</strong> Usa un oggetto context condiviso per mantenere stato
+                    </li>
+                    <li>
+                        <strong>Idempotenza:</strong> I tools dovrebbero essere sicuri da eseguire più volte
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Section 4: Instructions Avanzate -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">📋</div>
+                Scrivere Instructions Efficaci
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                Le istruzioni sono il cervello operativo del tuo agente. Impara a trasformare procedure complesse 
+                in direttive chiare che l'AI può seguire con precisione.
+            </p>
+
+            <div class="alert alert-warning" style="margin-bottom: 2rem;">
+                <h4 style="color: var(--warning); margin-bottom: 1rem;">
+                    ⚠️ Errori Comuni nelle Instructions
+                </h4>
+                <ul style="padding-left: 1.5rem; color: #cbd5e1;">
+                    <li>Ambiguità nei passaggi decisionali</li>
+                    <li>Mancanza di gestione degli edge case</li>
+                    <li>Istruzioni troppo generiche o vaghe</li>
+                    <li>Assenza di criteri di successo chiari</li>
+                </ul>
+            </div>
+
+            <h3 style="margin-bottom: 1.5rem;">Template per Instructions Strutturate</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Markdown - Template Instructions</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code># Ruolo e Contesto
+Sei un [RUOLO SPECIFICO] esperto in [DOMINIO].
+Il tuo obiettivo principale è [OBIETTIVO CHIARO].
+
+# Principi Guida
+1. [PRINCIPIO 1]: [Spiegazione dettagliata]
+2. [PRINCIPIO 2]: [Spiegazione dettagliata]
+3. [PRINCIPIO 3]: [Spiegazione dettagliata]
+
+# Processo Step-by-Step
+
+## Fase 1: Raccolta Informazioni
+1. Identifica [COSA CERCARE]
+2. Usa il tool `[NOME_TOOL]` per [AZIONE]
+3. Se [CONDIZIONE], allora [AZIONE_A], altrimenti [AZIONE_B]
+
+## Fase 2: Analisi
+1. Valuta [CRITERI SPECIFICI]
+2. Confronta con [STANDARD/BASELINE]
+3. Documenta [COSA REGISTRARE]
+
+## Fase 3: Azione
+1. Basandoti sull'analisi:
+   - Se [SCENARIO_1]: Esegui [AZIONE_1]
+   - Se [SCENARIO_2]: Esegui [AZIONE_2]
+   - Altrimenti: [AZIONE_DEFAULT]
+
+# Gestione Edge Case
+
+## Caso: [NOME_EDGE_CASE]
+- **Quando si verifica**: [CONDIZIONE]
+- **Come gestirlo**: [PROCEDURA]
+- **Fallback**: [PIANO_B]
+
+# Criteri di Successo
+- ✅ [CRITERIO_1]
+- ✅ [CRITERIO_2]
+- ✅ [CRITERIO_3]
+
+# Esempi
+
+## Esempio 1: [SCENARIO]
+**Input**: [ESEMPIO_INPUT]
+**Processo**: [PASSI_ESEGUITI]
+**Output**: [RISULTATO_ATTESO]
+
+# Note Importanti
+- ⚠️ [AVVERTIMENTO_1]
+- 💡 [SUGGERIMENTO_1]
+- 🚫 [COSA_NON_FARE]</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1.5rem;">Esempio Reale: Customer Service Agent</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span class="code-lang">Python - Instructions Avanzate</span>
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                </div>
+                <pre><code>CUSTOMER_SERVICE_INSTRUCTIONS = """
+# Ruolo e Contesto
+Sei un Senior Customer Service Agent per TechCorp, specializzato nella 
+risoluzione di problemi tecnici e gestione reclami. Il tuo obiettivo è 
+risolvere i problemi dei clienti rapidamente mantenendo alta la soddisfazione.
+
+# Principi Guida
+1. **Empatia Prima**: Riconosci sempre le frustrazioni del cliente prima 
+   di proporre soluzioni
+2. **Risoluzione Proattiva**: Anticipa problemi correlati e offri soluzioni 
+   preventive
+3. **Escalation Intelligente**: Sai quando è il momento di coinvolgere un umano
+
+# Processo Step-by-Step
+
+## Fase 1: Comprensione del Problema
+1. Saluta il cliente usando il suo nome (usa `get_customer_info`)
+2. Riassumi il problema per confermare la comprensione
+3. Usa `search_knowledge_base` per trovare soluzioni note
+4. Se il problema non è chiaro:
+   - Fai massimo 3 domande di chiarimento
+   - Usa esempi concreti per aiutare il cliente
+
+## Fase 2: Diagnosi e Risoluzione
+1. Controlla lo storico del cliente con `get_customer_history`:
+   - Se problema ricorrente → Offri soluzione permanente
+   - Se primo problema → Approccio standard
+   
+2. Classifica la gravità:
+   - **Critico** (servizio down): Priorità immediata + compensazione
+   - **Alto** (funzionalità bloccata): Risoluzione entro 24h
+   - **Medio** (inconveniente): Risoluzione entro 48h
+   - **Basso** (domanda): Risposta immediata
+
+3. Applica la soluzione appropriata:
+   ```
+   if problema in KNOWN_ISSUES:
+       applica_soluzione_standard()
+   elif complessità > THRESHOLD:
+       escalate_to_human()
+   else:
+       proponi_troubleshooting_guidato()
+   ```
+
+## Fase 3: Follow-up e Chiusura
+1. Verifica che la soluzione funzioni
+2. Documenta la risoluzione con `update_ticket`
+3. Se cliente VIP o problema critico:
+   - Programma follow-up con `schedule_callback`
+   - Offri compensazione se appropriato
+
+# Gestione Edge Case
+
+## Caso: Cliente Arrabbiato
+- **Quando**: Sentiment score < -0.7 o linguaggio aggressivo
+- **Come gestirlo**: 
+  1. "Capisco perfettamente la sua frustrazione..."
+  2. Offri subito escalation a supervisore
+  3. Se rifiuta, procedi con tono extra-professionale
+- **Fallback**: Trasferimento immediato a senior agent
+
+## Caso: Problema Sconosciuto
+- **Quando**: Confidence < 0.6 dopo ricerca knowledge base
+- **Come gestirlo**:
+  1. "Questo è un caso particolare che richiede attenzione speciale..."
+  2. Raccogli tutti i dettagli con `create_detailed_report`
+  3. Escalate a technical team con priorità
+- **Fallback**: Callback garantito entro 4 ore
+
+## Caso: Richiesta di Rimborso > €500
+- **Quando**: Importo supera threshold autorizzazione
+- **Come gestirlo**:
+  1. Verifica eligibilità con `check_refund_policy`
+  2. Se eligibile, prepara documentazione
+  3. Inoltra a finance team per approvazione
+- **Fallback**: Manager approval richiesto
+
+# Tools e Quando Usarli
+
+- `get_customer_info`: SEMPRE all'inizio
+- `search_knowledge_base`: Per OGNI problema tecnico
+- `get_customer_history`: Se problema ricorrente o VIP
+- `update_ticket`: SEMPRE prima di chiudere
+- `escalate_to_human`: Se confidence < 0.6 o cliente insiste
+- `schedule_callback`: Per follow-up su problemi critici/VIP
+- `check_refund_policy`: Per qualsiasi richiesta monetaria
+- `send_compensation`: Solo dopo approvazione manager
+
+# Frasi Chiave da Usare
+
+## Apertura
+- "Buongiorno [Nome], sono qui per aiutarla con [problema]"
+- "Capisco quanto possa essere frustrante [situazione]"
+
+## Durante la Risoluzione
+- "Ho trovato una soluzione che dovrebbe risolvere..."
+- "Mentre risolviamo questo, ho notato che potrebbe interessarle..."
+
+## Chiusura
+- "È tutto risolto? C'è altro in cui posso assisterla?"
+- "Ho documentato tutto, riceverà un'email di conferma"
+
+# Metriche di Successo
+- ✅ Risoluzione al primo contatto > 70%
+- ✅ Customer Satisfaction Score > 4.5/5
+- ✅ Tempo medio risoluzione < 15 minuti
+- ✅ Escalation rate < 20%
+
+# Note Importanti
+- ⚠️ MAI promettere tempistiche non verificate
+- 💡 Offri sempre self-service per problemi futuri simili
+- 🚫 NON discutere policy aziendali - riferisci a manager
+- 🎯 Priorità assoluta: clienti con servizio business critical down
+"""
+
+# Configurazione dell'agente con le istruzioni
+agent = Agent(
+    name="Customer Service Expert",
+    instructions=CUSTOMER_SERVICE_INSTRUCTIONS,
+    tools=[
+        get_customer_info,
+        search_knowledge_base,
+        get_customer_history,
+        update_ticket,
+        escalate_to_human,
+        schedule_callback,
+        check_refund_policy,
+        send_compensation
+    ],
+    temperature=0.7,  # Bilanciamento tra consistenza e naturalezza
+    max_iterations=10  # Limita loop infiniti
+)</code></pre>
+            </div>
+        </div>
+
+        <!-- Interactive Tool Builder -->
+        <div class="tool-builder">
+            <div class="builder-header">
+                <h2 class="section-title" style="margin: 0;">
+                    <div class="section-icon">🛠️</div>
+                    Lab: Costruisci il Tuo Tool
+                </h2>
+                <span class="builder-badge">Interattivo</span>
+            </div>
+
+            <p style="margin-bottom: 2rem;">
+                Usa questo builder per creare rapidamente definizioni di tools per i tuoi agenti. 
+                Il sistema genererà automaticamente il codice con best practices incluse.
+            </p>
+
+            <div class="builder-form">
+                <div class="form-group">
+                    <label class="form-label">Nome del Tool</label>
+                    <input type="text" class="form-input" id="tool-name" placeholder="es. search_products">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descrizione</label>
+                    <input type="text" class="form-input" id="tool-description" placeholder="Cerca prodotti nel catalogo aziendale">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Categoria</label>
+                    <select class="form-select" id="tool-category">
+                        <option value="data">Data Tool (Lettura)</option>
+                        <option value="action">Action Tool (Scrittura)</option>
+                        <option value="orchestration">Orchestration Tool (Altri Agenti)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Parametri (uno per riga, formato: nome:tipo:descrizione)</label>
+                    <textarea class="form-textarea" id="tool-params" placeholder="product_name:string:Nome del prodotto da cercare
+category:string:Categoria di prodotti (opzionale)
+limit:integer:Numero massimo di risultati"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Richiede Autenticazione?</label>
+                    <select class="form-select" id="tool-auth">
+                        <option value="none">Nessuna</option>
+                        <option value="api_key">API Key</option>
+                        <option value="oauth">OAuth</option>
+                        <option value="jwt">JWT Token</option>
+                    </select>
+                </div>
+
+                <div class="builder-actions">
+                    <button class="builder-button" onclick="generateTool()">
+                        Genera Codice Tool
+                    </button>
+                    <button class="builder-button" style="background: rgba(99, 102, 241, 0.2);" onclick="resetBuilder()">
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="builder-output" id="tool-output" style="display: none;">
+                <em>Il codice generato apparirà qui...</em>
+            </div>
+        </div>
+
+        <!-- Practical Challenge -->
+        <div class="content-section" style="background: rgba(236, 72, 153, 0.05); border: 1px solid rgba(236, 72, 153, 0.2);">
+            <h2 class="section-title">
+                <div class="section-icon">🎯</div>
+                Sfida Pratica
+            </h2>
+
+            <p style="margin-bottom: 2rem; color: #cbd5e1;">
+                Metti in pratica quello che hai imparato creando un sistema completo di tools per un caso d'uso reale.
+            </p>
+
+            <div style="background: rgba(30, 41, 59, 0.5); border-radius: 15px; padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">📚 Progetto: Sistema di Gestione Biblioteca</h3>
+                
+                <p style="margin-bottom: 1.5rem; color: #cbd5e1;">
+                    Crea un agente che gestisca una biblioteca digitale con queste funzionalità:
+                </p>
+
+                <ol style="padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 2rem;">
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Ricerca libri</strong> per titolo, autore, genere o ISBN
+                    </li>
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Gestione prestiti</strong> con check-out e check-in
+                    </li>
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Raccomandazioni personalizzate</strong> basate sulla storia utente
+                    </li>
+                    <li style="margin-bottom: 0.5rem;">
+                        <strong>Notifiche automatiche</strong> per scadenze e nuovi arrivi
+                    </li>
+                </ol>
+
+                <h4 style="margin-bottom: 1rem; color: var(--secondary);">Tools da Implementare:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
+                        <strong>search_books</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            Data tool per cercare nel catalogo
+                        </p>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
+                        <strong>check_availability</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            Data tool per verificare disponibilità
+                        </p>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
+                        <strong>process_loan</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            Action tool per prestiti
+                        </p>
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
+                        <strong>send_notification</strong>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
+                            Action tool per notifiche
+                        </p>
+                    </div>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 2rem;">
+                    <h4 style="color: var(--success); margin-bottom: 0.5rem;">
+                        🏆 Bonus Challenge
+                    </h4>
+                    <p style="color: #cbd5e1;">
+                        Implementa un recommendation_agent come orchestration tool che usa gli altri tools 
+                        per suggerire libri basandosi su: generi preferiti, autori letti, valutazioni date.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🎓</div>
+                Concetti Chiave da Ricordare
+            </h2>
+
+            <div style="display: grid; gap: 1rem;">
+                <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(99, 102, 241, 0.3);">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">
+                        1️⃣ Tools come Building Blocks
+                    </h4>
+                    <p style="color: #cbd5e1;">
+                        I tools sono i mattoni fondamentali degli agenti. Progettali per essere modulari, 
+                        riusabili e componibili. Un buon tool fa una cosa e la fa bene.
+                    </p>
+                </div>
+
+                <div style="background: rgba(236, 72, 153, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(236, 72, 153, 0.3);">
+                    <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">
+                        2️⃣ Instructions come Sistema Operativo
+                    </h4>
+                    <p style="color: #cbd5e1;">
+                        Le istruzioni sono il "sistema operativo" del tuo agente. Devono essere precise, 
+                        complete e gestire ogni scenario possibile. Investi tempo nella loro scrittura.
+                    </p>
+                </div>
+
+                <div style="background: rgba(6, 182, 212, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(6, 182, 212, 0.3);">
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">
+                        3️⃣ Concatenazione per Complessità
+                    </h4>
+                    <p style="color: #cbd5e1;">
+                        La vera potenza emerge quando concateni tools semplici per creare workflow complessi. 
+                        Pensa in termini di pipeline e flussi di dati.
+                    </p>
+                </div>
+
+                <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <h4 style="color: var(--success); margin-bottom: 0.5rem;">
+                        4️⃣ Test e Iterazione Continua
+                    </h4>
+                    <p style="color: #cbd5e1;">
+                        Nessun tool o instruction è perfetto al primo tentativo. Testa con casi reali, 
+                        raccogli feedback e itera continuamente per migliorare.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <a href="lezione-2.html" class="nav-btn">
+                ← Lezione 2
+            </a>
+            <div style="text-align: center;">
+                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Prossima lezione:</p>
+                <strong>Orchestrazione Single-Agent</strong>
+            </div>
+            <a href="lezione-4.html" class="nav-btn primary">
+                Continua →
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Copy code function
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            const text = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                button.innerText = '✅ Copiato!';
+                button.style.background = 'rgba(16, 185, 129, 0.2)';
+                button.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                button.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // Tool examples for flow diagram
+        const toolExamples = {
+            search: {
+                title: "Python - Tool di Ricerca Cliente",
+                code: `@tool_wrapper()
+def search_customer(
+    query: str,
+    filters: Optional[Dict] = None
+) -> Dict[str, Any]:
+    """Cerca clienti nel database."""
+    
+    results = db.customers.search(
+        query=query,
+        filters=filters or {},
+        limit=10
+    )
+    
+    return {
+        "customers": results,
+        "count": len(results),
+        "query": query
+    }`
+            },
+            orders: {
+                title: "Python - Tool Recupero Ordini",
+                code: `@tool_wrapper()
+def get_orders(
+    customer_id: str,
+    date_range: Optional[Tuple[date, date]] = None
+) -> Dict[str, Any]:
+    """Recupera ordini di un cliente."""
+    
+    if not date_range:
+        date_range = (
+            datetime.now() - timedelta(days=365),
+            datetime.now()
+        )
+    
+    orders = db.orders.find({
+        "customer_id": customer_id,
+        "created_at": {
+            "$gte": date_range[0],
+            "$lte": date_range[1]
+        }
+    })
+    
+    return {
+        "orders": list(orders),
+        "total_value": sum(o.total for o in orders),
+        "count": len(orders)
+    }`
+            },
+            analyze: {
+                title: "Python - Tool Analisi Pattern",
+                code: `@tool_wrapper()
+def analyze_patterns(
+    orders: List[Dict],
+    analysis_type: str = "comprehensive"
+) -> Dict[str, Any]:
+    """Analizza pattern negli ordini."""
+    
+    df = pd.DataFrame(orders)
+    
+    patterns = {
+        "frequency": df.groupby('product_category').size(),
+        "seasonality": analyze_seasonal_trends(df),
+        "average_value": df.groupby('month')['total'].mean(),
+        "top_products": df['product_id'].value_counts().head(10),
+        "churn_risk": calculate_churn_probability(df)
+    }
+    
+    insights = generate_insights(patterns)
+    
+    return {
+        "patterns": patterns,
+        "insights": insights,
+        "recommendations": generate_recommendations(patterns)
+    }`
+            },
+            report: {
+                title: "Python - Tool Generazione Report",
+                code: `@tool_wrapper()
+def create_report(
+    customer_data: Dict,
+    order_data: Dict,
+    analysis: Dict,
+    format: str = "pdf"
+) -> Dict[str, Any]:
+    """Genera report completo."""
+    
+    report = Report()
+    
+    # Header
+    report.add_header(
+        title=f"Analisi Cliente: {customer_data['name']}",
+        date=datetime.now()
+    )
+    
+    # Sommario
+    report.add_summary({
+        "total_orders": order_data['count'],
+        "total_value": order_data['total_value'],
+        "key_insights": analysis['insights'][:3]
+    })
+    
+    # Dettagli
+    report.add_charts(analysis['patterns'])
+    report.add_recommendations(analysis['recommendations'])
+    
+    # Genera file
+    if format == "pdf":
+        file_path = report.to_pdf()
+    else:
+        file_path = report.to_html()
+    
+    return {
+        "report_path": file_path,
+        "summary": report.get_summary(),
+        "sent_to": customer_data.get('email')
+    }`
+            }
+        };
+
+        // Highlight flow node
+        function highlightNode(element, toolKey) {
+            // Reset all nodes
+            document.querySelectorAll('.flow-node').forEach(node => {
+                node.classList.remove('active');
+            });
+            
+            // Highlight selected
+            element.classList.add('active');
+            
+            // Show code
+            const codeDisplay = document.getElementById('tool-code-display');
+            const codeTitle = document.getElementById('tool-code-title');
+            const codeContent = document.getElementById('tool-code-content');
+            
+            if (toolExamples[toolKey]) {
+                codeTitle.textContent = toolExamples[toolKey].title;
+                codeContent.textContent = toolExamples[toolKey].code;
+                codeDisplay.style.display = 'block';
+                
+                // Smooth scroll
+                codeDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Tool Builder Functions
+        function generateTool() {
+            const name = document.getElementById('tool-name').value;
+            const description = document.getElementById('tool-description').value;
+            const category = document.getElementById('tool-category').value;
+            const paramsText = document.getElementById('tool-params').value;
+            const auth = document.getElementById('tool-auth').value;
+            
+            if (!name || !description) {
+                alert('Per favore compila nome e descrizione del tool');
+                return;
+            }
+            
+            // Parse parameters
+            const params = [];
+            if (paramsText) {
+                paramsText.split('\n').forEach(line => {
+                    const parts = line.trim().split(':');
+                    if (parts.length >= 3) {
+                        params.push({
+                            name: parts[0],
+                            type: parts[1],
+                            description: parts.slice(2).join(':')
+                        });
+                    }
+                });
+            }
+            
+            // Generate code based on category
+            let code = generateToolCode(name, description, category, params, auth);
+            
+            // Display
+            const output = document.getElementById('tool-output');
+            output.textContent = code;
+            output.style.display = 'block';
+            
+            // Animation
+            output.style.opacity = '0';
+            setTimeout(() => {
+                output.style.transition = 'opacity 0.5s ease';
+                output.style.opacity = '1';
+            }, 100);
+        }
+
+        function generateToolCode(name, description, category, params, auth) {
+            let code = `from typing import Dict, Any, Optional
+import logging
+from datetime import datetime
+${auth !== 'none' ? 'from auth import authenticate\n' : ''}
+@tool_wrapper(max_calls_per_minute=${category === 'action' ? '30' : '60'})
+${auth !== 'none' ? '@authenticate("' + auth + '")\n' : ''}def ${name}(`;
+
+            // Add parameters
+            if (params.length > 0) {
+                code += '\n';
+                params.forEach((param, index) => {
+                    const pythonType = param.type === 'string' ? 'str' : 
+                                     param.type === 'integer' ? 'int' : 
+                                     param.type === 'boolean' ? 'bool' : 'Any';
+                    code += `    ${param.name}: ${pythonType}`;
+                    if (index < params.length - 1) code += ',';
+                    code += '\n';
+                });
+            }
+
+            code += `) -> Dict[str, Any]:
+    """
+    ${description}
+    
+    Args:`;
+            
+            params.forEach(param => {
+                code += `
+        ${param.name}: ${param.description}`;
+            });
+            
+            code += `
+        
+    Returns:
+        Dict con risultati dell'operazione
+    """
+    try:
+        # Validazione input
+        ${params.map(p => `validate_${p.type}(${p.name})`).join('\n        ')}
+        
+        # Logica principale del tool
+        ${category === 'data' ? `# Recupera dati
+        results = fetch_data(${params.map(p => p.name).join(', ')})
+        
+        return {
+            "success": True,
+            "data": results,
+            "count": len(results),
+            "timestamp": datetime.now().isoformat()
+        }` : 
+        category === 'action' ? `# Esegui azione
+        result = perform_action(${params.map(p => p.name).join(', ')})
+        
+        # Log dell'azione
+        log_action("${name}", result)
+        
+        return {
+            "success": True,
+            "result": result,
+            "action": "${name}",
+            "timestamp": datetime.now().isoformat()
+        }` :
+        `# Chiama agente specializzato
+        agent_result = specialized_agent.run(${params.map(p => p.name).join(', ')})
+        
+        return {
+            "success": True,
+            "agent_output": agent_result,
+            "delegated_to": specialized_agent.name,
+            "timestamp": datetime.now().isoformat()
+        }`}
+        
+    except ValidationError as e:
+        logger.error(f"Validation error in ${name}: {e}")
+        return {
+            "success": False,
+            "error": str(e),
+            "error_type": "validation"
+        }
+    except Exception as e:
+        logger.error(f"Error in ${name}: {e}")
+        return {
+            "success": False,
+            "error": str(e),
+            "error_type": type(e).__name__
+        }
+
+# Definizione per OpenAI Function Calling
+${name}_definition = {
+    "name": "${name}",
+    "description": "${description}",
+    "parameters": {
+        "type": "object",
+        "properties": {${params.map(param => `
+            "${param.name}": {
+                "type": "${param.type}",
+                "description": "${param.description}"
+            }`).join(',')}
+        },
+        "required": [${params.filter(p => !p.description.includes('opzionale')).map(p => `"${p.name}"`).join(', ')}]
+    }
+}`;
+
+            return code;
+        }
+
+        function resetBuilder() {
+            document.getElementById('tool-name').value = '';
+            document.getElementById('tool-description').value = '';
+            document.getElementById('tool-category').value = 'data';
+            document.getElementById('tool-params').value = '';
+            document.getElementById('tool-auth').value = 'none';
+            document.getElementById('tool-output').style.display = 'none';
+        }
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
