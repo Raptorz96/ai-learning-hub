@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Pratiche - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+            overflow: hidden;
+        }
+
+        .guide-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .guide-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .guide-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 3s; }
+        .guide-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 6s; }
+        .guide-icon:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 9s; }
+        .guide-icon:nth-child(5) { top: 50%; left: 50%; animation-delay: 12s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(90deg); }
+            50% { transform: translate(-20px, 20px) rotate(180deg); }
+            75% { transform: translate(20px, 30px) rotate(270deg); }
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            padding: 0.8rem 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 50px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-tag:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .category-tag.active {
+            background: var(--gradient);
+            color: white;
+            border: none;
+        }
+
+        /* Guide Cards Grid */
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .guide-card {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .guide-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .guide-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .guide-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .difficulty.beginner {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .difficulty.intermediate {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .difficulty.advanced {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .guide-duration {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .guide-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #f8fafc;
+        }
+
+        .guide-description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .guide-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .guide-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .guide-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Coming Soon Card */
+        .coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .coming-soon .guide-link {
+            background: rgba(148, 163, 184, 0.2);
+            pointer-events: none;
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .footer-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-cta p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .suggest-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .suggest-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-container">
+        <div class="guide-icon">🛠️</div>
+        <div class="guide-icon">🚀</div>
+        <div class="guide-icon">💡</div>
+        <div class="guide-icon">🔧</div>
+        <div class="guide-icon">📚</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lezioni.html">Lezioni</a></li>
+                <li><a href="guide.html" style="color: var(--primary);">Guide</a></li>
+                <li><a href="#contatti">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Guide Pratiche</h1>
+            <p class="page-subtitle">
+                Tutorial dettagliati e implementazioni reali per portare i tuoi progetti AI al livello successivo
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Guide Disponibili</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Passo-Passo</div>
+                <div class="stat-label">Approccio Dettagliato</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Codice Funzionante</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Sempre Accessibili</div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <div class="category-tag active" onclick="filterGuides('all')">
+                Tutte le Guide
+            </div>
+            <div class="category-tag" onclick="filterGuides('integration')">
+                🔌 Integrazioni API
+            </div>
+            <div class="category-tag" onclick="filterGuides('agents')">
+                🤖 Agenti AI
+            </div>
+            <div class="category-tag" onclick="filterGuides('deployment')">
+                🚀 Deploy
+            </div>
+            <div class="category-tag" onclick="filterGuides('optimization')">
+                ⚡ Ottimizzazione
+            </div>
+        </div>
+
+        <!-- Guides Grid -->
+        <div class="guides-grid" id="guides-container">
+            
+            <!-- Guide 1: Weather API -->
+            <div class="guide-card" data-category="integration agents">
+                <div class="guide-icon-wrapper">🌍</div>
+                <div class="guide-meta">
+                    <span class="difficulty beginner">Principiante</span>
+                    <span class="guide-duration">⏱️ 45 min</span>
+                </div>
+                <h3 class="guide-title">Agenti AI con API Meteo Reali</h3>
+                <p class="guide-description">
+                    Passa da dati simulati a informazioni meteo in tempo reale. Impara a integrare OpenWeatherMap, 
+                    gestire errori, implementare caching e best practices di sicurezza.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">OpenWeatherMap</span>
+                    <span class="topic-tag">API REST</span>
+                    <span class="topic-tag">Error Handling</span>
+                    <span class="topic-tag">Caching</span>
+                </div>
+                <a href="guide/agenti-api-reali.html" class="guide-link">
+                    Inizia la Guida →
+                </a>
+            </div>
+
+            <!-- Guide 2: Deploy Vercel -->
+            <div class="guide-card coming-soon" data-category="deployment">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">▲</div>
+                <div class="guide-meta">
+                    <span class="difficulty intermediate">Intermedio</span>
+                    <span class="guide-duration">⏱️ 30 min</span>
+                </div>
+                <h3 class="guide-title">Deploy Agenti AI su Vercel</h3>
+                <p class="guide-description">
+                    Porta i tuoi agenti AI online gratuitamente con Vercel. Impara configurazione environment, 
+                    serverless functions e monitoraggio.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">Vercel</span>
+                    <span class="topic-tag">Serverless</span>
+                    <span class="topic-tag">CI/CD</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+            <!-- Guide 3: Multi-Agent -->
+            <div class="guide-card coming-soon" data-category="agents">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">🤝</div>
+                <div class="guide-meta">
+                    <span class="difficulty advanced">Avanzato</span>
+                    <span class="guide-duration">⏱️ 60 min</span>
+                </div>
+                <h3 class="guide-title">Sistema Multi-Agent per Customer Service</h3>
+                <p class="guide-description">
+                    Costruisci un sistema completo con agenti specializzati che collaborano: triage, support tecnico, 
+                    vendite e gestione feedback.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">Multi-Agent</span>
+                    <span class="topic-tag">Orchestration</span>
+                    <span class="topic-tag">Real Use Case</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+            <!-- Guide 4: RAG -->
+            <div class="guide-card coming-soon" data-category="integration">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">📚</div>
+                <div class="guide-meta">
+                    <span class="difficulty intermediate">Intermedio</span>
+                    <span class="guide-duration">⏱️ 40 min</span>
+                </div>
+                <h3 class="guide-title">RAG: Agenti con la Tua Knowledge Base</h3>
+                <p class="guide-description">
+                    Implementa Retrieval Augmented Generation per creare agenti che accedono ai tuoi documenti. 
+                    Include vector database e semantic search.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">RAG</span>
+                    <span class="topic-tag">Embeddings</span>
+                    <span class="topic-tag">Pinecone</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+            <!-- Guide 5: Cost Optimization -->
+            <div class="guide-card coming-soon" data-category="optimization">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">💰</div>
+                <div class="guide-meta">
+                    <span class="difficulty intermediate">Intermedio</span>
+                    <span class="guide-duration">⏱️ 35 min</span>
+                </div>
+                <h3 class="guide-title">Ottimizzare i Costi degli Agenti AI</h3>
+                <p class="guide-description">
+                    Strategie pratiche per ridurre i costi API: caching intelligente, model selection dinamico, 
+                    batching e monitoring dei token.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">Cost Management</span>
+                    <span class="topic-tag">Monitoring</span>
+                    <span class="topic-tag">Best Practices</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+            <!-- Guide 6: Voice Agents -->
+            <div class="guide-card coming-soon" data-category="agents integration">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">🎙️</div>
+                <div class="guide-meta">
+                    <span class="difficulty advanced">Avanzato</span>
+                    <span class="guide-duration">⏱️ 50 min</span>
+                </div>
+                <h3 class="guide-title">Agenti Vocali con Speech API</h3>
+                <p class="guide-description">
+                    Crea agenti che parlano e ascoltano. Integra speech-to-text e text-to-speech per interazioni 
+                    vocali naturali.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">Speech API</span>
+                    <span class="topic-tag">Real-time</span>
+                    <span class="topic-tag">WebSockets</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+            <!-- Guide 7: Testing -->
+            <div class="guide-card coming-soon" data-category="optimization">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">🧪</div>
+                <div class="guide-meta">
+                    <span class="difficulty intermediate">Intermedio</span>
+                    <span class="guide-duration">⏱️ 40 min</span>
+                </div>
+                <h3 class="guide-title">Testing e Debugging di Agenti AI</h3>
+                <p class="guide-description">
+                    Tecniche e strumenti per testare agenti AI: unit testing, integration testing, prompt testing 
+                    e debugging strategies.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">Testing</span>
+                    <span class="topic-tag">Debugging</span>
+                    <span class="topic-tag">Quality Assurance</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+            <!-- Guide 8: Security -->
+            <div class="guide-card coming-soon" data-category="deployment">
+                <span class="coming-soon-badge">In Arrivo</span>
+                <div class="guide-icon-wrapper">🔒</div>
+                <div class="guide-meta">
+                    <span class="difficulty advanced">Avanzato</span>
+                    <span class="guide-duration">⏱️ 45 min</span>
+                </div>
+                <h3 class="guide-title">Sicurezza negli Agenti AI</h3>
+                <p class="guide-description">
+                    Proteggi i tuoi agenti da prompt injection, data leakage e altri rischi. Include rate limiting, 
+                    input validation e audit logging.
+                </p>
+                <div class="guide-topics">
+                    <span class="topic-tag">Security</span>
+                    <span class="topic-tag">Guardrails</span>
+                    <span class="topic-tag">Best Practices</span>
+                </div>
+                <span class="guide-link">
+                    Prossimamente →
+                </span>
+            </div>
+
+        </div>
+
+        <!-- Footer CTA -->
+        <div class="footer-cta">
+            <h2>Non Trovi Quello che Cerchi?</h2>
+            <p>
+                Suggerisci una nuova guida e la creeremo per te e la community!
+            </p>
+            <a href="mailto:suggestions@ailearninghub.com" class="suggest-btn">
+                💡 Suggerisci una Guida
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Filter guides by category
+        function filterGuides(category) {
+            // Update active category
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter guide cards
+            const cards = document.querySelectorAll('.guide-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category.includes(category)) {
+                    card.style.display = 'flex';
+                    // Add animation
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add hover effect to guide cards
+        document.querySelectorAll('.guide-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('coming-soon')) {
+                    this.style.transform = 'translateY(-5px)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('coming-soon')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all guide cards
+        document.querySelectorAll('.guide-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add parallax effect to background icons
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const icons = document.querySelectorAll('.guide-icon');
+            
+            icons.forEach((icon, index) => {
+                const speed = 0.5 + (index * 0.1);
+                icon.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
