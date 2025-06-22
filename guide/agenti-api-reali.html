@@ -792,6 +792,71 @@ OPENWEATHERMAP_API_KEY=incolla-qui-la-tua-weather-key</code></pre>
 
             <div class="step">
                 <div class="step-number">6</div>
+                <h3 style="margin-bottom: 1rem;">Crea un Ambiente Virtuale (Raccomandato)</h3>
+                
+                <p style="margin-bottom: 1rem; color: #cbd5e1;">
+                    Un ambiente virtuale è come una "bolla" separata per questo progetto. Evita conflitti tra librerie diverse!
+                </p>
+
+                <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+                    <strong>💡 Perché usare un ambiente virtuale?</strong>
+                    <br>• Mantiene le librerie organizzate per progetto
+                    <br>• Evita conflitti tra versioni diverse
+                    <br>• È considerata una best practice professionale
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Windows:</h4>
+                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
+                        <li style="margin-bottom: 1rem;">
+                            <strong>Nel terminale che hai aperto, scrivi:</strong>
+                            <div class="code-example" style="margin-top: 0.5rem;">
+                                <pre><code>python -m venv agente-env</code></pre>
+                            </div>
+                            <small style="color: #94a3b8;">→ Questo crea una cartella chiamata "agente-env" con l'ambiente virtuale</small>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <strong>Attiva l'ambiente virtuale:</strong>
+                            <div class="code-example" style="margin-top: 0.5rem;">
+                                <pre><code>agente-env\Scripts\activate</code></pre>
+                            </div>
+                            <small style="color: #94a3b8;">→ Dovresti vedere "(agente-env)" all'inizio della riga del terminale</small>
+                        </li>
+                    </ol>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Mac/Linux:</h4>
+                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
+                        <li style="margin-bottom: 1rem;">
+                            <strong>Nel terminale, scrivi:</strong>
+                            <div class="code-example" style="margin-top: 0.5rem;">
+                                <pre><code>python3 -m venv agente-env</code></pre>
+                            </div>
+                            <small style="color: #94a3b8;">→ Su Mac usa sempre python3</small>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <strong>Attiva l'ambiente virtuale:</strong>
+                            <div class="code-example" style="margin-top: 0.5rem;">
+                                <pre><code>source agente-env/bin/activate</code></pre>
+                            </div>
+                            <small style="color: #94a3b8;">→ Dovresti vedere "(agente-env)" all'inizio della riga del terminale</small>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Controllo:</strong> Se vedi <code>(agente-env)</code> prima del cursore nel terminale, l'ambiente è attivo!
+                    <br>Esempio: <code>(agente-env) C:\Users\tuonome\Desktop\agente-meteo-reale></code>
+                </div>
+
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <strong>📝 Importante:</strong> Ogni volta che lavori su questo progetto, dovrai riattivare l'ambiente virtuale con il comando di attivazione. Le librerie che installerai nel prossimo step saranno disponibili solo quando l'ambiente è attivo.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">7</div>
                 <h3 style="margin-bottom: 1rem;">Installa le Librerie Necessarie</h3>
                 
                 <p style="margin-bottom: 1rem; color: #cbd5e1;">
@@ -826,7 +891,7 @@ pip install requests</code></pre>
             </div>
 
             <div class="step">
-                <div class="step-number">7</div>
+                <div class="step-number">8</div>
                 <h3 style="margin-bottom: 1rem;">Crea il File Python con il Codice</h3>
                 
                 <p style="margin-bottom: 1rem; color: #cbd5e1;">
@@ -1068,7 +1133,7 @@ if __name__ == "__main__":
             </div>
 
             <div class="step">
-                <div class="step-number">8</div>
+                <div class="step-number">9</div>
                 <h3 style="margin-bottom: 1rem;">Esegui il Tuo Agente AI!</h3>
                 
                 <p style="margin-bottom: 1rem; color: #cbd5e1;">
@@ -1078,6 +1143,8 @@ if __name__ == "__main__":
                 <ol style="padding-left: 1.5rem; color: #cbd5e1;">
                     <li style="margin-bottom: 1rem;">
                         <strong>Torna al terminale</strong> (la finestra nera che avevi aperto)
+                        <br><small style="color: #94a3b8;">→ Assicurati che sia ancora attivo l'ambiente virtuale (dovresti vedere "(agente-env)")</small>
+                        <br><small style="color: #94a3b8;">→ Se non lo vedi, riattivalo con: <code>agente-env\Scripts\activate</code> (Windows) o <code>source agente-env/bin/activate</code> (Mac/Linux)</small>
                     </li>
                     
                     <li style="margin-bottom: 1rem;">
@@ -1118,7 +1185,7 @@ if __name__ == "__main__":
             </div>
 
             <div class="step">
-                <div class="step-number">9</div>
+                <div class="step-number">10</div>
                 <h3 style="margin-bottom: 1rem;">Risoluzione Problemi Comuni</h3>
                 
                 <div style="margin-bottom: 2rem;">
@@ -1156,6 +1223,18 @@ if __name__ == "__main__":
                         <br>• Scrivi il nome della città in modo corretto
                         <br>• Per città italiane usa il nome italiano (Milano, non Milan)
                         <br>• Per città straniere prova il nome inglese
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: var(--error); margin-bottom: 1rem;">❌ Problemi con l'Ambiente Virtuale</h4>
+                    <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
+                        <strong>Soluzioni:</strong>
+                        <br>• <strong>Non vedo "(agente-env)":</strong> L'ambiente non è attivo, riattivalo
+                        <br>• <strong>Windows:</strong> <code>agente-env\Scripts\activate</code>
+                        <br>• <strong>Mac/Linux:</strong> <code>source agente-env/bin/activate</code>
+                        <br>• <strong>Cartella non trovata:</strong> Assicurati di essere nella cartella giusta del progetto
+                        <br>• <strong>Comando non funziona:</strong> Ricontrolla la sintassi (attenzione a backslash vs slash)
                     </div>
                 </div>
             </div>
