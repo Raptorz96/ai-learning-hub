@@ -1,0 +1,2985 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida: Sistema di Gestione Biblioteca AI - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Library Animation Background */
+        .library-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        .floating-book {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float-book 25s infinite ease-in-out;
+        }
+
+        @keyframes float-book {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1); 
+                opacity: 0.1;
+            }
+            25% { 
+                transform: translate(60px, -40px) rotate(15deg) scale(1.1); 
+                opacity: 0.15;
+            }
+            50% { 
+                transform: translate(-40px, 30px) rotate(-10deg) scale(0.9); 
+                opacity: 0.08;
+            }
+            75% { 
+                transform: translate(30px, -50px) rotate(20deg) scale(1.05); 
+                opacity: 0.12;
+            }
+        }
+
+        .floating-book:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-book:nth-child(2) { top: 20%; right: 15%; animation-delay: 5s; }
+        .floating-book:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 10s; }
+        .floating-book:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 15s; }
+        .floating-book:nth-child(5) { top: 50%; left: 50%; animation-delay: 20s; }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Guide Header */
+        .guide-header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .guide-badge {
+            display: inline-block;
+            background: rgba(236, 72, 153, 0.1);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .guide-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .guide-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .toc h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .toc-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .toc-list a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 3rem 0;
+            background: rgba(30, 41, 59, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Architecture Diagram */
+        .architecture-diagram {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .diagram-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .component-card {
+            background: rgba(99, 102, 241, 0.1);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .component-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Steps */
+        .step {
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 2rem;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .code-lang {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            color: #e2e8f0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #cbd5e1;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #cbd5e1;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Navigation */
+        .guide-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4rem 0 2rem;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Test Results */
+        .test-output {
+            background: #0a0a0a;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: #10b981;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .diagram-components {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Library Animation Background -->
+    <div class="library-bg">
+        <div class="floating-book">📚</div>
+        <div class="floating-book">📖</div>
+        <div class="floating-book">📕</div>
+        <div class="floating-book">📗</div>
+        <div class="floating-book">📘</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="../lezioni.html">Lezioni</a></li>
+                <li><a href="../guide.html">Guide</a></li>
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Guide Header -->
+        <div class="guide-header">
+            <div class="guide-badge">
+                📚 Progetto Pratico Completo
+            </div>
+            <h1>Sistema di Gestione Biblioteca AI</h1>
+            <p class="guide-subtitle">
+                Costruisci un sistema completo di gestione biblioteca con agenti AI, tool concatenati, 
+                raccomandazioni intelligenti e gestione prestiti automatizzata
+            </p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>📑 Indice della Guida</h2>
+            <ul class="toc-list">
+                <li><a href="#introduzione">Introduzione: Cosa costruiremo</a></li>
+                <li><a href="#architettura">Architettura del sistema</a></li>
+                <li><a href="#setup">Setup ambiente e dipendenze</a></li>
+                <li><a href="#database">Creazione database libri</a></li>
+                <li><a href="#search-tool">Implementazione tool di ricerca</a></li>
+                <li><a href="#availability-tool">Tool controllo disponibilità</a></li>
+                <li><a href="#loan-tool">Sistema gestione prestiti</a></li>
+                <li><a href="#notification-tool">Tool notifiche automatiche</a></li>
+                <li><a href="#recommendation">Sistema raccomandazioni AI</a></li>
+                <li><a href="#main-agent">Agente principale orchestratore</a></li>
+                <li><a href="#testing">Test completo del sistema</a></li>
+                <li><a href="#troubleshooting">Risoluzione problemi comuni</a></li>
+                <li><a href="#espansioni">Idee per espandere il sistema</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="content-section" id="introduzione">
+            <h2 class="section-title">
+                <div class="section-icon">🎯</div>
+                Cosa Costruiremo
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                In questa guida costruiremo un <strong>Sistema di Gestione Biblioteca AI</strong> completo e funzionante. 
+                Sarà un agente intelligente capace di gestire una biblioteca digitale con prestiti, raccomandazioni personalizzate 
+                e notifiche automatiche.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">🔍 Ricerca Intelligente</h3>
+                    <p>Cerca libri per titolo, autore, genere o ISBN con fuzzy matching</p>
+                </div>
+                <div class="feature-card">
+                    <h3 style="color: var(--success); margin-bottom: 0.5rem;">📅 Gestione Prestiti</h3>
+                    <p>Check-out e check-in automatici con controllo scadenze</p>
+                </div>
+                <div class="feature-card">
+                    <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">🎯 Raccomandazioni AI</h3>
+                    <p>Suggerimenti personalizzati basati sulla storia utente</p>
+                </div>
+                <div class="feature-card">
+                    <h3 style="color: var(--warning); margin-bottom: 0.5rem;">📨 Notifiche Smart</h3>
+                    <p>Alert automatici per scadenze e nuovi arrivi</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>💡 Cosa imparerai:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Creare tool concatenati che lavorano insieme</li>
+                    <li>Gestire stato persistente con file JSON</li>
+                    <li>Implementare algoritmi di raccomandazione</li>
+                    <li>Orchestrare sistemi multi-tool complessi</li>
+                    <li>Best practices per agenti AI in produzione</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <div class="content-section" id="architettura">
+            <h2 class="section-title">
+                <div class="section-icon">🏗️</div>
+                Architettura del Sistema
+            </h2>
+
+            <div class="architecture-diagram">
+                <h3 style="margin-bottom: 2rem;">Componenti del Sistema Biblioteca AI</h3>
+                
+                <div class="diagram-components">
+                    <div class="component-card">
+                        <div class="component-icon">🧠</div>
+                        <h4>Agente Principale</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            Orchestratore che gestisce le richieste utente
+                        </p>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">📚</div>
+                        <h4>Database Libri</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            JSON con catalogo completo e disponibilità
+                        </p>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">👥</div>
+                        <h4>Database Utenti</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            Storia prestiti e preferenze
+                        </p>
+                    </div>
+                    
+                    <div class="component-card">
+                        <div class="component-icon">🔧</div>
+                        <h4>Tools Suite</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            4 tool specializzati + recommendation agent
+                        </p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem; color: #94a3b8;">
+                    <em>Flusso: User → Agente → Tools → Database → Response</em>
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 3: Setup -->
+        <div class="content-section" id="setup">
+            <h2 class="section-title">
+                <div class="section-icon">⚙️</div>
+                Setup Ambiente e Dipendenze
+            </h2>
+
+            <div class="alert alert-info" style="margin-bottom: 2rem;">
+                <strong>👋 Per principianti assoluti:</strong> Ti guiderò passo passo in ogni fase. 
+                Non preoccuparti se non hai mai programmato, alla fine avrai un sistema funzionante!
+            </div>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3 style="margin-bottom: 1rem;">Crea la cartella del progetto</h3>
+                
+                <p style="margin-bottom: 1rem; color: #cbd5e1;">
+                    Prima di tutto, organizziamo i nostri file in una cartella dedicata.
+                </p>
+
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Windows:</h4>
+                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
+                        <li>Apri Esplora File</li>
+                        <li>Vai sul Desktop o in Documenti</li>
+                        <li>Click destro → Nuovo → Cartella</li>
+                        <li>Chiamala <code>biblioteca-ai</code></li>
+                    </ol>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Mac/Linux:</h4>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="code-lang">Terminal</span>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                        </div>
+                        <pre><code>mkdir ~/Desktop/biblioteca-ai
+cd ~/Desktop/biblioteca-ai</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3 style="margin-bottom: 1rem;">Installa Python (se necessario)</h3>
+                
+                <div class="alert alert-warning">
+                    <strong>Come verificare se hai Python:</strong>
+                    <br>Apri il terminale e scrivi <code>python --version</code>
+                    <br>Se vedi "Python 3.x.x", puoi saltare questo step!
+                </div>
+
+                <p style="margin-bottom: 1rem;">
+                    Se non hai Python, scaricalo da <a href="https://python.org/downloads" target="_blank" style="color: var(--primary);">python.org/downloads</a>
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3 style="margin-bottom: 1rem;">Crea l'ambiente virtuale</h3>
+                
+                <p style="margin-bottom: 1rem; color: #cbd5e1;">
+                    Un ambiente virtuale è come una "bolla" isolata per il nostro progetto.
+                </p>
+
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Terminal - Crea ambiente</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code># Crea l'ambiente virtuale
+python -m venv biblioteca-env
+
+# Attivalo:
+# Windows:
+biblioteca-env\Scripts\activate
+
+# Mac/Linux:
+source biblioteca-env/bin/activate</code></pre>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 1rem;">
+                    <strong>✅ Controllo:</strong> Dovresti vedere <code>(biblioteca-env)</code> nel terminale
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3 style="margin-bottom: 1rem;">Installa le dipendenze necessarie</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Terminal - Installa librerie</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code># Installa tutto il necessario
+pip install openai python-dotenv</code></pre>
+                </div>
+
+                <p style="margin-top: 1rem; color: #94a3b8;">
+                    Queste librerie ci servono per:
+                    <br>• <strong>openai</strong>: Per usare l'AI di OpenAI
+                    <br>• <strong>python-dotenv</strong>: Per gestire le password in modo sicuro
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3 style="margin-bottom: 1rem;">Crea il file .env per le API keys</h3>
+                
+                <p style="margin-bottom: 1rem;">
+                    Crea un file chiamato <code>.env</code> nella cartella del progetto:
+                </p>
+
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">.env</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code># Le tue chiavi API segrete
+OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxx</code></pre>
+                </div>
+
+                <div class="alert alert-error">
+                    <strong>⚠️ Importante:</strong> Non condividere MAI la tua API key! 
+                    Aggiungila al <code>.gitignore</code> se usi Git.
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Database -->
+        <div class="content-section" id="database">
+            <h2 class="section-title">
+                <div class="section-icon">📚</div>
+                Creazione Database Libri
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Creiamo un database JSON con un catalogo di libri diversificato. 
+                Ogni libro avrà informazioni complete per rendere il sistema realistico.
+            </p>
+
+            <div class="step">
+                <div class="step-number">6</div>
+                <h3 style="margin-bottom: 1rem;">Crea il file database_libri.json</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">JSON - database_libri.json</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>{
+  "libri": [
+    {
+      "id": "001",
+      "isbn": "978-88-17-05364-1",
+      "titolo": "Il nome della rosa",
+      "autore": "Umberto Eco",
+      "genere": ["Giallo", "Storico"],
+      "anno": 1980,
+      "copie_totali": 3,
+      "copie_disponibili": 2,
+      "lingua": "italiano",
+      "pagine": 624,
+      "editore": "Bompiani",
+      "descrizione": "Un giallo ambientato in un'abbazia medievale",
+      "rating_medio": 4.5,
+      "prestiti_totali": 145
+    },
+    {
+      "id": "002",
+      "isbn": "978-88-06-17520-2",
+      "titolo": "Se questo è un uomo",
+      "autore": "Primo Levi",
+      "genere": ["Memorialistica", "Storia"],
+      "anno": 1947,
+      "copie_totali": 2,
+      "copie_disponibili": 1,
+      "lingua": "italiano",
+      "pagine": 224,
+      "editore": "Einaudi",
+      "descrizione": "Testimonianza della deportazione ad Auschwitz",
+      "rating_medio": 4.8,
+      "prestiti_totali": 203
+    },
+    {
+      "id": "003",
+      "isbn": "978-88-04-56753-3",
+      "titolo": "1984",
+      "autore": "George Orwell",
+      "genere": ["Distopia", "Fantascienza"],
+      "anno": 1949,
+      "copie_totali": 4,
+      "copie_disponibili": 3,
+      "lingua": "italiano",
+      "pagine": 328,
+      "editore": "Mondadori",
+      "descrizione": "Un futuro totalitario dove il Grande Fratello controlla tutto",
+      "rating_medio": 4.6,
+      "prestiti_totali": 289
+    },
+    {
+      "id": "004",
+      "isbn": "978-88-07-90223-5",
+      "titolo": "Cent'anni di solitudine",
+      "autore": "Gabriel García Márquez",
+      "genere": ["Realismo magico", "Narrativa"],
+      "anno": 1967,
+      "copie_totali": 2,
+      "copie_disponibili": 0,
+      "lingua": "italiano",
+      "pagine": 464,
+      "editore": "Feltrinelli",
+      "descrizione": "La saga della famiglia Buendía a Macondo",
+      "rating_medio": 4.4,
+      "prestiti_totali": 176
+    },
+    {
+      "id": "005",
+      "isbn": "978-88-17-07089-1",
+      "titolo": "Il Signore degli Anelli",
+      "autore": "J.R.R. Tolkien",
+      "genere": ["Fantasy", "Avventura"],
+      "anno": 1954,
+      "copie_totali": 5,
+      "copie_disponibili": 4,
+      "lingua": "italiano",
+      "pagine": 1264,
+      "editore": "Bompiani",
+      "descrizione": "L'epica avventura di Frodo e la Compagnia dell'Anello",
+      "rating_medio": 4.7,
+      "prestiti_totali": 412
+    },
+    {
+      "id": "006",
+      "isbn": "978-88-06-22426-6",
+      "titolo": "Sapiens: Da animali a dèi",
+      "autore": "Yuval Noah Harari",
+      "genere": ["Saggistica", "Storia", "Antropologia"],
+      "anno": 2011,
+      "copie_totali": 3,
+      "copie_disponibili": 1,
+      "lingua": "italiano",
+      "pagine": 536,
+      "editore": "Bompiani",
+      "descrizione": "Breve storia dell'umanità",
+      "rating_medio": 4.3,
+      "prestiti_totali": 234
+    },
+    {
+      "id": "007",
+      "isbn": "978-88-15-27586-3",
+      "titolo": "L'intelligenza artificiale",
+      "autore": "Luciano Floridi",
+      "genere": ["Tecnologia", "Filosofia", "Saggistica"],
+      "anno": 2022,
+      "copie_totali": 2,
+      "copie_disponibili": 2,
+      "lingua": "italiano",
+      "pagine": 180,
+      "editore": "Il Mulino",
+      "descrizione": "Una guida filosofica all'AI e al suo impatto sulla società",
+      "rating_medio": 4.1,
+      "prestiti_totali": 67
+    },
+    {
+      "id": "008",
+      "isbn": "978-88-04-72178-2",
+      "titolo": "Il codice da Vinci",
+      "autore": "Dan Brown",
+      "genere": ["Thriller", "Giallo"],
+      "anno": 2003,
+      "copie_totali": 3,
+      "copie_disponibili": 1,
+      "lingua": "italiano",
+      "pagine": 512,
+      "editore": "Mondadori",
+      "descrizione": "Un thriller che mescola arte, storia e religione",
+      "rating_medio": 3.9,
+      "prestiti_totali": 367
+    },
+    {
+      "id": "009",
+      "isbn": "978-88-07-88505-7",
+      "titolo": "L'amica geniale",
+      "autore": "Elena Ferrante",
+      "genere": ["Narrativa", "Drammatico"],
+      "anno": 2011,
+      "copie_totali": 4,
+      "copie_disponibili": 2,
+      "lingua": "italiano",
+      "pagine": 336,
+      "editore": "E/O",
+      "descrizione": "L'amicizia tra due bambine nella Napoli degli anni '50",
+      "rating_medio": 4.2,
+      "prestiti_totali": 298
+    },
+    {
+      "id": "010",
+      "isbn": "978-88-459-3184-8",
+      "titolo": "Python per data science",
+      "autore": "Marco Buttolo",
+      "genere": ["Informatica", "Programmazione", "Data Science"],
+      "anno": 2023,
+      "copie_totali": 2,
+      "copie_disponibili": 1,
+      "lingua": "italiano",
+      "pagine": 420,
+      "editore": "Apogeo",
+      "descrizione": "Guida pratica per analisi dati con Python",
+      "rating_medio": 4.5,
+      "prestiti_totali": 89
+    },
+    {
+      "id": "011",
+      "isbn": "978-88-17-15468-3",
+      "titolo": "Harry Potter e la pietra filosofale",
+      "autore": "J.K. Rowling",
+      "genere": ["Fantasy", "Young Adult"],
+      "anno": 1997,
+      "copie_totali": 5,
+      "copie_disponibili": 3,
+      "lingua": "italiano",
+      "pagine": 368,
+      "editore": "Salani",
+      "descrizione": "L'inizio delle avventure del giovane mago",
+      "rating_medio": 4.6,
+      "prestiti_totali": 523
+    },
+    {
+      "id": "012",
+      "isbn": "978-88-06-24091-5",
+      "titolo": "La solitudine dei numeri primi",
+      "autore": "Paolo Giordano",
+      "genere": ["Narrativa", "Contemporaneo"],
+      "anno": 2008,
+      "copie_totali": 2,
+      "copie_disponibili": 2,
+      "lingua": "italiano",
+      "pagine": 320,
+      "editore": "Mondadori",
+      "descrizione": "Storia di due anime sole come numeri primi",
+      "rating_medio": 3.8,
+      "prestiti_totali": 156
+    },
+    {
+      "id": "013",
+      "isbn": "978-88-04-67872-7",
+      "titolo": "Il piccolo principe",
+      "autore": "Antoine de Saint-Exupéry",
+      "genere": ["Fiaba", "Filosofico"],
+      "anno": 1943,
+      "copie_totali": 6,
+      "copie_disponibili": 5,
+      "lingua": "italiano",
+      "pagine": 128,
+      "editore": "Bompiani",
+      "descrizione": "Una fiaba filosofica sull'amicizia e l'amore",
+      "rating_medio": 4.8,
+      "prestiti_totali": 678
+    },
+    {
+      "id": "014",
+      "isbn": "978-88-17-10665-0",
+      "titolo": "Steve Jobs",
+      "autore": "Walter Isaacson",
+      "genere": ["Biografia", "Tecnologia"],
+      "anno": 2011,
+      "copie_totali": 2,
+      "copie_disponibili": 0,
+      "lingua": "italiano",
+      "pagine": 742,
+      "editore": "Mondadori",
+      "descrizione": "La biografia autorizzata del fondatore di Apple",
+      "rating_medio": 4.3,
+      "prestiti_totali": 198
+    },
+    {
+      "id": "015",
+      "isbn": "978-88-07-88932-1",
+      "titolo": "Gomorra",
+      "autore": "Roberto Saviano",
+      "genere": ["Inchiesta", "Crimine"],
+      "anno": 2006,
+      "copie_totali": 3,
+      "copie_disponibili": 1,
+      "lingua": "italiano",
+      "pagine": 345,
+      "editore": "Mondadori",
+      "descrizione": "Viaggio nell'impero economico della camorra",
+      "rating_medio": 4.0,
+      "prestiti_totali": 267
+    },
+    {
+      "id": "016",
+      "isbn": "978-88-545-0871-4",
+      "titolo": "Deep Learning",
+      "autore": "Ian Goodfellow",
+      "genere": ["Informatica", "AI", "Machine Learning"],
+      "anno": 2016,
+      "copie_totali": 1,
+      "copie_disponibili": 1,
+      "lingua": "inglese",
+      "pagine": 800,
+      "editore": "MIT Press",
+      "descrizione": "Il libro di riferimento sul deep learning",
+      "rating_medio": 4.7,
+      "prestiti_totali": 45
+    },
+    {
+      "id": "017",
+      "isbn": "978-88-06-18641-3",
+      "titolo": "Il deserto dei Tartari",
+      "autore": "Dino Buzzati",
+      "genere": ["Narrativa", "Esistenzialista"],
+      "anno": 1940,
+      "copie_totali": 2,
+      "copie_disponibili": 1,
+      "lingua": "italiano",
+      "pagine": 256,
+      "editore": "Mondadori",
+      "descrizione": "L'attesa infinita in una fortezza di confine",
+      "rating_medio": 4.4,
+      "prestiti_totali": 134
+    },
+    {
+      "id": "018",
+      "isbn": "978-88-17-14192-8",
+      "titolo": "Shantaram",
+      "autore": "Gregory David Roberts",
+      "genere": ["Avventura", "Autobiografico"],
+      "anno": 2003,
+      "copie_totali": 2,
+      "copie_disponibili": 0,
+      "lingua": "italiano",
+      "pagine": 1088,
+      "editore": "Neri Pozza",
+      "descrizione": "Un fuggitivo australiano nei bassifondi di Bombay",
+      "rating_medio": 4.5,
+      "prestiti_totali": 189
+    },
+    {
+      "id": "019",
+      "isbn": "978-88-459-3285-2",
+      "titolo": "Clean Code",
+      "autore": "Robert C. Martin",
+      "genere": ["Informatica", "Programmazione"],
+      "anno": 2008,
+      "copie_totali": 3,
+      "copie_disponibili": 2,
+      "lingua": "italiano",
+      "pagine": 462,
+      "editore": "Apogeo",
+      "descrizione": "Manuale per scrivere codice pulito e manutenibile",
+      "rating_medio": 4.6,
+      "prestiti_totali": 156
+    },
+    {
+      "id": "020",
+      "isbn": "978-88-07-01883-0",
+      "titolo": "Il Gattopardo",
+      "autore": "Giuseppe Tomasi di Lampedusa",
+      "genere": ["Storico", "Narrativa"],
+      "anno": 1958,
+      "copie_totali": 3,
+      "copie_disponibili": 3,
+      "lingua": "italiano",
+      "pagine": 336,
+      "editore": "Feltrinelli",
+      "descrizione": "La Sicilia nobiliare durante il Risorgimento",
+      "rating_medio": 4.2,
+      "prestiti_totali": 234
+    }
+  ]
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 1rem;">
+                    <strong>✅ Database creato!</strong> Abbiamo 20 libri diversi con generi variati: 
+                    narrativa, saggistica, informatica, storia e molto altro.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">7</div>
+                <h3 style="margin-bottom: 1rem;">Crea il database utenti</h3>
+                
+                <p style="margin-bottom: 1rem;">
+                    Ora creiamo un database per tracciare gli utenti e i loro prestiti.
+                </p>
+
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">JSON - database_utenti.json</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>{
+  "utenti": [
+    {
+      "id": "U001",
+      "nome": "Mario Rossi",
+      "email": "mario.rossi@email.com",
+      "data_iscrizione": "2023-01-15",
+      "prestiti_attivi": [],
+      "storia_prestiti": [
+        {
+          "libro_id": "001",
+          "data_prestito": "2024-01-10",
+          "data_restituzione": "2024-01-25",
+          "rating": 5
+        },
+        {
+          "libro_id": "007",
+          "data_prestito": "2024-02-05",
+          "data_restituzione": "2024-02-20",
+          "rating": 4
+        }
+      ],
+      "generi_preferiti": ["Tecnologia", "Giallo"],
+      "autori_preferiti": ["Umberto Eco", "Luciano Floridi"]
+    },
+    {
+      "id": "U002",
+      "nome": "Laura Bianchi",
+      "email": "laura.bianchi@email.com",
+      "data_iscrizione": "2023-03-22",
+      "prestiti_attivi": [
+        {
+          "libro_id": "004",
+          "data_prestito": "2024-11-01",
+          "data_scadenza": "2024-12-01"
+        }
+      ],
+      "storia_prestiti": [
+        {
+          "libro_id": "002",
+          "data_prestito": "2024-03-10",
+          "data_restituzione": "2024-03-28",
+          "rating": 5
+        },
+        {
+          "libro_id": "009",
+          "data_prestito": "2024-05-15",
+          "data_restituzione": "2024-06-10",
+          "rating": 4
+        }
+      ],
+      "generi_preferiti": ["Narrativa", "Storia"],
+      "autori_preferiti": ["Elena Ferrante", "Primo Levi"]
+    }
+  ],
+  "prestiti": []
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Search Tool -->
+        <div class="content-section" id="search-tool">
+            <h2 class="section-title">
+                <div class="section-icon">🔍</div>
+                Implementazione Tool di Ricerca
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Il primo tool che creiamo è quello per cercare libri. Supporterà ricerche per titolo, 
+                autore, genere e ISBN con fuzzy matching per gestire errori di battitura.
+            </p>
+
+            <div class="step">
+                <div class="step-number">8</div>
+                <h3 style="margin-bottom: 1rem;">Crea il file tools.py</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - tools.py (parte 1)</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>import json
+import os
+from typing import Dict, List, Any, Optional
+from datetime import datetime, timedelta
+from difflib import SequenceMatcher
+import logging
+
+# Configurazione logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Percorsi dei database
+BOOKS_DB_PATH = "database_libri.json"
+USERS_DB_PATH = "database_utenti.json"
+
+def load_database(path: str) -> Dict[str, Any]:
+    """Carica un database JSON."""
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        logger.error(f"Database non trovato: {path}")
+        return {}
+    except json.JSONDecodeError as e:
+        logger.error(f"Errore nel parsing JSON: {e}")
+        return {}
+
+def save_database(path: str, data: Dict[str, Any]) -> bool:
+    """Salva un database JSON."""
+    try:
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        logger.error(f"Errore nel salvare il database: {e}")
+        return False
+
+def fuzzy_match(s1: str, s2: str) -> float:
+    """Calcola la similarità tra due stringhe (0-1)."""
+    return SequenceMatcher(None, s1.lower(), s2.lower()).ratio()
+
+def search_books(
+    query: str,
+    search_type: str = "all",
+    limit: int = 10
+) -> Dict[str, Any]:
+    """
+    Cerca libri nel database.
+    
+    Args:
+        query: Termine di ricerca
+        search_type: Tipo di ricerca (all, title, author, genre, isbn)
+        limit: Numero massimo di risultati
+        
+    Returns:
+        Dict con risultati e metadati
+    """
+    logger.info(f"Ricerca libri: query='{query}', type='{search_type}'")
+    
+    # Validazione input
+    if not query or len(query.strip()) < 2:
+        return {
+            "success": False,
+            "error": "Query troppo corta (minimo 2 caratteri)",
+            "results": []
+        }
+    
+    if search_type not in ["all", "title", "author", "genre", "isbn"]:
+        search_type = "all"
+    
+    # Carica database
+    db = load_database(BOOKS_DB_PATH)
+    if not db or "libri" not in db:
+        return {
+            "success": False,
+            "error": "Database libri non disponibile",
+            "results": []
+        }
+    
+    results = []
+    query_lower = query.lower().strip()
+    
+    for libro in db["libri"]:
+        score = 0
+        match_fields = []
+        
+        # Ricerca per titolo
+        if search_type in ["all", "title"]:
+            title_score = fuzzy_match(query_lower, libro["titolo"])
+            if title_score > 0.6:  # Soglia di similarità
+                score = max(score, title_score)
+                match_fields.append("titolo")
+        
+        # Ricerca per autore
+        if search_type in ["all", "author"]:
+            author_score = fuzzy_match(query_lower, libro["autore"])
+            if author_score > 0.7:
+                score = max(score, author_score * 0.9)  # Peso leggermente inferiore
+                match_fields.append("autore")
+        
+        # Ricerca per genere
+        if search_type in ["all", "genre"]:
+            for genere in libro["genere"]:
+                genre_score = fuzzy_match(query_lower, genere)
+                if genre_score > 0.8:
+                    score = max(score, genre_score * 0.8)
+                    match_fields.append("genere")
+                    break
+        
+        # Ricerca per ISBN (esatta)
+        if search_type in ["all", "isbn"]:
+            if query_lower.replace("-", "") in libro["isbn"].replace("-", ""):
+                score = 1.0
+                match_fields.append("isbn")
+        
+        # Aggiungi ai risultati se il punteggio è sufficiente
+        if score > 0:
+            results.append({
+                "libro": libro,
+                "score": score,
+                "match_fields": match_fields
+            })
+    
+    # Ordina per punteggio decrescente
+    results.sort(key=lambda x: x["score"], reverse=True)
+    
+    # Limita i risultati
+    results = results[:limit]
+    
+    # Formatta i risultati
+    formatted_results = []
+    for r in results:
+        libro = r["libro"]
+        formatted_results.append({
+            "id": libro["id"],
+            "titolo": libro["titolo"],
+            "autore": libro["autore"],
+            "genere": libro["genere"],
+            "disponibile": libro["copie_disponibili"] > 0,
+            "copie_disponibili": libro["copie_disponibili"],
+            "rating": libro["rating_medio"],
+            "match_score": round(r["score"], 2),
+            "match_fields": r["match_fields"]
+        })
+    
+    return {
+        "success": True,
+        "query": query,
+        "search_type": search_type,
+        "results_count": len(formatted_results),
+        "results": formatted_results
+    }
+
+# Definizione del tool per OpenAI
+search_books_tool = {
+    "name": "search_books",
+    "description": "Cerca libri nel catalogo della biblioteca per titolo, autore, genere o ISBN",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+                "description": "Termine di ricerca"
+            },
+            "search_type": {
+                "type": "string",
+                "enum": ["all", "title", "author", "genre", "isbn"],
+                "description": "Tipo di ricerca (default: all)"
+            },
+            "limit": {
+                "type": "integer",
+                "description": "Numero massimo di risultati (default: 10)"
+            }
+        },
+        "required": ["query"]
+    }
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Tool di ricerca creato!</strong> 
+                    <br>Caratteristiche implementate:
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Fuzzy matching per gestire errori di battitura</li>
+                        <li>Ricerca multi-campo (titolo, autore, genere, ISBN)</li>
+                        <li>Scoring intelligente dei risultati</li>
+                        <li>Validazione input robusta</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Availability Tool -->
+        <div class="content-section" id="availability-tool">
+            <h2 class="section-title">
+                <div class="section-icon">✅</div>
+                Tool Controllo Disponibilità
+            </h2>
+
+            <div class="step">
+                <div class="step-number">9</div>
+                <h3 style="margin-bottom: 1rem;">Aggiungi il tool check_availability a tools.py</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - tools.py (parte 2)</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>def check_availability(book_id: str) -> Dict[str, Any]:
+    """
+    Controlla la disponibilità di un libro specifico.
+    
+    Args:
+        book_id: ID del libro
+        
+    Returns:
+        Dict con info disponibilità dettagliate
+    """
+    logger.info(f"Controllo disponibilità libro: {book_id}")
+    
+    # Carica database
+    books_db = load_database(BOOKS_DB_PATH)
+    users_db = load_database(USERS_DB_PATH)
+    
+    if not books_db or "libri" not in books_db:
+        return {
+            "success": False,
+            "error": "Database libri non disponibile"
+        }
+    
+    # Trova il libro
+    libro = None
+    for l in books_db["libri"]:
+        if l["id"] == book_id:
+            libro = l
+            break
+    
+    if not libro:
+        return {
+            "success": False,
+            "error": f"Libro con ID {book_id} non trovato"
+        }
+    
+    # Calcola prestiti attivi
+    prestiti_attivi = 0
+    prossima_disponibilita = None
+    
+    if users_db and "utenti" in users_db:
+        date_scadenze = []
+        
+        for utente in users_db["utenti"]:
+            for prestito in utente.get("prestiti_attivi", []):
+                if prestito["libro_id"] == book_id:
+                    prestiti_attivi += 1
+                    date_scadenze.append(prestito["data_scadenza"])
+        
+        # Trova la data di disponibilità più vicina
+        if date_scadenze:
+            date_scadenze.sort()
+            prossima_disponibilita = date_scadenze[0]
+    
+    # Verifica consistenza dati
+    copie_in_prestito = libro["copie_totali"] - libro["copie_disponibili"]
+    if copie_in_prestito != prestiti_attivi:
+        logger.warning(f"Inconsistenza dati per libro {book_id}: "
+                      f"copie_in_prestito={copie_in_prestito}, "
+                      f"prestiti_attivi={prestiti_attivi}")
+    
+    return {
+        "success": True,
+        "libro": {
+            "id": libro["id"],
+            "titolo": libro["titolo"],
+            "autore": libro["autore"]
+        },
+        "disponibilita": {
+            "disponibile": libro["copie_disponibili"] > 0,
+            "copie_totali": libro["copie_totali"],
+            "copie_disponibili": libro["copie_disponibili"],
+            "copie_in_prestito": copie_in_prestito,
+            "prestiti_attivi": prestiti_attivi
+        },
+        "prossima_disponibilita": prossima_disponibilita,
+        "statistiche": {
+            "prestiti_totali": libro["prestiti_totali"],
+            "rating_medio": libro["rating_medio"]
+        }
+    }
+
+# Definizione del tool
+check_availability_tool = {
+    "name": "check_availability",
+    "description": "Controlla la disponibilità dettagliata di un libro specifico",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "book_id": {
+                "type": "string",
+                "description": "ID del libro da controllare"
+            }
+        },
+        "required": ["book_id"]
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Loan Tool -->
+        <div class="content-section" id="loan-tool">
+            <h2 class="section-title">
+                <div class="section-icon">📅</div>
+                Sistema Gestione Prestiti
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Il sistema di prestiti gestisce check-out e check-in dei libri, con controllo automatico 
+                delle scadenze (30 giorni) e aggiornamento dei database.
+            </p>
+
+            <div class="step">
+                <div class="step-number">10</div>
+                <h3 style="margin-bottom: 1rem;">Implementa process_loan in tools.py</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - tools.py (parte 3)</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>def process_loan(
+    action: str,
+    user_id: str,
+    book_id: str,
+    rating: Optional[int] = None
+) -> Dict[str, Any]:
+    """
+    Processa un prestito (checkout o checkin).
+    
+    Args:
+        action: "checkout" o "checkin"
+        user_id: ID dell'utente
+        book_id: ID del libro
+        rating: Valutazione del libro (solo per checkin, 1-5)
+        
+    Returns:
+        Dict con risultato dell'operazione
+    """
+    logger.info(f"Processo prestito: action={action}, user={user_id}, book={book_id}")
+    
+    # Validazione input
+    if action not in ["checkout", "checkin"]:
+        return {
+            "success": False,
+            "error": "Azione non valida. Usa 'checkout' o 'checkin'"
+        }
+    
+    # Carica database
+    books_db = load_database(BOOKS_DB_PATH)
+    users_db = load_database(USERS_DB_PATH)
+    
+    if not books_db or not users_db:
+        return {
+            "success": False,
+            "error": "Database non disponibili"
+        }
+    
+    # Trova libro e utente
+    libro = None
+    for l in books_db["libri"]:
+        if l["id"] == book_id:
+            libro = l
+            break
+    
+    utente = None
+    utente_idx = None
+    for idx, u in enumerate(users_db["utenti"]):
+        if u["id"] == user_id:
+            utente = u
+            utente_idx = idx
+            break
+    
+    if not libro:
+        return {
+            "success": False,
+            "error": f"Libro {book_id} non trovato"
+        }
+    
+    if not utente:
+        return {
+            "success": False,
+            "error": f"Utente {user_id} non trovato"
+        }
+    
+    if action == "checkout":
+        # Verifica disponibilità
+        if libro["copie_disponibili"] <= 0:
+            return {
+                "success": False,
+                "error": "Nessuna copia disponibile",
+                "prossima_disponibilita": check_availability(book_id).get("prossima_disponibilita")
+            }
+        
+        # Verifica limite prestiti utente (max 5)
+        if len(utente.get("prestiti_attivi", [])) >= 5:
+            return {
+                "success": False,
+                "error": "Limite prestiti raggiunto (max 5 libri)"
+            }
+        
+        # Verifica che l'utente non abbia già questo libro
+        for prestito in utente.get("prestiti_attivi", []):
+            if prestito["libro_id"] == book_id:
+                return {
+                    "success": False,
+                    "error": "Hai già questo libro in prestito"
+                }
+        
+        # Crea nuovo prestito
+        data_prestito = datetime.now().strftime("%Y-%m-%d")
+        data_scadenza = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
+        
+        nuovo_prestito = {
+            "libro_id": book_id,
+            "data_prestito": data_prestito,
+            "data_scadenza": data_scadenza
+        }
+        
+        # Aggiorna database
+        if "prestiti_attivi" not in utente:
+            utente["prestiti_attivi"] = []
+        utente["prestiti_attivi"].append(nuovo_prestito)
+        
+        libro["copie_disponibili"] -= 1
+        libro["prestiti_totali"] += 1
+        
+        # Salva modifiche
+        users_db["utenti"][utente_idx] = utente
+        save_database(USERS_DB_PATH, users_db)
+        save_database(BOOKS_DB_PATH, books_db)
+        
+        return {
+            "success": True,
+            "action": "checkout",
+            "messaggio": f"Prestito effettuato con successo!",
+            "dettagli": {
+                "libro": f"{libro['titolo']} di {libro['autore']}",
+                "data_prestito": data_prestito,
+                "data_scadenza": data_scadenza,
+                "giorni_prestito": 30
+            }
+        }
+    
+    else:  # checkin
+        # Trova il prestito attivo
+        prestito_idx = None
+        prestito_info = None
+        
+        for idx, prestito in enumerate(utente.get("prestiti_attivi", [])):
+            if prestito["libro_id"] == book_id:
+                prestito_idx = idx
+                prestito_info = prestito
+                break
+        
+        if prestito_idx is None:
+            return {
+                "success": False,
+                "error": "Non hai questo libro in prestito"
+            }
+        
+        # Calcola giorni di prestito
+        data_prestito = datetime.strptime(prestito_info["data_prestito"], "%Y-%m-%d")
+        giorni_prestito = (datetime.now() - data_prestito).days
+        
+        # Verifica ritardo
+        data_scadenza = datetime.strptime(prestito_info["data_scadenza"], "%Y-%m-%d")
+        in_ritardo = datetime.now() > data_scadenza
+        giorni_ritardo = max(0, (datetime.now() - data_scadenza).days)
+        
+        # Rimuovi da prestiti attivi
+        utente["prestiti_attivi"].pop(prestito_idx)
+        
+        # Aggiungi a storia prestiti
+        if "storia_prestiti" not in utente:
+            utente["storia_prestiti"] = []
+        
+        storia_entry = {
+            "libro_id": book_id,
+            "data_prestito": prestito_info["data_prestito"],
+            "data_restituzione": datetime.now().strftime("%Y-%m-%d"),
+            "giorni_prestito": giorni_prestito,
+            "in_ritardo": in_ritardo,
+            "giorni_ritardo": giorni_ritardo
+        }
+        
+        # Aggiungi rating se fornito
+        if rating and 1 <= rating <= 5:
+            storia_entry["rating"] = rating
+            
+            # Aggiorna rating medio del libro
+            ratings = []
+            for u in users_db["utenti"]:
+                for p in u.get("storia_prestiti", []):
+                    if p["libro_id"] == book_id and "rating" in p:
+                        ratings.append(p["rating"])
+            
+            if utente["id"] != u["id"]:  # Aggiungi il nuovo rating
+                ratings.append(rating)
+            
+            if ratings:
+                libro["rating_medio"] = round(sum(ratings) / len(ratings), 1)
+        
+        utente["storia_prestiti"].append(storia_entry)
+        
+        # Aggiorna disponibilità libro
+        libro["copie_disponibili"] += 1
+        
+        # Salva modifiche
+        users_db["utenti"][utente_idx] = utente
+        save_database(USERS_DB_PATH, users_db)
+        save_database(BOOKS_DB_PATH, books_db)
+        
+        result = {
+            "success": True,
+            "action": "checkin",
+            "messaggio": "Restituzione completata!",
+            "dettagli": {
+                "libro": f"{libro['titolo']} di {libro['autore']}",
+                "giorni_prestito": giorni_prestito,
+                "in_ritardo": in_ritardo
+            }
+        }
+        
+        if in_ritardo:
+            result["dettagli"]["giorni_ritardo"] = giorni_ritardo
+            result["dettagli"]["penale"] = f"€{giorni_ritardo * 0.50:.2f}"
+        
+        if rating:
+            result["dettagli"]["rating_inserito"] = rating
+            result["dettagli"]["nuovo_rating_medio"] = libro["rating_medio"]
+        
+        return result
+
+# Definizione del tool
+process_loan_tool = {
+    "name": "process_loan",
+    "description": "Gestisce prestiti e restituzioni di libri",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "action": {
+                "type": "string",
+                "enum": ["checkout", "checkin"],
+                "description": "Tipo di operazione: checkout (prestito) o checkin (restituzione)"
+            },
+            "user_id": {
+                "type": "string",
+                "description": "ID dell'utente"
+            },
+            "book_id": {
+                "type": "string",
+                "description": "ID del libro"
+            },
+            "rating": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5,
+                "description": "Valutazione del libro (1-5, solo per checkin)"
+            }
+        },
+        "required": ["action", "user_id", "book_id"]
+    }
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Sistema prestiti implementato!</strong>
+                    <br>Funzionalità incluse:
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Check-out con verifica disponibilità</li>
+                        <li>Limite 5 libri per utente</li>
+                        <li>Scadenza automatica dopo 30 giorni</li>
+                        <li>Check-in con calcolo ritardi e penali</li>
+                        <li>Sistema di rating integrato</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Notification Tool -->
+        <div class="content-section" id="notification-tool">
+            <h2 class="section-title">
+                <div class="section-icon">📨</div>
+                Tool Notifiche Automatiche
+            </h2>
+
+            <div class="step">
+                <div class="step-number">11</div>
+                <h3 style="margin-bottom: 1rem;">Implementa send_notification in tools.py</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - tools.py (parte 4)</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>def send_notification(
+    user_id: str,
+    notification_type: str,
+    custom_message: Optional[str] = None
+) -> Dict[str, Any]:
+    """
+    Invia notifiche agli utenti.
+    
+    Args:
+        user_id: ID utente o "all" per tutti
+        notification_type: Tipo di notifica (reminder, overdue, new_arrival, custom)
+        custom_message: Messaggio personalizzato (per tipo custom)
+        
+    Returns:
+        Dict con risultato invio
+    """
+    logger.info(f"Invio notifica: user={user_id}, type={notification_type}")
+    
+    # Validazione
+    valid_types = ["reminder", "overdue", "new_arrival", "custom"]
+    if notification_type not in valid_types:
+        return {
+            "success": False,
+            "error": f"Tipo non valido. Usa: {', '.join(valid_types)}"
+        }
+    
+    if notification_type == "custom" and not custom_message:
+        return {
+            "success": False,
+            "error": "Messaggio richiesto per notifiche custom"
+        }
+    
+    # Carica database
+    users_db = load_database(USERS_DB_PATH)
+    books_db = load_database(BOOKS_DB_PATH)
+    
+    if not users_db:
+        return {
+            "success": False,
+            "error": "Database utenti non disponibile"
+        }
+    
+    # Determina destinatari
+    destinatari = []
+    if user_id == "all":
+        destinatari = users_db["utenti"]
+    else:
+        for u in users_db["utenti"]:
+            if u["id"] == user_id:
+                destinatari = [u]
+                break
+    
+    if not destinatari:
+        return {
+            "success": False,
+            "error": f"Utente {user_id} non trovato"
+        }
+    
+    # Prepara notifiche
+    notifiche_inviate = []
+    oggi = datetime.now()
+    
+    for utente in destinatari:
+        if notification_type == "reminder":
+            # Promemoria per libri in scadenza (3 giorni)
+            for prestito in utente.get("prestiti_attivi", []):
+                data_scadenza = datetime.strptime(prestito["data_scadenza"], "%Y-%m-%d")
+                giorni_mancanti = (data_scadenza - oggi).days
+                
+                if 0 <= giorni_mancanti <= 3:
+                    # Trova info libro
+                    libro_info = None
+                    for l in books_db["libri"]:
+                        if l["id"] == prestito["libro_id"]:
+                            libro_info = l
+                            break
+                    
+                    if libro_info:
+                        notifica = {
+                            "tipo": "reminder",
+                            "destinatario": utente["email"],
+                            "nome": utente["nome"],
+                            "oggetto": "📚 Promemoria restituzione libro",
+                            "messaggio": f"Ciao {utente['nome']},\n\n"
+                                       f"Ti ricordiamo che il libro '{libro_info['titolo']}' "
+                                       f"di {libro_info['autore']} scade tra {giorni_mancanti} giorni "
+                                       f"({prestito['data_scadenza']}).\n\n"
+                                       f"Ti preghiamo di restituirlo in tempo per evitare penali.\n\n"
+                                       f"Grazie!\nLa Biblioteca AI",
+                            "data_invio": oggi.strftime("%Y-%m-%d %H:%M")
+                        }
+                        notifiche_inviate.append(notifica)
+        
+        elif notification_type == "overdue":
+            # Notifica libri in ritardo
+            for prestito in utente.get("prestiti_attivi", []):
+                data_scadenza = datetime.strptime(prestito["data_scadenza"], "%Y-%m-%d")
+                if oggi > data_scadenza:
+                    giorni_ritardo = (oggi - data_scadenza).days
+                    
+                    # Trova info libro
+                    libro_info = None
+                    for l in books_db["libri"]:
+                        if l["id"] == prestito["libro_id"]:
+                            libro_info = l
+                            break
+                    
+                    if libro_info:
+                        penale = giorni_ritardo * 0.50
+                        notifica = {
+                            "tipo": "overdue",
+                            "destinatario": utente["email"],
+                            "nome": utente["nome"],
+                            "oggetto": "🚨 Libro in ritardo - Azione richiesta",
+                            "messaggio": f"Ciao {utente['nome']},\n\n"
+                                       f"Il libro '{libro_info['titolo']}' di {libro_info['autore']} "
+                                       f"è in ritardo di {giorni_ritardo} giorni.\n\n"
+                                       f"Penale accumulata: €{penale:.2f}\n\n"
+                                       f"Ti preghiamo di restituirlo al più presto.\n\n"
+                                       f"Grazie per la comprensione,\nLa Biblioteca AI",
+                            "data_invio": oggi.strftime("%Y-%m-%d %H:%M"),
+                            "priorita": "alta"
+                        }
+                        notifiche_inviate.append(notifica)
+        
+        elif notification_type == "new_arrival":
+            # Notifica nuovi arrivi basata sui generi preferiti
+            generi_preferiti = utente.get("generi_preferiti", [])
+            if generi_preferiti:
+                # Simula nuovi arrivi (in produzione verrebbero da un feed)
+                notifica = {
+                    "tipo": "new_arrival",
+                    "destinatario": utente["email"],
+                    "nome": utente["nome"],
+                    "oggetto": "📖 Nuovi libri per te!",
+                    "messaggio": f"Ciao {utente['nome']},\n\n"
+                               f"Abbiamo nuovi libri nei tuoi generi preferiti "
+                               f"({', '.join(generi_preferiti)})!\n\n"
+                               f"Vieni a scoprirli in biblioteca o cerca nel nostro catalogo.\n\n"
+                               f"Buona lettura!\nLa Biblioteca AI",
+                    "data_invio": oggi.strftime("%Y-%m-%d %H:%M")
+                }
+                notifiche_inviate.append(notifica)
+        
+        elif notification_type == "custom":
+            # Notifica personalizzata
+            notifica = {
+                "tipo": "custom",
+                "destinatario": utente["email"],
+                "nome": utente["nome"],
+                "oggetto": "📢 Comunicazione dalla Biblioteca",
+                "messaggio": custom_message.replace("{nome}", utente["nome"]),
+                "data_invio": oggi.strftime("%Y-%m-%d %H:%M")
+            }
+            notifiche_inviate.append(notifica)
+    
+    # Log notifiche (in produzione invieresti via email/SMS)
+    for notifica in notifiche_inviate:
+        logger.info(f"Notifica inviata a {notifica['destinatario']}: {notifica['oggetto']}")
+    
+    return {
+        "success": True,
+        "notification_type": notification_type,
+        "destinatari": len(set(n["destinatario"] for n in notifiche_inviate)),
+        "notifiche_inviate": len(notifiche_inviate),
+        "dettagli": notifiche_inviate[:5]  # Prime 5 per brevità
+    }
+
+# Definizione del tool
+send_notification_tool = {
+    "name": "send_notification",
+    "description": "Invia notifiche agli utenti (promemoria, ritardi, nuovi arrivi)",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "user_id": {
+                "type": "string",
+                "description": "ID utente o 'all' per tutti gli utenti"
+            },
+            "notification_type": {
+                "type": "string",
+                "enum": ["reminder", "overdue", "new_arrival", "custom"],
+                "description": "Tipo di notifica da inviare"
+            },
+            "custom_message": {
+                "type": "string",
+                "description": "Messaggio personalizzato (solo per tipo 'custom')"
+            }
+        },
+        "required": ["user_id", "notification_type"]
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Recommendation System -->
+        <div class="content-section" id="recommendation">
+            <h2 class="section-title">
+                <div class="section-icon">🎯</div>
+                Sistema Raccomandazioni AI
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Il sistema di raccomandazioni analizza la storia dell'utente e suggerisce libri basandosi su 
+                generi preferiti, autori letti e rating dati. È implementato come un agente separato!
+            </p>
+
+            <div class="step">
+                <div class="step-number">12</div>
+                <h3 style="margin-bottom: 1rem;">Crea recommendation_agent.py</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - recommendation_agent.py</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>from typing import Dict, List, Any, Tuple
+from collections import Counter
+from tools import load_database, BOOKS_DB_PATH, USERS_DB_PATH
+import logging
+
+logger = logging.getLogger(__name__)
+
+class RecommendationAgent:
+    """Agente specializzato in raccomandazioni personalizzate."""
+    
+    def __init__(self):
+        self.name = "Sistema Raccomandazioni Biblioteca"
+        self.description = "Analizzo i tuoi gusti e suggerisco libri perfetti per te"
+    
+    def analyze_user_preferences(self, user_id: str) -> Dict[str, Any]:
+        """Analizza le preferenze di un utente basandosi sulla sua storia."""
+        users_db = load_database(USERS_DB_PATH)
+        books_db = load_database(BOOKS_DB_PATH)
+        
+        # Trova utente
+        utente = None
+        for u in users_db["utenti"]:
+            if u["id"] == user_id:
+                utente = u
+                break
+        
+        if not utente:
+            return {"error": "Utente non trovato"}
+        
+        # Analizza storia prestiti
+        generi_letti = []
+        autori_letti = []
+        ratings = []
+        libri_letti_ids = set()
+        
+        for prestito in utente.get("storia_prestiti", []):
+            libro_id = prestito["libro_id"]
+            libri_letti_ids.add(libro_id)
+            
+            # Trova info libro
+            for libro in books_db["libri"]:
+                if libro["id"] == libro_id:
+                    generi_letti.extend(libro["genere"])
+                    autori_letti.append(libro["autore"])
+                    if "rating" in prestito:
+                        ratings.append({
+                            "generi": libro["genere"],
+                            "rating": prestito["rating"]
+                        })
+                    break
+        
+        # Aggiungi libri in prestito attuale
+        for prestito in utente.get("prestiti_attivi", []):
+            libri_letti_ids.add(prestito["libro_id"])
+        
+        # Calcola preferenze
+        generi_counter = Counter(generi_letti)
+        autori_counter = Counter(autori_letti)
+        
+        # Calcola generi preferiti pesati per rating
+        generi_pesati = Counter()
+        for r in ratings:
+            peso = r["rating"] / 3.0  # Normalizza su scala 0-1.67
+            for genere in r["generi"]:
+                generi_pesati[genere] += peso
+        
+        return {
+            "user_id": user_id,
+            "nome": utente["nome"],
+            "libri_letti": len(libri_letti_ids),
+            "libri_letti_ids": list(libri_letti_ids),
+            "generi_preferiti_dichiarati": utente.get("generi_preferiti", []),
+            "autori_preferiti_dichiarati": utente.get("autori_preferiti", []),
+            "generi_piu_letti": dict(generi_counter.most_common(5)),
+            "autori_piu_letti": dict(autori_counter.most_common(5)),
+            "generi_pesati_rating": dict(generi_pesati.most_common(5)),
+            "rating_medio": sum(r["rating"] for r in ratings) / len(ratings) if ratings else 0
+        }
+    
+    def calculate_book_score(
+        self, 
+        libro: Dict[str, Any], 
+        preferenze: Dict[str, Any]
+    ) -> Tuple[float, List[str]]:
+        """Calcola un punteggio di raccomandazione per un libro."""
+        score = 0
+        motivazioni = []
+        
+        # Già letto? Skip
+        if libro["id"] in preferenze["libri_letti_ids"]:
+            return 0, ["Già letto"]
+        
+        # Non disponibile? Penalizza ma non escludere
+        if libro["copie_disponibili"] == 0:
+            score -= 2
+            motivazioni.append("Attualmente non disponibile (-2)")
+        
+        # Generi preferiti dichiarati (peso alto)
+        for genere in libro["genere"]:
+            if genere in preferenze["generi_preferiti_dichiarati"]:
+                score += 5
+                motivazioni.append(f"Genere preferito: {genere} (+5)")
+        
+        # Generi più letti (peso medio)
+        generi_letti = preferenze["generi_piu_letti"]
+        for genere in libro["genere"]:
+            if genere in generi_letti:
+                punti = min(3, generi_letti[genere] * 0.5)
+                score += punti
+                motivazioni.append(f"Genere familiare: {genere} (+{punti:.1f})")
+        
+        # Autori preferiti dichiarati (peso molto alto)
+        if libro["autore"] in preferenze["autori_preferiti_dichiarati"]:
+            score += 8
+            motivazioni.append(f"Autore preferito: {libro['autore']} (+8)")
+        
+        # Autori già letti (peso medio)
+        autori_letti = preferenze["autori_piu_letti"]
+        if libro["autore"] in autori_letti:
+            punti = min(4, autori_letti[libro["autore"]] * 1.5)
+            score += punti
+            motivazioni.append(f"Autore conosciuto: {libro['autore']} (+{punti:.1f})")
+        
+        # Rating del libro (peso basso)
+        if libro["rating_medio"] >= 4.5:
+            score += 2
+            motivazioni.append(f"Altamente valutato ({libro['rating_medio']}/5) (+2)")
+        elif libro["rating_medio"] >= 4.0:
+            score += 1
+            motivazioni.append(f"Ben valutato ({libro['rating_medio']}/5) (+1)")
+        
+        # Popolarità (prestiti totali)
+        if libro["prestiti_totali"] > 300:
+            score += 1.5
+            motivazioni.append("Molto popolare (+1.5)")
+        elif libro["prestiti_totali"] > 150:
+            score += 0.5
+            motivazioni.append("Popolare (+0.5)")
+        
+        # Bonus per varietà (generi non ancora esplorati)
+        generi_nuovi = set(libro["genere"]) - set(preferenze["generi_piu_letti"].keys())
+        if generi_nuovi and preferenze["libri_letti"] > 5:
+            score += 1
+            motivazioni.append(f"Esplora nuovi generi: {', '.join(generi_nuovi)} (+1)")
+        
+        return score, motivazioni
+    
+    def get_recommendations(
+        self, 
+        user_id: str, 
+        limit: int = 5,
+        include_unavailable: bool = False
+    ) -> Dict[str, Any]:
+        """Genera raccomandazioni personalizzate per un utente."""
+        logger.info(f"Generazione raccomandazioni per utente {user_id}")
+        
+        # Analizza preferenze
+        preferenze = self.analyze_user_preferences(user_id)
+        if "error" in preferenze:
+            return {
+                "success": False,
+                "error": preferenze["error"]
+            }
+        
+        # Carica tutti i libri
+        books_db = load_database(BOOKS_DB_PATH)
+        if not books_db:
+            return {
+                "success": False,
+                "error": "Database libri non disponibile"
+            }
+        
+        # Calcola score per ogni libro
+        raccomandazioni = []
+        for libro in books_db["libri"]:
+            score, motivazioni = self.calculate_book_score(libro, preferenze)
+            
+            if score > 0:  # Solo libri con score positivo
+                raccomandazioni.append({
+                    "libro": {
+                        "id": libro["id"],
+                        "titolo": libro["titolo"],
+                        "autore": libro["autore"],
+                        "genere": libro["genere"],
+                        "disponibile": libro["copie_disponibili"] > 0,
+                        "rating": libro["rating_medio"]
+                    },
+                    "score": score,
+                    "motivazioni": motivazioni
+                })
+        
+        # Ordina per score decrescente
+        raccomandazioni.sort(key=lambda x: x["score"], reverse=True)
+        
+        # Filtra non disponibili se richiesto
+        if not include_unavailable:
+            raccomandazioni = [r for r in raccomandazioni if r["libro"]["disponibile"]]
+        
+        # Limita risultati
+        raccomandazioni = raccomandazioni[:limit]
+        
+        return {
+            "success": True,
+            "user_id": user_id,
+            "nome_utente": preferenze["nome"],
+            "analisi": {
+                "libri_letti": preferenze["libri_letti"],
+                "generi_preferiti": list(preferenze["generi_pesati_rating"].keys())[:3],
+                "autore_preferito": list(preferenze["autori_piu_letti"].keys())[0] 
+                                   if preferenze["autori_piu_letti"] else "N/A"
+            },
+            "raccomandazioni": raccomandazioni,
+            "totale_suggerimenti": len(raccomandazioni)
+        }
+
+# Crea istanza globale
+recommendation_agent = RecommendationAgent()
+
+# Funzione wrapper per integrazione con tools
+def get_recommendations(
+    user_id: str,
+    limit: int = 5,
+    include_unavailable: bool = False
+) -> Dict[str, Any]:
+    """Wrapper per l'agente di raccomandazione."""
+    return recommendation_agent.get_recommendations(user_id, limit, include_unavailable)
+
+# Definizione del tool per OpenAI
+recommendation_tool = {
+    "name": "get_recommendations",
+    "description": "Ottieni raccomandazioni di libri personalizzate basate sulla storia dell'utente",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "user_id": {
+                "type": "string",
+                "description": "ID dell'utente per cui generare raccomandazioni"
+            },
+            "limit": {
+                "type": "integer",
+                "description": "Numero massimo di raccomandazioni (default: 5)"
+            },
+            "include_unavailable": {
+                "type": "boolean",
+                "description": "Includere anche libri non disponibili (default: false)"
+            }
+        },
+        "required": ["user_id"]
+    }
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Sistema di raccomandazioni creato!</strong>
+                    <br>L'algoritmo considera:
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Generi e autori preferiti (dichiarati e dedotti)</li>
+                        <li>Rating dati dall'utente ai libri</li>
+                        <li>Popolarità dei libri (prestiti totali)</li>
+                        <li>Varietà (suggerisce nuovi generi)</li>
+                        <li>Disponibilità attuale</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 10: Main Agent -->
+        <div class="content-section" id="main-agent">
+            <h2 class="section-title">
+                <div class="section-icon">🧠</div>
+                Agente Principale Orchestratore
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                L'agente principale orchestra tutti i tool e gestisce le conversazioni con gli utenti. 
+                È il cervello del nostro sistema biblioteca!
+            </p>
+
+            <div class="step">
+                <div class="step-number">13</div>
+                <h3 style="margin-bottom: 1rem;">Crea biblioteca_agent.py</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - biblioteca_agent.py</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code>import os
+from dotenv import load_dotenv
+from openai import OpenAI
+import json
+from typing import List, Dict, Any
+from tools import (
+    search_books, search_books_tool,
+    check_availability, check_availability_tool,
+    process_loan, process_loan_tool,
+    send_notification, send_notification_tool
+)
+from recommendation_agent import get_recommendations, recommendation_tool
+
+# Carica variabili d'ambiente
+load_dotenv()
+
+# Inizializza client OpenAI
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Configurazione dell'agente
+AGENT_NAME = "BiblioBot"
+AGENT_MODEL = "gpt-3.5-turbo"  # Puoi usare gpt-4 per migliori risultati
+
+# Istruzioni per l'agente
+AGENT_INSTRUCTIONS = """
+# Ruolo e Identità
+Sei BiblioBot, l'assistente AI della Biblioteca Digitale. Il tuo compito è aiutare 
+gli utenti a trovare libri, gestire prestiti e ricevere raccomandazioni personalizzate.
+
+# Personalità
+- Amichevole e professionale
+- Appassionato di libri e lettura
+- Proattivo nel suggerire libri
+- Paziente con gli utenti
+
+# Capacità e Tools
+Hai accesso ai seguenti strumenti:
+
+1. **search_books**: Cerca libri per titolo, autore, genere o ISBN
+2. **check_availability**: Verifica disponibilità dettagliata di un libro
+3. **process_loan**: Gestisce prestiti (checkout) e restituzioni (checkin)
+4. **send_notification**: Invia notifiche agli utenti
+5. **get_recommendations**: Genera raccomandazioni personalizzate
+
+# Linee Guida Operative
+
+## Per le ricerche:
+- Usa sempre search_books quando l'utente cerca libri
+- Se ci sono molti risultati, mostra i primi 5 più rilevanti
+- Indica sempre la disponibilità di ogni libro
+
+## Per i prestiti:
+- Verifica SEMPRE la disponibilità prima di un prestito
+- Ricorda all'utente la scadenza (30 giorni)
+- Per le restituzioni, chiedi se vuole lasciare una valutazione
+
+## Per le raccomandazioni:
+- Usa get_recommendations per suggerimenti personalizzati
+- Spiega perché stai raccomandando ogni libro
+- Offri di cercare alternative se non sono soddisfatti
+
+## Best Practices:
+- Fornisci sempre informazioni complete ma concise
+- Usa emoji per rendere la conversazione più amichevole 📚
+- Se un libro non è disponibile, suggerisci alternative
+- Ricorda agli utenti le funzionalità disponibili
+
+# Informazioni di Sistema
+- I prestiti durano 30 giorni
+- Massimo 5 libri per utente contemporaneamente
+- Penale ritardo: €0.50 al giorno
+- Gli utenti possono valutare i libri da 1 a 5 stelle
+
+# Esempi di Interazione
+
+Utente: "Cerco un libro di Umberto Eco"
+Tu: Cerca → Mostra risultati → Indica disponibilità → Offri prestito
+
+Utente: "Vorrei prendere in prestito il libro con ID 001"
+Tu: Verifica disponibilità → Processa prestito → Conferma con data scadenza
+
+Utente: "Cosa mi consigli di leggere?"
+Tu: Chiedi ID utente → Genera raccomandazioni → Spiega motivazioni
+"""
+
+# Mappa dei tool disponibili
+AVAILABLE_TOOLS = {
+    "search_books": search_books,
+    "check_availability": check_availability,
+    "process_loan": process_loan,
+    "send_notification": send_notification,
+    "get_recommendations": get_recommendations
+}
+
+# Definizioni dei tool per OpenAI
+TOOL_DEFINITIONS = [
+    search_books_tool,
+    check_availability_tool,
+    process_loan_tool,
+    send_notification_tool,
+    recommendation_tool
+]
+
+class BibliotecaAgent:
+    """Agente principale per la gestione della biblioteca."""
+    
+    def __init__(self):
+        self.client = client
+        self.model = AGENT_MODEL
+        self.name = AGENT_NAME
+        self.instructions = AGENT_INSTRUCTIONS
+        self.tools = AVAILABLE_TOOLS
+        self.tool_definitions = TOOL_DEFINITIONS
+        self.conversation_history = []
+    
+    def process_tool_calls(self, tool_calls) -> List[Dict[str, Any]]:
+        """Processa le chiamate ai tool richieste dal modello."""
+        results = []
+        
+        for tool_call in tool_calls:
+            function_name = tool_call.function.name
+            function_args = json.loads(tool_call.function.arguments)
+            
+            print(f"\n🔧 Esecuzione tool: {function_name}")
+            print(f"   Parametri: {function_args}")
+            
+            if function_name in self.tools:
+                try:
+                    # Esegui il tool
+                    result = self.tools[function_name](**function_args)
+                    print(f"   ✅ Risultato: Successo")
+                    
+                    results.append({
+                        "tool_call_id": tool_call.id,
+                        "output": json.dumps(result, ensure_ascii=False)
+                    })
+                except Exception as e:
+                    print(f"   ❌ Errore: {str(e)}")
+                    results.append({
+                        "tool_call_id": tool_call.id,
+                        "output": json.dumps({
+                            "success": False,
+                            "error": str(e)
+                        })
+                    })
+            else:
+                results.append({
+                    "tool_call_id": tool_call.id,
+                    "output": json.dumps({
+                        "success": False,
+                        "error": f"Tool {function_name} non trovato"
+                    })
+                })
+        
+        return results
+    
+    def chat(self, user_message: str) -> str:
+        """Gestisce una conversazione con l'utente."""
+        print(f"\n👤 Utente: {user_message}")
+        
+        # Aggiungi messaggio utente alla storia
+        self.conversation_history.append({
+            "role": "user",
+            "content": user_message
+        })
+        
+        # Prepara messaggi per l'API
+        messages = [
+            {"role": "system", "content": self.instructions}
+        ] + self.conversation_history
+        
+        # Prima chiamata all'API
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=messages,
+            tools=self.tool_definitions,
+            tool_choice="auto"
+        )
+        
+        assistant_message = response.choices[0].message
+        
+        # Se il modello vuole usare dei tool
+        if assistant_message.tool_calls:
+            # Aggiungi la risposta dell'assistente con tool calls
+            self.conversation_history.append({
+                "role": "assistant",
+                "content": assistant_message.content or "",
+                "tool_calls": assistant_message.tool_calls
+            })
+            
+            # Esegui i tool
+            tool_results = self.process_tool_calls(assistant_message.tool_calls)
+            
+            # Aggiungi i risultati dei tool
+            for result in tool_results:
+                self.conversation_history.append({
+                    "role": "tool",
+                    "tool_call_id": result["tool_call_id"],
+                    "content": result["output"]
+                })
+            
+            # Seconda chiamata per ottenere la risposta finale
+            messages = [
+                {"role": "system", "content": self.instructions}
+            ] + self.conversation_history
+            
+            final_response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages
+            )
+            
+            final_message = final_response.choices[0].message.content
+            
+            # Aggiungi risposta finale alla storia
+            self.conversation_history.append({
+                "role": "assistant",
+                "content": final_message
+            })
+            
+            print(f"\n🤖 {self.name}: {final_message}")
+            return final_message
+        
+        else:
+            # Risposta diretta senza tool
+            self.conversation_history.append({
+                "role": "assistant",
+                "content": assistant_message.content
+            })
+            
+            print(f"\n🤖 {self.name}: {assistant_message.content}")
+            return assistant_message.content
+    
+    def reset_conversation(self):
+        """Resetta la conversazione."""
+        self.conversation_history = []
+        print("🔄 Conversazione resettata")
+
+# Funzione principale per testare l'agente
+def main():
+    print(f"📚 Benvenuto nella Biblioteca AI!")
+    print(f"🤖 Sono {AGENT_NAME}, il tuo assistente bibliotecario")
+    print("=" * 60)
+    
+    # Crea istanza dell'agente
+    agent = BibliotecaAgent()
+    
+    # Esempi di test automatici
+    test_queries = [
+        "Ciao! Cosa puoi fare?",
+        "Cerco libri di fantascienza",
+        "Il libro 1984 è disponibile?",
+        "Sono l'utente U001, cosa mi consigli di leggere?",
+        "Vorrei prendere in prestito il libro con ID 003"
+    ]
+    
+    print("\n📝 Eseguiamo alcuni test automatici...\n")
+    
+    # Esegui solo il primo test
+    agent.chat(test_queries[0])
+    
+    # Modalità interattiva
+    print("\n" + "=" * 60)
+    print("💬 Ora puoi chattare liberamente!")
+    print("   Comandi speciali:")
+    print("   - 'reset' per ricominciare la conversazione")
+    print("   - 'exit' per uscire")
+    print("=" * 60)
+    
+    while True:
+        try:
+            user_input = input("\n👤 Tu: ").strip()
+            
+            if user_input.lower() == 'exit':
+                print("\n👋 Arrivederci! Buona lettura!")
+                break
+            elif user_input.lower() == 'reset':
+                agent.reset_conversation()
+                continue
+            elif user_input:
+                agent.chat(user_input)
+        
+        except KeyboardInterrupt:
+            print("\n\n👋 Arrivederci! Buona lettura!")
+            break
+        except Exception as e:
+            print(f"\n❌ Errore: {str(e)}")
+            print("Riprova con un'altra domanda!")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 L'agente principale:</strong>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Gestisce la conversazione con linguaggio naturale</li>
+                        <li>Decide quali tool usare in base al contesto</li>
+                        <li>Mantiene la storia della conversazione</li>
+                        <li>Concatena tool quando necessario</li>
+                        <li>Fornisce risposte personalizzate e amichevoli</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 11: Testing -->
+        <div class="content-section" id="testing">
+            <h2 class="section-title">
+                <div class="section-icon">🧪</div>
+                Test Completo del Sistema
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Testiamo il nostro sistema biblioteca con vari scenari per verificare che tutto funzioni correttamente.
+            </p>
+
+            <div class="step">
+                <div class="step-number">14</div>
+                <h3 style="margin-bottom: 1rem;">Esegui il sistema completo</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Terminal - Avvia il sistema</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                    </div>
+                    <pre><code># Assicurati di essere nella cartella del progetto con ambiente attivo
+python biblioteca_agent.py</code></pre>
+                </div>
+
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Esempio di Conversazione Test:</h4>
+                
+                <div class="test-output">
+📚 Benvenuto nella Biblioteca AI!
+🤖 Sono BiblioBot, il tuo assistente bibliotecario
+============================================================
+
+📝 Eseguiamo alcuni test automatici...
+
+👤 Utente: Ciao! Cosa puoi fare?
+
+🤖 BiblioBot: Ciao! 📚 Sono BiblioBot, il tuo assistente bibliotecario digitale! 
+
+Ecco cosa posso fare per te:
+
+🔍 **Ricerca Libri**: Posso cercare libri per titolo, autore, genere o ISBN. 
+   Basta dirmi cosa stai cercando!
+
+📊 **Verifica Disponibilità**: Controllo in tempo reale se un libro è disponibile 
+   per il prestito e quante copie abbiamo.
+
+📅 **Gestione Prestiti**: 
+   - Posso processare il prestito di un libro (checkout)
+   - Gestire le restituzioni (checkin) con possibilità di valutazione
+   - Ricordarti che i prestiti durano 30 giorni
+
+🎯 **Raccomandazioni Personalizzate**: Se mi dici il tuo ID utente, posso suggerirti 
+   libri basati sui tuoi gusti e sulla tua storia di lettura.
+
+📨 **Notifiche**: Posso inviarti promemoria per libri in scadenza o avvisi per 
+   nuovi arrivi nei tuoi generi preferiti.
+
+Come posso aiutarti oggi? Vuoi cercare un libro specifico o preferisci 
+delle raccomandazioni personalizzate? 😊
+
+============================================================
+💬 Ora puoi chattare liberamente!
+   Comandi speciali:
+   - 'reset' per ricominciare la conversazione
+   - 'exit' per uscire
+============================================================
+
+👤 Tu: Cerco libri sull'intelligenza artificiale
+
+🔧 Esecuzione tool: search_books
+   Parametri: {'query': 'intelligenza artificiale', 'search_type': 'all'}
+   ✅ Risultato: Successo
+
+🤖 BiblioBot: Ho trovato un libro sull'intelligenza artificiale nel nostro catalogo! 📖
+
+**"L'intelligenza artificiale"** di Luciano Floridi
+- 📗 Generi: Tecnologia, Filosofia, Saggistica
+- ⭐ Valutazione: 4.1/5
+- ✅ **Disponibile** (2 copie su 2)
+- 📄 180 pagine, Editore: Il Mulino
+
+Questo libro del 2022 è una guida filosofica all'AI e al suo impatto sulla società. 
+È perfetto per chi vuole comprendere non solo gli aspetti tecnici, ma anche 
+le implicazioni etiche e sociali dell'intelligenza artificiale.
+
+Vuoi:
+1. Prendere in prestito questo libro? (Ti servirà il tuo ID utente)
+2. Cercare altri libri su argomenti correlati?
+3. Vedere libri di informatica o data science?
+
+Fammi sapere come posso aiutarti! 😊</div>
+
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Test Case da Provare:</h4>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;">🔍 Test Ricerca</h4>
+                        <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
+                            <li>"Cerco libri di Umberto Eco"</li>
+                            <li>"Hai libri di fantascienza?"</li>
+                            <li>"Cerca ISBN 978-88-17-05364-1"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4 style="color: var(--success); margin-bottom: 0.5rem;">📅 Test Prestiti</h4>
+                        <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
+                            <li>"Voglio prendere in prestito il libro 001"</li>
+                            <li>"Sono U001, voglio restituire il libro 004"</li>
+                            <li>"Controlla disponibilità di 1984"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">🎯 Test Raccomandazioni</h4>
+                        <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
+                            <li>"Sono U001, cosa mi consigli?"</li>
+                            <li>"Suggeriscimi libri per U002"</li>
+                            <li>"Raccomandazioni con libri non disponibili"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4 style="color: var(--warning); margin-bottom: 0.5rem;">📨 Test Notifiche</h4>
+                        <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
+                            <li>"Invia promemoria a U002"</li>
+                            <li>"Controlla libri in ritardo"</li>
+                            <li>"Notifica nuovi arrivi a tutti"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 12: Troubleshooting -->
+        <div class="content-section" id="troubleshooting">
+            <h2 class="section-title">
+                <div class="section-icon">🔧</div>
+                Risoluzione Problemi Comuni
+            </h2>
+
+            <div class="alert alert-error">
+                <h3 style="margin-bottom: 1rem;">❌ "ModuleNotFoundError: No module named 'openai'"</h3>
+                <strong>Soluzione:</strong>
+                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Verifica che l'ambiente virtuale sia attivo</li>
+                    <li>Reinstalla: <code>pip install openai python-dotenv</code></li>
+                    <li>Se usi Python 3: prova <code>pip3 install openai</code></li>
+                </ol>
+            </div>
+
+            <div class="alert alert-error">
+                <h3 style="margin-bottom: 1rem;">❌ "Invalid API Key"</h3>
+                <strong>Soluzione:</strong>
+                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Verifica il file <code>.env</code> nella cartella giusta</li>
+                    <li>Controlla che la key inizi con <code>sk-proj-</code></li>
+                    <li>Non ci devono essere spazi o virgolette extra</li>
+                    <li>Ricarica l'ambiente: riavvia il terminale</li>
+                </ol>
+            </div>
+
+            <div class="alert alert-error">
+                <h3 style="margin-bottom: 1rem;">❌ "FileNotFoundError: database_libri.json"</h3>
+                <strong>Soluzione:</strong>
+                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Assicurati di aver creato tutti i file JSON</li>
+                    <li>Verifica che siano nella stessa cartella di <code>tools.py</code></li>
+                    <li>Controlla i nomi dei file (maiuscole/minuscole)</li>
+                </ol>
+            </div>
+
+            <div class="alert alert-warning">
+                <h3 style="margin-bottom: 1rem;">⚠️ L'agente non capisce le richieste</h3>
+                <strong>Suggerimenti:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Sii più specifico nelle richieste</li>
+                    <li>Usa parole chiave come "cerca", "prestito", "restituisci"</li>
+                    <li>Fornisci l'ID utente quando richiesto</li>
+                    <li>Prova a riformulare la domanda</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-info">
+                <h3 style="margin-bottom: 1rem;">💡 Migliorare le Performance</h3>
+                <strong>Consigli:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Usa GPT-4 invece di GPT-3.5 per risultati migliori</li>
+                    <li>Aggiungi più esempi nelle istruzioni</li>
+                    <li>Implementa caching per ridurre chiamate API</li>
+                    <li>Usa temperature più bassa (0.7) per risposte consistenti</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 13: Extensions -->
+        <div class="content-section" id="espansioni">
+            <h2 class="section-title">
+                <div class="section-icon">🚀</div>
+                Idee per Espandere il Sistema
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Il sistema base è completo e funzionante! Ecco alcune idee per espanderlo e renderlo ancora più potente:
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">📱 Interfaccia Web</h3>
+                    <p>Crea una UI con Flask/FastAPI:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem;">
+                        <li>Dashboard utente personale</li>
+                        <li>Catalogo visuale dei libri</li>
+                        <li>Chat widget integrato</li>
+                        <li>Grafici statistiche prestiti</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--success); margin-bottom: 1rem;">🗄️ Database Reale</h3>
+                    <p>Migra a PostgreSQL/MongoDB:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem;">
+                        <li>Gestione concorrente utenti</li>
+                        <li>Backup automatici</li>
+                        <li>Query più efficienti</li>
+                        <li>Scalabilità migliorata</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--secondary); margin-bottom: 1rem;">🎯 AI Avanzata</h3>
+                    <p>Potenzia le raccomandazioni:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem;">
+                        <li>Collaborative filtering</li>
+                        <li>Analisi sentiment recensioni</li>
+                        <li>Clustering utenti simili</li>
+                        <li>Previsioni trend lettura</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--warning); margin-bottom: 1rem;">🔗 Integrazioni</h3>
+                    <p>Connetti servizi esterni:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem;">
+                        <li>Goodreads API per recensioni</li>
+                        <li>Google Books per copertine</li>
+                        <li>Email/SMS reali per notifiche</li>
+                        <li>Calendario per promemoria</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">📊 Analytics</h3>
+                    <p>Dashboard amministratore:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem;">
+                        <li>Libri più popolari</li>
+                        <li>Trend per genere</li>
+                        <li>Analisi ritardi</li>
+                        <li>Metriche engagement</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3 style="color: var(--error); margin-bottom: 1rem;">🎮 Gamification</h3>
+                    <p>Rendi la lettura divertente:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem;">
+                        <li>Badge per obiettivi lettura</li>
+                        <li>Sfide mensili</li>
+                        <li>Classifiche lettori</li>
+                        <li>Punti fedeltà</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-success" style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">🎉 Congratulazioni!</h3>
+                <p>
+                    Hai costruito un sistema di gestione biblioteca AI completo e funzionante! 
+                    Questo progetto dimostra:
+                </p>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>✅ Implementazione di tool concatenati complessi</li>
+                    <li>✅ Gestione stato con persistenza dati</li>
+                    <li>✅ Algoritmi di raccomandazione personalizzati</li>
+                    <li>✅ Orchestrazione multi-agente (recommendation agent)</li>
+                    <li>✅ Best practices per sistemi AI in produzione</li>
+                </ul>
+                <p style="margin-top: 1rem;">
+                    <strong>Prossimi passi:</strong> Scegli una delle espansioni sopra e continua a migliorare il sistema!
+                </p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="guide-nav">
+            <a href="../lezioni/agenti-openai/lezione-3.html" class="nav-btn">
+                ← Torna alla Lezione 3
+            </a>
+            <a href="../guide.html" class="nav-btn">
+                📚 Altre Guide
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Copy code function
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+            const text = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                button.innerText = '✅ Copiato!';
+                button.style.background = 'rgba(16, 185, 129, 0.2)';
+                button.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                button.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Animate floating books
+        document.querySelectorAll('.floating-book').forEach((book, index) => {
+            book.style.animationDelay = `${index * 5}s`;
+        });
+    </script>
+</body>
+</html>
