@@ -441,10 +441,91 @@
             transform: translateY(-3px);
         }
 
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            padding: 10px;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            transition: left 0.3s ease;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .mobile-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
+            }
+
+            .hamburger-menu {
+                display: flex;
             }
             
             .hero h1 {
@@ -481,8 +562,23 @@
                 <li><a href="#risorse">Risorse</a></li>
                 <li><a href="#contatti">Contatti</a></li>
             </ul>
+            <div class="hamburger-menu" onclick="toggleMobileMenu()">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </div>
         </nav>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()">×</button>
+        <a href="#home" onclick="toggleMobileMenu()">Home</a>
+        <a href="lezioni.html" onclick="toggleMobileMenu()">Lezioni</a>
+        <a href="guide.html" onclick="toggleMobileMenu()">Guide</a>
+        <a href="#risorse" onclick="toggleMobileMenu()">Risorse</a>
+        <a href="#contatti" onclick="toggleMobileMenu()">Contatti</a>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -695,6 +791,22 @@
                 sendMessage();
             }
         });
+
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            
+            mobileMenu.classList.toggle('active');
+            hamburgerMenu.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
     </script>
 </body>
 </html>
