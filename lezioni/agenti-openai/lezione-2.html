@@ -5,191 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lezione 2: Fondamenti del Design - AI Learning Hub</title>
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0a0e27;
+            color: #e2e8f0;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Header */
-        header {
-            padding: 1.5rem 0;
-            backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.9);
-            position: fixed;
-            width: 100%;
+        .lesson-header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 1rem 2rem;
+            position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
 
-        nav {
+        .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
+        .back-button {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #cbd5e1;
+            color: #94a3b8;
             text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .back-home {
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
             transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
         }
 
-        .back-home:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
+        .back-button:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .lesson-info h1 {
+            font-size: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
 
         /* Main Content */
         main {
-            margin-top: 80px;
+            max-width: 1000px;
+            margin: 0 auto;
             padding: 2rem;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Lesson Header */
-        .lesson-header {
-            text-align: center;
-            padding: 3rem 0;
             position: relative;
         }
 
-        .lesson-meta {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: var(--primary);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-        }
-
-        .lesson-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .lesson-subtitle {
-            font-size: 1.3rem;
-            color: #94a3b8;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Progress Indicator */
+        /* Progress Bar */
         .progress-container {
-            margin: 3rem 0;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 50px;
+            padding: 0.25rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .progress-bar {
             height: 8px;
-            background: rgba(148, 163, 184, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
+            background: var(--gradient);
+            border-radius: 50px;
+            width: 33%;
+            transition: width 1s ease;
+            position: relative;
         }
 
-        .progress-fill {
+        .progress-glow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
             height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.8), transparent);
+            animation: glow-slide 2s infinite;
+        }
+
+        @keyframes glow-slide {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100px); }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 1rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .lesson-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .lesson-hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
             background: var(--gradient);
-            width: 33.33%;
-            transition: width 0.5s ease;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lesson-hero p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         /* Content Sections */
         .content-section {
-            margin: 3rem 0;
-            background: rgba(30, 41, 59, 0.2);
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .content-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient);
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .section-title {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -207,238 +179,415 @@
         }
 
         /* Component Cards */
-        .components-grid {
+        .component-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
         .component-card {
             background: rgba(30, 41, 59, 0.5);
-            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
             padding: 2rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
             transition: all 0.3s ease;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
+        }
+
+        .component-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
         }
 
         .component-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .component-card:hover::before {
+            opacity: 0.05;
         }
 
         .component-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Interactive Diagram */
-        .diagram-container {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .agent-diagram {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .diagram-node {
-            background: rgba(99, 102, 241, 0.1);
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            border-radius: 20px;
-            padding: 1.5rem;
-            min-width: 150px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .diagram-node:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        .diagram-arrow {
-            font-size: 2rem;
-            color: var(--primary);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        /* Code Examples */
-        .code-example {
-            background: #1e293b;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            position: relative;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
 
-        .code-lang {
-            color: var(--primary);
-            font-weight: 600;
+        .component-card h3 {
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
 
-        .copy-btn {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: var(--primary);
-            padding: 0.4rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            border: none;
+        .component-card p {
+            color: #94a3b8;
+            line-height: 1.8;
         }
 
-        pre {
-            color: #e2e8f0;
-            overflow-x: auto;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        code {
-            font-family: inherit;
-        }
-
-        /* Model Comparison Table */
+        /* Comparison Table */
         .comparison-table {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .comparison-table table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
         }
 
         .comparison-table th {
             background: rgba(99, 102, 241, 0.1);
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: left;
             font-weight: 600;
-            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+            color: var(--primary);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .comparison-table td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            color: #cbd5e1;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
         }
 
         .comparison-table tr:hover {
             background: rgba(99, 102, 241, 0.05);
         }
 
-        /* Lab Section */
-        .lab-section {
-            background: rgba(16, 185, 129, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 3rem 0;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .lab-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .lab-badge {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .lab-controls {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .lab-input {
-            flex: 1;
-            min-width: 200px;
-            padding: 0.8rem 1.2rem;
+        /* Decision Tree */
+        .decision-tree {
             background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
         }
 
-        .lab-button {
-            padding: 0.8rem 1.5rem;
-            background: var(--gradient);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
+        .tree-node {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
             transition: all 0.3s ease;
         }
 
-        .lab-button:hover {
+        .tree-node:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .tree-question {
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tree-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tree-option {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .tree-option:hover {
+            background: rgba(99, 102, 241, 0.2);
             transform: translateY(-2px);
+        }
+
+        /* Framework Box */
+        .framework-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .framework-step {
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .framework-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            background: var(--gradient);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* Do's and Don'ts */
+        .dos-donts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dos-box, .donts-box {
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .dos-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .donts-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .dos-box h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .donts-box h3 {
+            color: var(--error);
+            margin-bottom: 1rem;
+        }
+
+        .dos-box ul, .donts-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .dos-box li, .donts-box li {
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            color: #cbd5e1;
+        }
+
+        .dos-box li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .donts-box li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: var(--error);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Checklist */
+        .checklist-container {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .checklist-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checklist-checkbox:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Design Challenge */
+        .challenge-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(16, 185, 129, 0.1));
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .challenge-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .challenge-box h3 {
+            font-size: 2rem;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+        }
+
+        .challenge-description {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .challenge-requirements {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .challenge-requirements h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .challenge-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .challenge-requirements li {
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            color: #cbd5e1;
+        }
+
+        .challenge-requirements li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Guide Section */
+        .guide-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .guide-section h3 {
+            color: #f8fafc;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .guide-section p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .guide-btn {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
-        .lab-output {
-            background: #1e293b;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            min-height: 150px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            color: #10b981;
+        .guide-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .guide-note {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            font-style: italic;
         }
 
         /* Alert Boxes */
         .alert {
+            border-radius: 15px;
             padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
         }
 
         .alert-info {
@@ -456,175 +605,243 @@
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
+        /* Key Takeaways */
+        .key-takeaways {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .key-takeaways h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .takeaway-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
         /* Navigation */
         .lesson-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 4rem 0 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            flex-wrap: wrap;
-            gap: 1rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .nav-btn {
+            padding: 0.75rem 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
         }
 
         .nav-btn:hover {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
             transform: translateY(-2px);
         }
 
         .nav-btn.primary {
             background: var(--gradient);
+            color: white;
             border: none;
+        }
+
+        .nav-btn.primary:hover {
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Code Example */
+        .code-example {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            margin: 2rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .code-header {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-lang {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .code-example pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        .code-example code {
+            color: #e2e8f0;
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .lesson-header h1 {
-                font-size: 2.5rem;
+            .lesson-hero h2 {
+                font-size: 2rem;
             }
-            
-            .components-grid {
+
+            .component-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .agent-diagram {
+
+            .dos-donts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                overflow-x: auto;
+            }
+
+            .comparison-table table {
+                min-width: 600px;
+            }
+
+            .tree-options {
                 flex-direction: column;
             }
-            
-            .diagram-arrow {
-                transform: rotate(90deg);
+
+            .framework-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .lesson-nav {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <nav>
-            <a href="../../index.html" class="logo">
-                <span>🧠</span> AI Learning Hub
+    <header class="lesson-header">
+        <div class="header-content">
+            <a href="../../lezioni.html" class="back-button">
+                <span>←</span>
+                <span>Torna alle lezioni</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="../../lezioni.html">← Tutte le Lezioni</a></li>
-                <li><a href="../../guide.html">Guide</a></li>
-                <li><a href="../../index.html" class="back-home">🏠 Home</a></li>
-            </ul>
-        </nav>
+            <div class="lesson-info">
+                <h1>Lezione 2: Fondamenti del Design</h1>
+                <div class="lesson-meta">
+                    <span>📖 30 min</span>
+                    <span>📊 Livello: Principiante</span>
+                    <span>🎯 Focus: Teoria e Design</span>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- Main Content -->
     <main>
-        <!-- Lesson Header -->
-        <div class="lesson-header">
-            <div class="lesson-meta">
-                📄 Fonte: OpenAI - A Practical Guide to Building Agents
-            </div>
-            <h1>Fondamenti del Design degli Agenti</h1>
-            <p class="lesson-subtitle">
-                Scopri i tre componenti fondamentali per costruire agenti AI efficaci e impara a configurarli correttamente
-            </p>
-        </div>
-
-        <!-- Progress -->
+        <!-- Progress Bar -->
         <div class="progress-container">
-            <div class="progress-header">
-                <span>Lezione 2 di 6</span>
-                <span>33% completato</span>
-            </div>
             <div class="progress-bar">
-                <div class="progress-fill"></div>
+                <div class="progress-glow"></div>
             </div>
+        </div>
+        <div class="progress-text">Lezione 2 di 6 - Corso Agenti OpenAI</div>
+
+        <!-- Hero Section -->
+        <div class="lesson-hero">
+            <h2>I Tre Pilastri degli Agenti AI</h2>
+            <p>
+                Scopri come Model, Tools e Instructions lavorano insieme per creare agenti AI 
+                potenti e affidabili. Impara a scegliere i componenti giusti per ogni situazione.
+            </p>
         </div>
 
         <!-- Section 1: I Tre Pilastri -->
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🏛️</div>
-                I Tre Pilastri di un Agente
+                I Componenti Fondamentali
             </h2>
             
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Ogni agente AI è costruito su tre componenti fondamentali che lavorano in sinergia. 
-                Comprenderli è essenziale per progettare agenti efficaci.
+                Ogni agente AI di successo si basa su tre componenti essenziali che devono 
+                lavorare in perfetta armonia. Comprendere il ruolo di ciascuno è fondamentale 
+                per costruire sistemi efficaci.
             </p>
 
-            <div class="diagram-container">
-                <h3 style="margin-bottom: 2rem;">Architettura di un Agente AI</h3>
-                <div class="agent-diagram">
-                    <div class="diagram-node" onclick="highlightComponent('model')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
-                        <strong>Model</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            Il cervello dell'agente
-                        </p>
-                    </div>
-                    <div class="diagram-arrow">→</div>
-                    <div class="diagram-node" onclick="highlightComponent('tools')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔧</div>
-                        <strong>Tools</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            Le mani dell'agente
-                        </p>
-                    </div>
-                    <div class="diagram-arrow">→</div>
-                    <div class="diagram-node" onclick="highlightComponent('instructions')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📋</div>
-                        <strong>Instructions</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            La guida dell'agente
-                        </p>
-                    </div>
-                </div>
-                <p style="margin-top: 2rem; color: #94a3b8;">
-                    <em>Clicca su ogni componente per approfondire</em>
-                </p>
-            </div>
-
-            <div class="components-grid">
-                <div class="component-card" id="model-card">
+            <div class="component-grid">
+                <div class="component-card" id="model-card" onclick="highlightComponent('model')">
                     <div class="component-icon">🧠</div>
-                    <h3>Model - Il Motore di Ragionamento</h3>
+                    <h3>Model - Il Cervello</h3>
                     <p>
-                        Il Large Language Model che alimenta le capacità di ragionamento e decisione dell'agente. 
-                        Sceglie quali azioni intraprendere e come rispondere.
+                        Il modello di linguaggio che fornisce le capacità di ragionamento, 
+                        comprensione e generazione. Determina quanto l'agente può essere 
+                        sofisticato nelle sue risposte.
                     </p>
                     <ul style="margin-top: 1rem; padding-left: 1.5rem; color: #cbd5e1;">
-                        <li>Processa il linguaggio naturale</li>
-                        <li>Prende decisioni autonome</li>
-                        <li>Genera risposte contestuali</li>
+                        <li>Capacità di comprensione</li>
+                        <li>Velocità di risposta</li>
+                        <li>Costo per token</li>
+                        <li>Limiti di contesto</li>
                     </ul>
                 </div>
 
-                <div class="component-card" id="tools-card">
+                <div class="component-card" id="tools-card" onclick="highlightComponent('tools')">
                     <div class="component-icon">🔧</div>
-                    <h3>Tools - Le Capacità di Azione</h3>
+                    <h3>Tools - Le Mani</h3>
                     <p>
-                        Funzioni esterne o API che l'agente può utilizzare per interagire con il mondo, 
-                        raccogliere informazioni e compiere azioni.
+                        Le funzioni che permettono all'agente di interagire con il mondo esterno, 
+                        recuperare informazioni e compiere azioni concrete.
                     </p>
                     <ul style="margin-top: 1rem; padding-left: 1.5rem; color: #cbd5e1;">
                         <li>API per recuperare dati</li>
                         <li>Funzioni per modificare sistemi</li>
                         <li>Integrazioni con servizi esterni</li>
+                        <li>Accesso a database e file</li>
                     </ul>
                 </div>
 
-                <div class="component-card" id="instructions-card">
+                <div class="component-card" id="instructions-card" onclick="highlightComponent('instructions')">
                     <div class="component-icon">📋</div>
                     <h3>Instructions - Le Linee Guida</h3>
                     <p>
@@ -635,581 +852,462 @@
                         <li>Definiscono la personalità</li>
                         <li>Stabiliscono i guardrail</li>
                         <li>Guidano il processo decisionale</li>
+                        <li>Determinano lo stile di comunicazione</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Section 2: Selezione del Modello -->
+        <!-- Section 2: Come Scegliere il Model Giusto -->
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🎯</div>
-                Scegliere il Modello Giusto
+                Come Scegliere il Model Giusto
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
                 Non tutti i task richiedono il modello più potente. La chiave è bilanciare capacità, velocità e costi.
+                Ecco una guida pratica per scegliere il modello ottimale per il tuo caso d'uso.
             </p>
 
-            <div style="overflow-x: auto;">
-                <table class="comparison-table">
+            <!-- Comparison Table -->
+            <div class="comparison-table">
+                <table>
                     <thead>
                         <tr>
                             <th>Modello</th>
-                            <th>Capacità</th>
                             <th>Velocità</th>
                             <th>Costo</th>
+                            <th>Accuratezza</th>
+                            <th>Capabilities</th>
                             <th>Caso d'uso ideale</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>GPT-4</strong></td>
-                            <td>⭐⭐⭐⭐⭐</td>
                             <td>⭐⭐</td>
                             <td>💰💰💰💰</td>
-                            <td>Ragionamento complesso, decisioni critiche</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>Ragionamento complesso, creatività</td>
+                            <td>Analisi approfondite, task critici</td>
                         </tr>
                         <tr>
-                            <td><strong>GPT-3.5</strong></td>
+                            <td><strong>GPT-3.5 Turbo</strong></td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>💰💰</td>
                             <td>⭐⭐⭐⭐</td>
+                            <td>Buon bilanciamento generale</td>
+                            <td>Chat, automazioni, uso quotidiano</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claude 3</strong></td>
+                            <td>⭐⭐⭐⭐</td>
+                            <td>💰💰💰</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>Contesto lungo, analisi documenti</td>
+                            <td>Ricerca, sintesi di testi lunghi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gemini Pro</strong></td>
                             <td>⭐⭐⭐⭐</td>
                             <td>💰💰</td>
-                            <td>Task generali, chatbot, analisi moderate</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Models Fine-tuned</strong></td>
-                            <td>⭐⭐⭐</td>
-                            <td>⭐⭐⭐⭐⭐</td>
-                            <td>💰</td>
-                            <td>Task specifici, classificazione, routing</td>
+                            <td>⭐⭐⭐⭐</td>
+                            <td>Multimodale, integrazione Google</td>
+                            <td>Task con immagini, ecosistema Google</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="alert alert-info" style="margin-top: 2rem;">
-                <h4 style="margin-bottom: 1rem; color: var(--primary);">
-                    💡 Best Practice: Approccio Incrementale
-                </h4>
-                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Inizia con il modello più capace</strong> per stabilire una baseline di performance
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Identifica i task semplici</strong> che possono essere gestiti da modelli più piccoli
-                    </li>
-                    <li>
-                        <strong>Ottimizza progressivamente</strong> sostituendo con modelli più economici dove possibile
-                    </li>
-                </ol>
+            <!-- Decision Tree -->
+            <div class="decision-tree">
+                <h3 style="margin-bottom: 1.5rem;">Decision Tree per la Selezione del Modello</h3>
+                
+                <div class="tree-node">
+                    <div class="tree-question">🤔 Il task richiede ragionamento complesso o creatività avanzata?</div>
+                    <div class="tree-options">
+                        <span class="tree-option">Sì → GPT-4 o Claude 3</span>
+                        <span class="tree-option">No → Continua ↓</span>
+                    </div>
+                </div>
+
+                <div class="tree-node">
+                    <div class="tree-question">⚡ La velocità di risposta è critica (< 2 secondi)?</div>
+                    <div class="tree-options">
+                        <span class="tree-option">Sì → GPT-3.5 Turbo</span>
+                        <span class="tree-option">No → Continua ↓</span>
+                    </div>
+                </div>
+
+                <div class="tree-node">
+                    <div class="tree-question">📄 Devi analizzare documenti lunghi (> 10k token)?</div>
+                    <div class="tree-options">
+                        <span class="tree-option">Sì → Claude 3 (200k context)</span>
+                        <span class="tree-option">No → Continua ↓</span>
+                    </div>
+                </div>
+
+                <div class="tree-node">
+                    <div class="tree-question">🖼️ Il task include immagini o contenuti multimediali?</div>
+                    <div class="tree-options">
+                        <span class="tree-option">Sì → Gemini Pro o GPT-4V</span>
+                        <span class="tree-option">No → GPT-3.5 Turbo (default)</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Section 3: Esempio Pratico -->
+        <!-- Section 3: Anatomia di un Tool Ben Progettato -->
         <div class="content-section">
             <h2 class="section-title">
-                <div class="section-icon">💻</div>
-                Costruiamo il Nostro Primo Agente
+                <div class="section-icon">🔬</div>
+                Anatomia di un Tool Ben Progettato
             </h2>
 
-            <p style="margin-bottom: 2rem;">
-                Mettiamo in pratica i concetti creando un semplice agente per il meteo. 
-                Ti guiderò passo passo dall'installazione al test completo.
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                I tools sono l'interfaccia tra l'intelligenza dell'agente e il mondo reale. 
+                Un tool ben progettato segue principi precisi che lo rendono affidabile, 
+                manutenibile e facilmente integrabile.
             </p>
 
-            <!-- Step 1: Setup -->
-            <div class="alert alert-success" style="margin-bottom: 2rem;">
-                <h3 style="color: var(--success); margin-bottom: 1.5rem;">
-                    📦 Step 1: Setup dell'Ambiente
-                </h3>
+            <!-- Principi SOLID applicati ai Tools -->
+            <div class="framework-box">
+                <h3 style="margin-bottom: 2rem; text-align: center;">Principi SOLID per AI Tools</h3>
                 
-                <div class="code-example">
-                    <div class="code-header">
-                        <span class="code-lang">Bash - Installazione</span>
-                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                <div class="framework-step">
+                    <div class="step-number">S</div>
+                    <div class="step-content">
+                        <h4>Single Responsibility</h4>
+                        <p>Ogni tool deve avere una sola responsabilità ben definita. 
+                        Un tool "do_everything" è difficile da debuggare e mantenere.</p>
                     </div>
-                    <pre><code># 1. Crea una nuova cartella per il progetto
-mkdir primo-agente-ai
-cd primo-agente-ai
+                </div>
 
-# 2. Crea un ambiente virtuale Python
-python -m venv venv
+                <div class="framework-step">
+                    <div class="step-number">O</div>
+                    <div class="step-content">
+                        <h4>Open/Closed Principle</h4>
+                        <p>Il tool deve essere aperto alle estensioni ma chiuso alle modifiche. 
+                        Usa parametri configurabili invece di hardcodare valori.</p>
+                    </div>
+                </div>
 
-# 3. Attiva l'ambiente virtuale
-# Su Windows:
-venv\Scripts\activate
-# Su Mac/Linux:
-source venv/bin/activate
+                <div class="framework-step">
+                    <div class="step-number">L</div>
+                    <div class="step-content">
+                        <h4>Liskov Substitution</h4>
+                        <p>Tools simili devono essere intercambiabili. Se hai più tool di ricerca, 
+                        devono avere interfacce consistenti.</p>
+                    </div>
+                </div>
 
-# 4. Installa le dipendenze necessarie
-pip install openai python-dotenv</code></pre>
+                <div class="framework-step">
+                    <div class="step-number">I</div>
+                    <div class="step-content">
+                        <h4>Interface Segregation</h4>
+                        <p>Non forzare l'agente a dipendere da parametri che non usa. 
+                        Mantieni le interfacce minimali e focalizzate.</p>
+                    </div>
+                </div>
+
+                <div class="framework-step">
+                    <div class="step-number">D</div>
+                    <div class="step-content">
+                        <h4>Dependency Inversion</h4>
+                        <p>Il tool non deve dipendere da implementazioni specifiche. 
+                        Usa astrazioni per database, API esterne, etc.</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Step 2: API Key -->
-            <div class="alert alert-info" style="margin-bottom: 2rem;">
-                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
-                    🔑 Step 2: Configura la tua API Key
-                </h3>
-                
-                <p style="margin-bottom: 1rem;">
-                    1. Vai su <a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--primary);">platform.openai.com/api-keys</a><br>
-                    2. Crea una nuova API key<br>
-                    3. Crea un file <code>.env</code> nella cartella del progetto:
-                </p>
-
-                <div class="code-example">
-                    <div class="code-header">
-                        <span class="code-lang">.env</span>
-                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                    </div>
-                    <pre><code># Inserisci la tua API key qui
-OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxx</code></pre>
-                </div>
-
-                <p style="margin-top: 1rem; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.3);">
-                    ⚠️ <strong>Importante:</strong> Non condividere mai la tua API key e aggiungi <code>.env</code> al <code>.gitignore</code>
-                </p>
-                
-                <p style="margin-top: 1rem; padding: 1rem; background: rgba(99, 102, 241, 0.1); border-radius: 10px; border: 1px solid rgba(99, 102, 241, 0.3);">
-                    💡 <strong>Nota:</strong> Useremo prima dati simulati per testare l'agente, poi ti mostrerò come integrare una vera API meteo
-                </p>
-            </div>
-
-            <!-- Step 3: Complete Code -->
-            <div class="alert alert-warning" style="margin-bottom: 2rem;">
-                <h3 style="color: var(--warning); margin-bottom: 1.5rem;">
-                    🚀 Step 3: Codice Completo dell'Agente
-                </h3>
-                
-                <p style="margin-bottom: 1.5rem;">
-                    Crea un file <code>weather_agent.py</code> con questo codice:
-                </p>
-
-                <div class="code-example">
-                    <div class="code-header">
-                        <span class="code-lang">Python - weather_agent.py</span>
-                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                    </div>
-                    <pre><code>import os
-from dotenv import load_dotenv
-from openai import OpenAI
-import json
-
-# Carica le variabili d'ambiente
-load_dotenv()
-
-# Inizializza il client OpenAI
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Simuliamo un database di dati meteo
-WEATHER_DATA = {
-    "milano": {"temp": 22, "condition": "soleggiato", "humidity": 65},
-    "roma": {"temp": 25, "condition": "nuvoloso", "humidity": 70},
-    "napoli": {"temp": 20, "condition": "pioggia leggera", "humidity": 80},
-    "torino": {"temp": 19, "condition": "nebbia", "humidity": 85},
-    "firenze": {"temp": 23, "condition": "parzialmente nuvoloso", "humidity": 60}
-}
-
-def get_weather(city: str) -> str:
-    """
-    Ottiene le informazioni meteo per una città specifica.
-    
-    Args:
-        city: Nome della città
-        
-    Returns:
-        Stringa con le informazioni meteo o messaggio di errore
-    """
-    city_lower = city.lower()
-    
-    if city_lower in WEATHER_DATA:
-        data = WEATHER_DATA[city_lower]
-        return json.dumps({
-            "città": city,
-            "temperatura": f"{data['temp']}°C",
-            "condizioni": data["condition"],
-            "umidità": f"{data['humidity']}%"
-        }, ensure_ascii=False)
-    else:
-        return json.dumps({
-            "errore": f"Dati non disponibili per {city}",
-            "città_disponibili": list(WEATHER_DATA.keys())
-        }, ensure_ascii=False)
-
-# Definizione delle funzioni disponibili per l'assistente
-functions = [
-    {
-        "name": "get_weather",
-        "description": "Ottiene le informazioni meteo attuali per una città italiana",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string",
-                    "description": "Il nome della città, es. Milano, Roma"
-                }
-            },
-            "required": ["city"]
-        }
-    }
-]
-
-def run_weather_agent(user_message: str):
-    """
-    Esegue l'agente meteo con il messaggio dell'utente.
-    """
-    print(f"\n👤 Utente: {user_message}")
-    
-    # Primo messaggio all'assistente con le istruzioni
-    messages = [
-        {
-            "role": "system",
-            "content": """Sei un assistente meteorologico italiano amichevole e preciso.
-            
-Quando l'utente chiede informazioni sul meteo:
-1. Identifica la città di interesse
-2. Usa la funzione get_weather per ottenere i dati
-3. Presenta le informazioni in modo chiaro e conversazionale
-4. Suggerisci cosa indossare o attività appropriate per il meteo
-5. Se la città non è disponibile, suggerisci alternative tra quelle disponibili
-
-Rispondi sempre in italiano e con un tono amichevole."""
-        },
-        {
-            "role": "user",
-            "content": user_message
-        }
-    ]
-    
-    # Prima chiamata all'API
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        functions=functions,
-        function_call="auto"
-    )
-    
-    message = response.choices[0].message
-    
-    # Se il modello vuole chiamare una funzione
-    if message.function_call:
-        function_name = message.function_call.name
-        function_args = json.loads(message.function_call.arguments)
-        
-        print(f"\n🔧 Chiamata funzione: {function_name}({function_args})")
-        
-        # Esegui la funzione
-        if function_name == "get_weather":
-            function_result = get_weather(function_args["city"])
-            
-            # Aggiungi il risultato alla conversazione
-            messages.append({
-                "role": "function",
-                "name": function_name,
-                "content": function_result
-            })
-            
-            # Seconda chiamata per ottenere la risposta finale
-            final_response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=messages
-            )
-            
-            final_message = final_response.choices[0].message.content
-            print(f"\n🤖 Assistente: {final_message}")
-            return final_message
-    else:
-        # Risposta diretta senza chiamata di funzione
-        print(f"\n🤖 Assistente: {message.content}")
-        return message.content
-
-# Funzione principale per testare l'agente
-def main():
-    print("🌤️  Benvenuto nell'Assistente Meteo AI!")
-    print("=" * 50)
-    
-    # Esempi di test
-    test_queries = [
-        "Com'è il tempo a Milano oggi?",
-        "Che tempo fa a Roma?",
-        "Mi serve l'ombrello a Napoli?",
-        "Dimmi il meteo di Venezia",  # Città non disponibile
-        "Fa freddo a Torino?"
-    ]
-    
-    print("\n📝 Eseguiamo alcuni test...")
-    
-    for query in test_queries[:2]:  # Testa le prime 2 query
-        run_weather_agent(query)
-        print("\n" + "-" * 50)
-    
-    # Modalità interattiva
-    print("\n💬 Ora puoi fare le tue domande! (digita 'exit' per uscire)")
-    
-    while True:
-        user_input = input("\n👤 Tu: ")
-        if user_input.lower() in ['exit', 'quit', 'esci']:
-            print("👋 Arrivederci!")
-            break
-        
-        run_weather_agent(user_input)
-
-if __name__ == "__main__":
-    main()</code></pre>
-                </div>
-            </div>
-
-            <!-- Step 4: Run -->
-            <div class="alert alert-success" style="margin-bottom: 2rem;">
-                <h3 style="color: var(--success); margin-bottom: 1.5rem;">
-                    ▶️ Step 4: Esegui e Testa l'Agente
-                </h3>
-                
-                <div class="code-example">
-                    <div class="code-header">
-                        <span class="code-lang">Bash - Esecuzione</span>
-                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                    </div>
-                    <pre><code># Assicurati di essere nella cartella del progetto con venv attivato
-python weather_agent.py</code></pre>
-                </div>
-
-                <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Output di Esempio:</h4>
-                <div class="code-example" style="background: #0a0a0a;">
-                    <pre style="color: #10b981;"><code>🌤️  Benvenuto nell'Assistente Meteo AI!
-==================================================
-
-📝 Eseguiamo alcuni test...
-
-👤 Utente: Com'è il tempo a Milano oggi?
-
-🔧 Chiamata funzione: get_weather({'city': 'Milano'})
-
-🤖 Assistente: A Milano oggi c'è un bel sole! ☀️ 
-La temperatura è di 22°C con cielo soleggiato e un'umidità del 65%. 
-
-È una giornata perfetta per una passeggiata! Ti consiglio di indossare 
-abiti leggeri e comodi. Non dimenticare gli occhiali da sole e magari 
-una bottiglietta d'acqua per rimanere idratato.
-
---------------------------------------------------
-
-💬 Ora puoi fare le tue domande! (digita 'exit' per uscire)
-
-👤 Tu: _</code></pre>
-                </div>
-            </div>
-
-            <!-- Troubleshooting -->
-            <div class="alert alert-warning">
-                <h3 style="color: var(--warning); margin-bottom: 1.5rem;">
-                    🔧 Troubleshooting Comune
-                </h3>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: #f8fafc; margin-bottom: 0.5rem;">Errore: "Invalid API Key"</h4>
-                    <p style="color: #cbd5e1;">
-                        ✓ Verifica che il file <code>.env</code> sia nella stessa cartella del tuo script<br>
-                        ✓ Controlla che la API key sia corretta e attiva<br>
-                        ✓ Assicurati di aver caricato l'ambiente con <code>load_dotenv()</code>
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: #f8fafc; margin-bottom: 0.5rem;">Errore: "Module not found"</h4>
-                    <p style="color: #cbd5e1;">
-                        ✓ Verifica di aver attivato l'ambiente virtuale<br>
-                        ✓ Reinstalla le dipendenze: <code>pip install openai python-dotenv</code>
-                    </p>
-                </div>
-
+            <!-- Input/Output Standardizzati -->
+            <div class="alert alert-info" style="margin-top: 2rem;">
+                <div style="font-size: 1.5rem;">💡</div>
                 <div>
-                    <h4 style="color: #f8fafc; margin-bottom: 0.5rem;">L'agente non chiama la funzione</h4>
-                    <p style="color: #cbd5e1;">
-                        ✓ Assicurati che la domanda sia chiara e riguardi il meteo<br>
-                        ✓ Verifica che il parametro <code>functions</code> sia passato correttamente<br>
-                        ✓ Prova con domande più esplicite come "Che tempo fa a Milano?"
-                    </p>
+                    <strong>Best Practice:</strong> Standardizza sempre input e output dei tuoi tools.
+                    Usa JSON Schema per definire strutture chiare e validabili. Questo facilita
+                    il debugging e permette all'agente di capire meglio come usare il tool.
                 </div>
             </div>
 
-            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(245, 158, 11, 0.1); border-radius: 15px; border: 1px solid rgba(245, 158, 11, 0.3);">
-                <h4 style="color: var(--warning); margin-bottom: 1rem;">
-                    ⚡ Riepilogo: Cosa è Reale vs Simulato
-                </h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; color: #cbd5e1;">
-                    <div>
-                        <h5 style="color: var(--success); margin-bottom: 0.5rem;">✅ REALE nell'esempio:</h5>
-                        <ul style="padding-left: 1.5rem;">
-                            <li>L'AI di OpenAI (GPT-3.5)</li>
-                            <li>Il ragionamento dell'agente</li>
-                            <li>La decisione di chiamare funzioni</li>
-                            <li>La generazione del linguaggio</li>
-                            <li>La personalizzazione delle risposte</li>
-                        </ul>
+            <!-- Error Handling Patterns -->
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">Pattern di Error Handling</h3>
+                
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-lang">Python - Error Handling Pattern</span>
+                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
                     </div>
-                    <div>
-                        <h5 style="color: var(--warning); margin-bottom: 0.5rem;">📊 SIMULATO nell'esempio base:</h5>
-                        <ul style="padding-left: 1.5rem;">
-                            <li>I dati meteo (per semplicità)</li>
-                            <li>Il "database" delle città</li>
-                            <li>Le temperature/condizioni</li>
-                        </ul>
-                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                            (Ma puoi renderli reali con la nostra guida!)
-                        </p>
+                    <pre><code>def robust_tool_wrapper(tool_function):
+    """Wrapper che aggiunge error handling standardizzato"""
+    def wrapper(*args, **kwargs):
+        try:
+            # Validazione input
+            validate_inputs(args, kwargs)
+            
+            # Esecuzione con timeout
+            result = with_timeout(tool_function, *args, **kwargs)
+            
+            # Validazione output
+            validate_output(result)
+            
+            return {
+                "success": True,
+                "data": result,
+                "error": None
+            }
+            
+        except ValidationError as e:
+            return {
+                "success": False,
+                "data": None,
+                "error": f"Validation error: {str(e)}"
+            }
+        except TimeoutError:
+            return {
+                "success": False,
+                "data": None,
+                "error": "Tool execution timed out"
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "data": None,
+                "error": f"Unexpected error: {str(e)}"
+            }
+    
+    return wrapper</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Scrivere Instructions Efficaci -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">✍️</div>
+                Scrivere Instructions Efficaci
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                Le instructions sono il DNA del tuo agente. Determinano non solo cosa fa, 
+                ma come lo fa. Instructions ben scritte sono la differenza tra un agente 
+                che funziona e uno che eccelle.
+            </p>
+
+            <!-- Framework CRTC -->
+            <div class="framework-box">
+                <h3 style="margin-bottom: 2rem; text-align: center;">Framework CRTC per Instructions</h3>
+                
+                <div class="framework-step">
+                    <div class="step-number">C</div>
+                    <div class="step-content">
+                        <h4>Context (Contesto)</h4>
+                        <p>Fornisci all'agente il contesto necessario: chi è, per quale azienda lavora, 
+                        quali sono gli obiettivi generali. Il contesto orienta tutte le decisioni successive.</p>
+                    </div>
+                </div>
+
+                <div class="framework-step">
+                    <div class="step-number">R</div>
+                    <div class="step-content">
+                        <h4>Role (Ruolo)</h4>
+                        <p>Definisci chiaramente il ruolo dell'agente. Non dire solo "sei un assistente", 
+                        ma specifica: "Sei un esperto di customer service con 10 anni di esperienza nel settore tech".</p>
+                    </div>
+                </div>
+
+                <div class="framework-step">
+                    <div class="step-number">T</div>
+                    <div class="step-content">
+                        <h4>Task (Compito)</h4>
+                        <p>Descrivi esattamente cosa deve fare l'agente. Usa liste numerate per task complessi. 
+                        Sii specifico sui risultati attesi e i criteri di successo.</p>
+                    </div>
+                </div>
+
+                <div class="framework-step">
+                    <div class="step-number">C</div>
+                    <div class="step-content">
+                        <h4>Constraints (Vincoli)</h4>
+                        <p>Specifica cosa l'agente NON deve fare. I vincoli sono importanti quanto le istruzioni positive. 
+                        Includi limiti etici, di sicurezza e operativi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Do's and Don'ts -->
+            <div class="dos-donts-grid">
+                <div class="dos-box">
+                    <h3>✅ Do's - Best Practices</h3>
+                    <ul>
+                        <li>Usa un linguaggio chiaro e non ambiguo</li>
+                        <li>Fornisci esempi concreti di comportamenti desiderati</li>
+                        <li>Struttura le istruzioni in sezioni logiche</li>
+                        <li>Specifica il tono e lo stile di comunicazione</li>
+                        <li>Includi criteri di escalation chiari</li>
+                        <li>Definisci metriche di successo misurabili</li>
+                        <li>Testa le istruzioni con casi edge</li>
+                    </ul>
+                </div>
+
+                <div class="donts-box">
+                    <h3>❌ Don'ts - Errori Comuni</h3>
+                    <ul>
+                        <li>Non usare termini vaghi come "sii utile"</li>
+                        <li>Evita istruzioni contraddittorie</li>
+                        <li>Non sovraccaricare con troppe regole</li>
+                        <li>Non assumere conoscenze implicite</li>
+                        <li>Evita negazioni doppie o triple</li>
+                        <li>Non mischiare lingue diverse</li>
+                        <li>Non dimenticare i casi di errore</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Checklist di Validazione -->
+            <div class="checklist-container">
+                <h3 style="margin-bottom: 1.5rem;">📝 Checklist per Validare le Instructions</h3>
+                
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>Le istruzioni specificano chiaramente il ruolo e il contesto dell'agente?</span>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>Ogni task ha criteri di successo misurabili e verificabili?</span>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>Sono presenti esempi concreti per situazioni ambigue?</span>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>I vincoli e i limiti operativi sono esplicitamente definiti?</span>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>Le istruzioni sono state testate con almeno 10 casi d'uso diversi?</span>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>Il tono e lo stile di comunicazione sono coerenti con il brand?</span>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-checkbox" onclick="toggleCheck(this)"></div>
+                    <span>Esistono procedure chiare per gestire errori e situazioni impreviste?</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Challenge Section -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🎨</div>
+                Design Challenge
+            </h2>
+
+            <div class="challenge-box">
+                <div class="challenge-icon">🛍️</div>
+                <h3>Progetta un Assistente Shopping AI</h3>
+                
+                <p class="challenge-description">
+                    È il momento di mettere in pratica la teoria! Il tuo compito è progettare 
+                    l'architettura completa per un assistente shopping che aiuta gli utenti 
+                    a trovare prodotti, confrontare prezzi e ricevere consigli personalizzati.
+                </p>
+
+                <div class="challenge-requirements">
+                    <h4>📋 Requisiti del Design</h4>
+                    <ul>
+                        <li><strong>Scegli il Model:</strong> Quale modello useresti e perché? 
+                        Considera il trade-off tra costo e prestazioni</li>
+                        
+                        <li><strong>Identifica i Tools necessari:</strong> Quali funzioni deve avere? 
+                        (ricerca prodotti, confronto prezzi, recensioni, tracking ordini...)</li>
+                        
+                        <li><strong>Scrivi una bozza di Instructions:</strong> Definisci personalità, 
+                        tono, limiti operativi e comportamenti chiave</li>
+                        
+                        <li><strong>Considera i Guardrails:</strong> Quali protezioni implementeresti? 
+                        (privacy, sicurezza pagamenti, raccomandazioni etiche...)</li>
+                        
+                        <li><strong>Pianifica l'Error Handling:</strong> Come gestiresti prodotti 
+                        non disponibili, errori di pagamento, richieste ambigue?</li>
+                    </ul>
+
+                    <div class="alert alert-warning" style="margin-top: 2rem;">
+                        <div style="font-size: 1.5rem;">📝</div>
+                        <div>
+                            <strong>Nota:</strong> Questo è un esercizio di design, non di implementazione. 
+                            Concentrati sull'architettura e sulle decisioni strategiche. Usa carta e penna 
+                            o il tuo tool di diagramming preferito per schematizzare la soluzione.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Lab Section -->
-        <div class="lab-section">
-            <div class="lab-header">
-                <h2 class="section-title" style="margin: 0;">
-                    <div class="section-icon">🧪</div>
-                    Lab Interattivo: Progetta il Tuo Agente
-                </h2>
-                <span class="lab-badge">Hands-on</span>
-            </div>
-
-            <p style="margin-bottom: 2rem;">
-                Usa questo playground per sperimentare con diversi tipi di istruzioni e vedere come influenzano 
-                il comportamento dell'agente.
-            </p>
-
-            <div style="background: rgba(15, 23, 42, 0.5); border-radius: 15px; padding: 2rem;">
-                <h3 style="margin-bottom: 1.5rem;">Configuratore di Agente</h3>
-                
-                <div class="lab-controls">
-                    <select class="lab-input" id="agent-type">
-                        <option value="customer">Customer Service</option>
-                        <option value="teacher">Insegnante</option>
-                        <option value="analyst">Analista Dati</option>
-                        <option value="creative">Scrittore Creativo</option>
-                    </select>
-                    
-                    <select class="lab-input" id="personality">
-                        <option value="professional">Professionale</option>
-                        <option value="friendly">Amichevole</option>
-                        <option value="concise">Conciso</option>
-                        <option value="detailed">Dettagliato</option>
-                    </select>
-                    
-                    <button class="lab-button" onclick="generateAgent()">
-                        Genera Configurazione
-                    </button>
-                </div>
-
-                <div class="lab-output" id="agent-output">
-                    <em style="color: #64748b;">
-                        Seleziona un tipo di agente e una personalità, poi clicca "Genera Configurazione"
-                    </em>
-                </div>
-            </div>
-
-            <div class="alert alert-success" style="margin-top: 2rem;">
-                <h4 style="color: var(--success); margin-bottom: 1rem;">
-                    📝 Esercizio Pratico
-                </h4>
-                <p style="color: #cbd5e1;">
-                    Dopo aver sperimentato con il configuratore:
-                </p>
-                <ol style="margin-top: 1rem; padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 0.5rem;">
-                        Scegli un caso d'uso specifico per il tuo lavoro o studio
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        Definisci quali tools sarebbero necessari
-                    </li>
-                    <li>
-                        Scrivi le istruzioni complete per guidare l'agente
-                    </li>
-                </ol>
-            </div>
+        <!-- Guide Section -->
+        <div class="guide-section">
+            <h3>🚀 Dalla Teoria alla Pratica</h3>
+            <p>Ora che comprendi i 3 pilastri fondamentali, 
+               esplora come lavorano insieme in un caso reale:</p>
+            <a href="../../guide/agenti-api-reali.html" class="guide-btn">
+                Costruisci un Agente Meteo Completo →
+            </a>
+            <p class="guide-note">Tutorial step-by-step con API reali, 
+               error handling e best practices</p>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="content-section">
-            <h2 class="section-title">
-                <div class="section-icon">🎓</div>
-                Punti Chiave da Ricordare
-            </h2>
-
-            <div style="display: grid; gap: 1rem;">
+        <div class="key-takeaways">
+            <h2>🎯 Punti Chiave da Ricordare</h2>
+            <div class="takeaway-grid">
                 <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(99, 102, 241, 0.3);">
                     <h4 style="color: var(--primary); margin-bottom: 0.5rem;">
-                        1️⃣ I tre componenti sono interdipendenti
+                        1️⃣ Bilancia sempre costo e prestazioni
                     </h4>
                     <p style="color: #cbd5e1;">
-                        Model, Tools e Instructions devono essere progettati per lavorare in armonia. 
-                        Un modello potente con istruzioni scadenti produrrà risultati deludenti.
+                        Non tutti i task richiedono GPT-4. Scegli il modello in base alle reali necessità 
+                        del caso d'uso, considerando velocità, costo e accuratezza richiesta.
                     </p>
                 </div>
 
                 <div style="background: rgba(236, 72, 153, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(236, 72, 153, 0.3);">
                     <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">
-                        2️⃣ Inizia semplice, poi evolvi
+                        2️⃣ Tools semplici e componibili
                     </h4>
                     <p style="color: #cbd5e1;">
-                        Non cercare di costruire l'agente perfetto al primo tentativo. 
-                        Parti con funzionalità base e aggiungi complessità iterativamente.
+                        Un tool che fa una cosa bene è meglio di uno che fa tutto male. 
+                        Progetta tools atomici che possono essere combinati per task complessi.
                     </p>
                 </div>
 
                 <div style="background: rgba(6, 182, 212, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(6, 182, 212, 0.3);">
                     <h4 style="color: var(--accent); margin-bottom: 0.5rem;">
-                        3️⃣ Le istruzioni sono cruciali
+                        3️⃣ Instructions chiare e testate
                     </h4>
                     <p style="color: #cbd5e1;">
-                        Istruzioni chiare e ben strutturate sono spesso la differenza tra un agente 
-                        che funziona e uno che eccelle.
+                        Le migliori instructions sono quelle che hanno superato il test del mondo reale. 
+                        Itera continuamente basandoti sul feedback e sui casi edge.
                     </p>
                 </div>
-            </div>
-        </div>
 
-        <!-- Next Steps -->
-        <div class="content-section" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2);">
-            <h2 class="section-title">
-                <div class="section-icon">🚀</div>
-                Prossimi Passi
-            </h2>
-            
-            <p style="margin-bottom: 2rem; color: #cbd5e1;">
-                Ora che hai un agente AI funzionante con dati simulati, ecco cosa puoi fare:
-            </p>
-
-            <div style="display: grid; gap: 1.5rem;">
-                <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-radius: 15px;">
-                    <h4 style="color: #f8fafc; margin-bottom: 0.5rem;">
-                        📚 Per Continuare ad Imparare:
+                <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <h4 style="color: var(--success); margin-bottom: 0.5rem;">
+                        4️⃣ Design prima, codice dopo
                     </h4>
-                    <ul style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li>Sperimenta con diverse personalità dell'agente</li>
-                        <li>Aggiungi più funzioni (previsioni, consigli vestiti)</li>
-                        <li>Prova a usare GPT-4 invece di GPT-3.5</li>
-                        <li>Crea agenti per altri scopi (news, ricette, etc.)</li>
-                    </ul>
-                </div>
-
-                <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-radius: 15px;">
-                    <h4 style="color: #f8fafc; margin-bottom: 0.5rem;">
-                        🌍 Per Dati Meteo Reali:
-                    </h4>
-                    <p style="color: #cbd5e1; margin-bottom: 1rem;">
-                        Quando sei pronto per passare ai dati reali:
-                    </p>
-                    <a href="../../guide/agenti-api-reali.html" 
-                       style="display: inline-block; padding: 0.8rem 2rem; background: var(--gradient); 
-                              color: white; text-decoration: none; border-radius: 50px; 
-                              font-weight: 600; transition: transform 0.3s ease;">
-                        Vai alla Guida API Meteo Reali →
-                    </a>
-                    <p style="color: #94a3b8; margin-top: 1rem; font-size: 0.9rem;">
-                        Include: confronto API, tutorial passo-passo, gestione errori, caching e altro!
+                    <p style="color: #cbd5e1;">
+                        Un buon design su carta risparmia ore di debugging. Pianifica l'architettura, 
+                        identifica i componenti e solo dopo passa all'implementazione.
                     </p>
                 </div>
             </div>
@@ -1273,144 +1371,19 @@ una bottiglietta d'acqua per rimanere idratato.
             }
         }
 
-        // Lab: Generate Agent Configuration
-        function generateAgent() {
-            const type = document.getElementById('agent-type').value;
-            const personality = document.getElementById('personality').value;
-            const output = document.getElementById('agent-output');
-            
-            const configurations = {
-                customer: {
-                    professional: `Agent(
-    name="Assistente Customer Service Professionale",
-    instructions="""
-    Sei un assistente customer service altamente professionale.
-    
-    Linee guida:
-    - Usa sempre un tono formale e cortese
-    - Risolvi i problemi in modo sistematico
-    - Documenta ogni interazione accuratamente
-    - Escalation automatica per casi complessi
-    """,
-    tools=[
-        check_order_status,
-        process_refund,
-        escalate_to_human,
-        send_email_confirmation
-    ]
-)`,
-                    friendly: `Agent(
-    name="Assistente Customer Service Amichevole",
-    instructions="""
-    Sei un assistente customer service cordiale ed empatico.
-    
-    Linee guida:
-    - Usa un tono caldo e accogliente
-    - Mostra comprensione per le frustrazioni del cliente
-    - Usa emoji con moderazione per alleggerire il tono 😊
-    - Personalizza le risposte quando possibile
-    """,
-    tools=[
-        check_order_status,
-        process_refund,
-        suggest_alternatives,
-        collect_feedback
-    ]
-)`
-                },
-                teacher: {
-                    professional: `Agent(
-    name="Tutor AI Professionale",
-    instructions="""
-    Sei un insegnante esperto e professionale.
-    
-    Approccio didattico:
-    - Struttura le lezioni in modo chiaro e logico
-    - Usa terminologia accademica appropriata
-    - Fornisci riferimenti e fonti autorevoli
-    - Valuta oggettivamente i progressi
-    """,
-    tools=[
-        generate_quiz,
-        check_understanding,
-        provide_resources,
-        track_progress
-    ]
-)`,
-                    detailed: `Agent(
-    name="Tutor AI Dettagliato",
-    instructions="""
-    Sei un insegnante che ama spiegazioni approfondite.
-    
-    Metodologia:
-    - Spiega ogni concetto da multiple prospettive
-    - Fornisci esempi dettagliati per ogni punto
-    - Anticipa e rispondi a domande comuni
-    - Crea mappe concettuali complete
-    """,
-    tools=[
-        explain_concept,
-        generate_examples,
-        create_mindmap,
-        deep_dive_topic
-    ]
-)`
-                },
-                analyst: {
-                    concise: `Agent(
-    name="Analista Dati Conciso",
-    instructions="""
-    Sei un analista che fornisce insights diretti.
-    
-    Stile di comunicazione:
-    - Vai dritto al punto
-    - Usa bullet points per chiarezza
-    - Evidenzia solo i dati più rilevanti
-    - Conclusioni chiare e azionabili
-    """,
-    tools=[
-        analyze_data,
-        generate_report,
-        create_visualization,
-        export_results
-    ]
-)`
-                },
-                creative: {
-                    friendly: `Agent(
-    name="Scrittore Creativo Amichevole",
-    instructions="""
-    Sei uno scrittore creativo entusiasta e incoraggiante.
-    
-    Approccio creativo:
-    - Incoraggia la sperimentazione
-    - Offri feedback positivo e costruttivo
-    - Suggerisci tecniche creative divertenti
-    - Celebra ogni progresso!
-    """,
-    tools=[
-        generate_ideas,
-        improve_writing,
-        suggest_prompts,
-        analyze_style
-    ]
-)`
-                }
-            };
-            
-            // Get configuration or show default
-            const config = configurations[type]?.[personality] || 
-                `# Configurazione personalizzata per: ${type} - ${personality}\n\n` +
-                `Agent(\n    name="Agente Personalizzato",\n    instructions="Da definire...",\n    tools=[]\n)`;
-            
-            output.textContent = config;
-            
-            // Add animation
-            output.style.opacity = '0';
-            setTimeout(() => {
-                output.style.transition = 'opacity 0.5s ease';
-                output.style.opacity = '1';
-            }, 100);
+        // Toggle checklist items
+        function toggleCheck(checkbox) {
+            if (checkbox.innerHTML === '') {
+                checkbox.innerHTML = '✓';
+                checkbox.style.background = 'var(--gradient)';
+                checkbox.style.color = 'white';
+                checkbox.style.borderColor = 'var(--primary)';
+            } else {
+                checkbox.innerHTML = '';
+                checkbox.style.background = '';
+                checkbox.style.color = '';
+                checkbox.style.borderColor = '';
+            }
         }
 
         // Add animation on scroll
@@ -1439,6 +1412,13 @@ una bottiglietta d'acqua per rimanere idratato.
         // Observe all content sections
         document.querySelectorAll('.content-section').forEach(section => {
             observer.observe(section);
+        });
+
+        // Animate progress bar on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.progress-bar').style.width = '33%';
+            }, 500);
         });
     </script>
 </body>
