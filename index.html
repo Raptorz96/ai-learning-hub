@@ -510,101 +510,6 @@
             color: #94a3b8;
         }
 
-        /* Interactive Demo */
-        .demo-section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .demo-container {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 20px;
-            padding: 3rem;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            margin-top: 2rem;
-        }
-
-        .chat-demo {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            height: 400px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .chat-message {
-            margin-bottom: 1.5rem;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .message-user {
-            text-align: right;
-        }
-
-        .message-bubble {
-            display: inline-block;
-            padding: 1rem 1.5rem;
-            border-radius: 20px;
-            max-width: 70%;
-        }
-
-        .user-bubble {
-            background: var(--gradient);
-            color: white;
-        }
-
-        .ai-bubble {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .typing-indicator {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 20px;
-            margin-left: 1rem;
-        }
-
-        .typing-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-            }
-            30% {
-                transform: translateY(-10px);
-            }
-        }
 
         /* Footer */
         footer {
@@ -763,7 +668,7 @@
             <ul class="nav-links">
                 <li><a href="#features">Caratteristiche</a></li>
                 <li><a href="#paths">Percorsi</a></li>
-                <li><a href="#demo">Demo</a></li>
+                <li><a href="guide.html">Guide</a></li>
                 <li><a href="lezioni.html" class="cta-button">Inizia ora →</a></li>
             </ul>
         </nav>
@@ -780,8 +685,8 @@
                 <a href="lezioni.html" class="btn-primary">
                     🚀 Esplora i Corsi
                 </a>
-                <a href="#demo" class="btn-secondary">
-                    🤖 Prova la Demo
+                <a href="guide.html" class="btn-secondary">
+                    📚 Leggi le Guide
                 </a>
             </div>
         </div>
@@ -893,33 +798,6 @@
         </div>
     </section>
 
-    <!-- Interactive Demo -->
-    <section class="demo-section" id="demo">
-        <h2 class="section-title">Prova l'AI in Azione</h2>
-        <p class="section-subtitle">
-            Un assaggio di cosa imparerai a costruire
-        </p>
-        <div class="demo-container">
-            <div class="chat-demo" id="chatDemo">
-                <div class="chat-message">
-                    <div class="message-bubble ai-bubble">
-                        👋 Ciao! Sono il tuo assistente AI. Cosa vorresti imparare oggi?
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                <button onclick="askQuestion('agenti')" class="btn-secondary">
-                    Cos'è un agente AI?
-                </button>
-                <button onclick="askQuestion('prompt')" class="btn-secondary">
-                    Come scrivo prompt efficaci?
-                </button>
-                <button onclick="askQuestion('start')" class="btn-secondary">
-                    Da dove comincio?
-                </button>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer>
@@ -943,58 +821,6 @@
     </footer>
 
     <script>
-        // Chat Demo
-        function askQuestion(topic) {
-            const chatDemo = document.getElementById('chatDemo');
-            
-            // Add user message
-            const userMessage = document.createElement('div');
-            userMessage.className = 'chat-message message-user';
-            userMessage.innerHTML = `
-                <div class="message-bubble user-bubble">
-                    ${topic === 'agenti' ? "Cos'è un agente AI?" :
-                      topic === 'prompt' ? "Come scrivo prompt efficaci?" :
-                      "Da dove dovrei cominciare?"}
-                </div>
-            `;
-            chatDemo.appendChild(userMessage);
-            
-            // Add typing indicator
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'chat-message';
-            typingDiv.innerHTML = `
-                <div class="typing-indicator">
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                </div>
-            `;
-            chatDemo.appendChild(typingDiv);
-            
-            // Scroll to bottom
-            chatDemo.scrollTop = chatDemo.scrollHeight;
-            
-            // Simulate response
-            setTimeout(() => {
-                typingDiv.remove();
-                
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'chat-message';
-                
-                let response = '';
-                if (topic === 'agenti') {
-                    response = "Un agente AI è un sistema autonomo che può eseguire task complessi utilizzando modelli di linguaggio, tools esterni e logiche di orchestrazione. Nel nostro corso imparerai a costruirne uno da zero! 🚀";
-                } else if (topic === 'prompt') {
-                    response = "Il prompt engineering è l'arte di comunicare efficacemente con l'AI. I principi chiave sono: chiarezza, contesto, esempi e constraints. Vuoi vedere tecniche avanzate? Inizia dal nostro corso dedicato! 💡";
-                } else {
-                    response = "Ti consiglio di iniziare con il corso 'Costruire Agenti AI' - è perfetto per principianti! Parti dalla Lezione 1 per capire i concetti base, poi procedi con i lab pratici. Ogni lezione dura circa 20-30 minuti. Pronto a iniziare? 🎯";
-                }
-                
-                aiMessage.innerHTML = `<div class="message-bubble ai-bubble">${response}</div>`;
-                chatDemo.appendChild(aiMessage);
-                chatDemo.scrollTop = chatDemo.scrollHeight;
-            }, 1500);
-        }
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
