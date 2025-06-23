@@ -5,92 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lezione 4: Orchestrazione Single-Agent - AI Learning Hub</title>
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark);
+            color: #e2e8f0;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
         /* Background Animation */
         .orchestration-bg {
             position: fixed;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
             z-index: -1;
-            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+            opacity: 0.03;
             overflow: hidden;
         }
 
         .loop-icon {
             position: absolute;
             font-size: 3rem;
-            opacity: 0.1;
-            animation: loopFloat 15s infinite ease-in-out;
+            animation: rotate 20s linear infinite;
         }
 
-        .loop-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .loop-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 3s; }
-        .loop-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 6s; }
-        .loop-icon:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 9s; }
+        .loop-icon:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-duration: 25s;
+        }
 
-        @keyframes loopFloat {
-            0%, 100% { 
-                transform: translate(0, 0) rotate(0deg); 
-                opacity: 0.1;
-            }
-            25% { 
-                transform: translate(30px, -30px) rotate(90deg); 
-                opacity: 0.15;
-            }
-            50% { 
-                transform: translate(-20px, 20px) rotate(180deg); 
-                opacity: 0.1;
-            }
-            75% { 
-                transform: translate(20px, 30px) rotate(270deg); 
-                opacity: 0.15;
-            }
+        .loop-icon:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .loop-icon:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-duration: 35s;
+        }
+
+        .loop-icon:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-duration: 28s;
+            animation-direction: reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         /* Header */
         header {
-            padding: 1.5rem 0;
-            backdrop-filter: blur(20px);
             background: rgba(15, 23, 42, 0.9);
-            position: fixed;
-            width: 100%;
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
 
         nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -99,91 +102,88 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
+        .logo span {
+            font-size: 2rem;
+        }
+
         .nav-links {
             display: flex;
-            gap: 2rem;
             list-style: none;
+            gap: 2rem;
             align-items: center;
         }
 
         .nav-links a {
             color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
-        .back-home {
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .back-home:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
-        }
-
         /* Main Content */
         main {
-            margin-top: 80px;
-            padding: 2rem;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
         /* Lesson Header */
         .lesson-header {
             text-align: center;
-            padding: 3rem 0;
-            position: relative;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .lesson-meta {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            margin-bottom: 1rem;
+            color: #94a3b8;
             font-size: 0.9rem;
-            color: var(--primary);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            margin-bottom: 1rem;
         }
 
         .lesson-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            font-size: 3rem;
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
         }
 
         .lesson-subtitle {
-            font-size: 1.3rem;
-            color: #94a3b8;
-            max-width: 800px;
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 700px;
             margin: 0 auto;
         }
 
-        /* Progress Indicator */
+        /* Progress Bar */
         .progress-container {
-            max-width: 600px;
-            margin: 2rem auto 4rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .progress-header {
@@ -191,38 +191,48 @@
             justify-content: space-between;
             margin-bottom: 1rem;
             color: #94a3b8;
-            font-size: 0.9rem;
         }
 
         .progress-bar {
-            background: rgba(148, 163, 184, 0.1);
-            height: 8px;
-            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.2);
+            height: 10px;
+            border-radius: 10px;
             overflow: hidden;
-            position: relative;
         }
 
         .progress-fill {
             background: var(--gradient);
             height: 100%;
             width: 67%;
-            border-radius: 50px;
-            animation: progressAnimation 1s ease-out;
+            transition: width 0.5s ease-out;
+            animation: shimmer 2s ease-in-out infinite;
         }
 
-        @keyframes progressAnimation {
-            from { width: 50%; }
-            to { width: 67%; }
+        @keyframes shimmer {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
         }
 
         /* Content Sections */
         .content-section {
-            background: rgba(30, 41, 59, 0.3);
+            background: rgba(15, 23, 42, 0.5);
             border-radius: 20px;
             padding: 3rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-title {
@@ -234,497 +244,530 @@
         }
 
         .section-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
         }
 
-        /* Run Loop Visualizer */
-        .run-loop-viz {
-            background: rgba(15, 23, 42, 0.5);
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Run Loop Visualization */
+        .run-loop-container {
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 3rem;
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
         }
 
-        .loop-steps {
+        .run-loop-diagram {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            min-height: 200px;
+            min-height: 300px;
             position: relative;
         }
 
-        .loop-step {
-            background: rgba(99, 102, 241, 0.1);
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            flex: 1;
-            margin: 0 0.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .loop-step.active {
+        .loop-state {
             background: rgba(99, 102, 241, 0.2);
-            border-color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+
+        .loop-state:hover {
             transform: scale(1.05);
+            background: rgba(99, 102, 241, 0.3);
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
-        .step-icon {
-            font-size: 2rem;
+        .loop-state.active {
+            background: var(--gradient);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+
+        .state-icon {
+            font-size: 3rem;
             margin-bottom: 1rem;
         }
 
-        .step-title {
-            font-weight: 600;
+        .state-name {
+            font-size: 1.2rem;
+            font-weight: bold;
             margin-bottom: 0.5rem;
-            color: #f8fafc;
         }
 
-        .step-description {
+        .state-description {
             font-size: 0.9rem;
             color: #94a3b8;
         }
 
-        .loop-arrow {
+        .flow-arrow {
             position: absolute;
-            font-size: 2rem;
-            color: var(--primary);
-            opacity: 0.5;
-            animation: pulseArrow 2s infinite;
+            width: 100px;
+            height: 2px;
+            background: var(--primary);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
         }
 
-        @keyframes pulseArrow {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid var(--primary);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
         }
 
-        /* Exit Conditions */
-        .exit-conditions {
+        .flow-arrow.arrow-1 {
+            left: 25%;
+        }
+
+        .flow-arrow.arrow-2 {
+            left: 50%;
+        }
+
+        .flow-arrow.arrow-3 {
+            left: 75%;
+        }
+
+        /* Exit Conditions Grid */
+        .exit-conditions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .exit-card {
-            background: rgba(15, 23, 42, 0.5);
+        .exit-condition-card {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s ease;
+            padding: 2rem;
+            transition: all 0.3s;
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
-        .exit-card::before {
+        .exit-condition-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .exit-card:hover::before {
-            opacity: 0.1;
-        }
-
-        .exit-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-
-        .exit-icon {
-            width: 40px;
-            height: 40px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
             background: var(--gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .exit-condition-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .exit-condition-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .condition-type {
+            font-size: 2rem;
             margin-bottom: 1rem;
+        }
+
+        .condition-title {
             font-size: 1.3rem;
-        }
-
-        .exit-title {
-            font-weight: 600;
+            color: var(--primary);
             margin-bottom: 0.5rem;
-            color: #f8fafc;
         }
 
-        .exit-description {
-            font-size: 0.9rem;
-            color: #94a3b8;
+        .condition-description {
+            color: #cbd5e1;
+            font-size: 0.95rem;
             margin-bottom: 1rem;
         }
 
-        .exit-code {
+        .condition-example {
             background: rgba(0, 0, 0, 0.3);
-            padding: 0.5rem;
-            border-radius: 8px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.8rem;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.85rem;
             color: var(--accent);
         }
 
-        /* Code Examples */
-        .code-example {
-            background: #1e293b;
+        /* Decision Matrix */
+        .decision-matrix {
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
-            overflow: hidden;
-            margin: 2rem 0;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .code-header {
-            background: rgba(30, 41, 59, 0.7);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .code-lang {
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .copy-btn {
-            background: rgba(99, 102, 241, 0.2);
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: rgba(99, 102, 241, 0.3);
-            transform: translateY(-2px);
-        }
-
-        pre {
-            padding: 1.5rem;
+            padding: 2rem;
+            margin-top: 2rem;
             overflow-x: auto;
         }
 
-        code {
-            color: #e2e8f0;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Interactive Lab */
-        .orchestration-lab {
-            background: rgba(99, 102, 241, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 3rem 0;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-        }
-
-        .lab-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .lab-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-
-        .lab-controls {
-            display: grid;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .control-group {
-            background: rgba(15, 23, 42, 0.5);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .control-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #cbd5e1;
-            font-weight: 500;
-        }
-
-        .control-input {
+        .matrix-table {
             width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            color: white;
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-family: inherit;
+            border-collapse: collapse;
         }
 
-        .control-select {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            color: white;
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
+        .matrix-table th,
+        .matrix-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
         }
 
-        .lab-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .lab-button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lab-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        .lab-output {
-            background: #1e293b;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            min-height: 200px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
-            color: #e2e8f0;
-            white-space: pre-wrap;
-        }
-
-        /* Template Builder */
-        .template-builder {
-            background: rgba(16, 185, 129, 0.05);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .template-variables {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .variable-chip {
-            background: rgba(16, 185, 129, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .variable-chip:hover {
-            background: rgba(16, 185, 129, 0.2);
-            transform: scale(1.05);
-        }
-
-        .variable-chip.selected {
-            background: rgba(16, 185, 129, 0.3);
-            border-color: var(--success);
-        }
-
-        /* Challenge Section */
-        .challenge-section {
-            background: rgba(236, 72, 153, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 3rem 0;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-        }
-
-        .challenge-requirements {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .requirement-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .requirement-list li {
-            padding: 0.5rem 0;
-            padding-left: 2rem;
-            position: relative;
-            color: #cbd5e1;
-        }
-
-        .requirement-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--success);
+        .matrix-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
             font-weight: bold;
         }
 
-        /* Key Takeaways */
-        .takeaways {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+        .matrix-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
         }
 
-        .takeaway-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s ease;
+        .complexity-low {
+            color: var(--success);
         }
 
-        .takeaway-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .complexity-medium {
+            color: var(--warning);
         }
 
-        .takeaway-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient);
-            border-radius: 10px;
+        .complexity-high {
+            color: var(--error);
+        }
+
+        /* State Diagram */
+        .state-diagram {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .state-nodes {
             display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .state-node {
+            background: rgba(99, 102, 241, 0.2);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
         }
 
-        .takeaway-title {
-            font-weight: 600;
+        .state-node:hover {
+            transform: scale(1.1);
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .state-node-icon {
+            font-size: 2rem;
             margin-bottom: 0.5rem;
-            color: #f8fafc;
         }
 
-        .takeaway-text {
+        .state-node-label {
             font-size: 0.9rem;
-            color: #cbd5e1;
+            font-weight: bold;
+        }
+
+        /* Performance Dashboard */
+        .performance-dashboard {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric-chart {
+            height: 100px;
+            background: linear-gradient(to right, 
+                rgba(99, 102, 241, 0.3) 0%, 
+                rgba(99, 102, 241, 0.6) 50%, 
+                rgba(16, 185, 129, 0.6) 100%);
+            border-radius: 10px;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.1);
+            clip-path: polygon(
+                0 100%, 
+                20% 70%, 
+                40% 80%, 
+                60% 40%, 
+                80% 50%, 
+                100% 20%
+            );
+        }
+
+        /* Interactive Lab */
+        .flow-designer {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            min-height: 400px;
+        }
+
+        .designer-toolbar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .tool-item {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: grab;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .tool-item:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        .designer-canvas {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px dashed rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            min-height: 300px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .canvas-placeholder {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-top: 100px;
+        }
+
+        .dropped-component {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 0.5rem;
+            display: inline-block;
+            animation: dropIn 0.3s ease-out;
+        }
+
+        @keyframes dropIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Guide Section */
+        .guide-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .guide-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .guide-btn {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 1rem 0;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .guide-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .guide-btn.coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .guide-note {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Alerts */
+        .alert {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
         /* Navigation */
         .lesson-nav {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin: 4rem 0 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .nav-btn {
             background: rgba(99, 102, 241, 0.1);
-            color: white;
-            text-decoration: none;
+            color: var(--primary);
             padding: 1rem 2rem;
-            border-radius: 50px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .nav-btn:hover {
             background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
+            transform: translateX(-5px);
         }
 
-        .nav-btn.primary {
-            background: var(--gradient);
-            border: none;
-        }
-
-        /* Alerts */
-        .alert {
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .alert-info {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
+        .nav-btn.next:hover {
+            transform: translateX(5px);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .lesson-header h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
-            
-            .loop-steps {
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .run-loop-diagram {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 2rem;
             }
-            
-            .loop-step {
-                margin: 0.5rem 0;
+
+            .flow-arrow {
+                display: none;
             }
-            
-            .exit-conditions {
+
+            .exit-conditions-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .nav-links {
                 gap: 1rem;
                 font-size: 0.9rem;
@@ -750,7 +793,7 @@
             <ul class="nav-links">
                 <li><a href="../../lezioni.html">← Tutte le Lezioni</a></li>
                 <li><a href="../../guide.html">Guide</a></li>
-                <li><a href="../../index.html" class="back-home">🏠 Home</a></li>
+                <li><a href="../../index.html">🏠 Home</a></li>
             </ul>
         </nav>
     </header>
@@ -779,15 +822,15 @@
             </div>
         </div>
 
-        <!-- Section 1: Il Concetto di Run -->
+        <!-- Section 1: Anatomia del Run Loop -->
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🔄</div>
-                Il Concetto di Run
+                Anatomia del Run Loop
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Al cuore di ogni sistema di orchestrazione c'è il concetto di "run": un loop che permette 
+                Al cuore di ogni sistema di orchestrazione c'è il concetto di "run": un loop intelligente che permette 
                 all'agente di operare autonomamente fino al raggiungimento di una condizione di uscita.
             </p>
 
@@ -799,72 +842,54 @@
                 </div>
             </div>
 
-            <h3 style="margin: 2rem 0 1.5rem;">Il Loop di Esecuzione</h3>
-            <div class="run-loop-viz">
-                <div class="loop-steps" id="loopSteps">
-                    <div class="loop-step active" onclick="activateStep(0)">
-                        <div class="step-icon">📥</div>
-                        <div class="step-title">Input</div>
-                        <div class="step-description">Ricezione del messaggio utente o risultato tool</div>
+            <div class="run-loop-container">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary);">
+                    Ciclo di Esecuzione Interattivo
+                </h3>
+                <div class="run-loop-diagram">
+                    <div class="loop-state" onclick="activateState(this, 'ready')">
+                        <div class="state-icon">🚀</div>
+                        <div class="state-name">Ready</div>
+                        <div class="state-description">Inizializzazione</div>
                     </div>
-                    <div class="loop-arrow" style="left: 23%; top: 50%;">→</div>
-                    <div class="loop-step" onclick="activateStep(1)">
-                        <div class="step-icon">🧠</div>
-                        <div class="step-title">Processing</div>
-                        <div class="step-description">LLM analizza e decide l'azione</div>
+                    
+                    <div class="flow-arrow arrow-1"></div>
+                    
+                    <div class="loop-state" onclick="activateState(this, 'running')">
+                        <div class="state-icon">⚡</div>
+                        <div class="state-name">Running</div>
+                        <div class="state-description">Esecuzione task</div>
                     </div>
-                    <div class="loop-arrow" style="left: 48%; top: 50%;">→</div>
-                    <div class="loop-step" onclick="activateStep(2)">
-                        <div class="step-icon">🔧</div>
-                        <div class="step-title">Tool Calls</div>
-                        <div class="step-description">Esecuzione degli strumenti necessari</div>
+                    
+                    <div class="flow-arrow arrow-2"></div>
+                    
+                    <div class="loop-state" onclick="activateState(this, 'waiting')">
+                        <div class="state-icon">⏳</div>
+                        <div class="state-name">Waiting</div>
+                        <div class="state-description">Attesa risposta</div>
                     </div>
-                    <div class="loop-arrow" style="left: 73%; top: 50%;">→</div>
-                    <div class="loop-step" onclick="activateStep(3)">
-                        <div class="step-icon">🎯</div>
-                        <div class="step-title">Check Exit</div>
-                        <div class="step-description">Verifica condizioni di uscita</div>
+                    
+                    <div class="flow-arrow arrow-3"></div>
+                    
+                    <div class="loop-state" onclick="activateState(this, 'complete')">
+                        <div class="state-icon">✅</div>
+                        <div class="state-name">Complete</div>
+                        <div class="state-description">Task completato</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Implementazione Base del Run Loop</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 15px;">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Gestione Memoria e Contesto</h4>
+                    <p style="color: #cbd5e1;">
+                        Durante ogni ciclo, il sistema mantiene:
+                    </p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem; color: #cbd5e1;">
+                        <li>📝 <strong>Message History:</strong> Conversazione completa con l'utente</li>
+                        <li>🛠️ <strong>Tool Calls:</strong> Storico delle chiamate ai tools e risultati</li>
+                        <li>💾 <strong>State Variables:</strong> Variabili di stato persistenti</li>
+                        <li>🎯 <strong>Execution Context:</strong> Contesto attuale dell'esecuzione</li>
+                    </ul>
                 </div>
-                <pre><code># Implementazione concettuale di un run loop
-async def run_agent(agent, initial_message):
-    """
-    Esegue l'agente in un loop fino a una condizione di uscita
-    """
-    messages = [initial_message]
-    max_iterations = 10
-    iteration = 0
-    
-    while iteration < max_iterations:
-        # 1. Processing: LLM decide cosa fare
-        response = await agent.get_completion(messages)
-        
-        # 2. Check per tool calls
-        if response.tool_calls:
-            # 3. Esegui i tools richiesti
-            for tool_call in response.tool_calls:
-                result = await execute_tool(tool_call)
-                messages.append(result)
-        
-        # 4. Check exit conditions
-        if is_final_output(response):
-            return response.content
-        
-        if not response.tool_calls:
-            # Risposta diretta senza tool calls
-            return response.content
-            
-        iteration += 1
-    
-    # Raggiunto limite iterazioni
-    return "Limite iterazioni raggiunto"</code></pre>
             </div>
         </div>
 
@@ -872,1329 +897,570 @@ async def run_agent(agent, initial_message):
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🏁</div>
-                Exit Conditions
+                Exit Conditions: Teoria e Patterns
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Le condizioni di uscita determinano quando un agente ha completato il suo task. 
-                Comprendere e implementare correttamente queste condizioni è cruciale per un'orchestrazione efficace.
+                Le exit conditions determinano quando un agent deve terminare il suo ciclo di esecuzione. 
+                Una corretta implementazione previene loop infiniti e garantisce risultati deterministici.
             </p>
 
-            <div class="exit-conditions">
-                <div class="exit-card" onclick="showExitExample('tool')">
-                    <div class="exit-icon">🎯</div>
-                    <h3 class="exit-title">Tool Call Finale</h3>
-                    <p class="exit-description">
-                        L'agente invoca un tool specifico che segnala il completamento del task
+            <div class="exit-conditions-grid">
+                <div class="exit-condition-card" onclick="showExitDetail('deterministic')">
+                    <div class="condition-type">🎯</div>
+                    <h3 class="condition-title">Deterministiche</h3>
+                    <p class="condition-description">
+                        Condizioni predefinite e verificabili che garantiscono terminazione certa
                     </p>
-                    <div class="exit-code">output_tool.invoke(result)</div>
+                    <div class="condition-example">
+                        if tool_name == "final_output"
+                    </div>
                 </div>
 
-                <div class="exit-card" onclick="showExitExample('direct')">
-                    <div class="exit-icon">💬</div>
-                    <h3 class="exit-title">Risposta Diretta</h3>
-                    <p class="exit-description">
-                        Il modello fornisce una risposta senza invocare alcun tool
+                <div class="exit-condition-card" onclick="showExitDetail('probabilistic')">
+                    <div class="condition-type">🎲</div>
+                    <h3 class="condition-title">Probabilistiche</h3>
+                    <p class="condition-description">
+                        Basate su confidence score o soglie di probabilità
                     </p>
-                    <div class="exit-code">return message.content</div>
+                    <div class="condition-example">
+                        if confidence > 0.95
+                    </div>
                 </div>
 
-                <div class="exit-card" onclick="showExitExample('error')">
-                    <div class="exit-icon">⚠️</div>
-                    <h3 class="exit-title">Errori o Eccezioni</h3>
-                    <p class="exit-description">
-                        Si verifica un errore che impedisce di continuare l'esecuzione
+                <div class="exit-condition-card" onclick="showExitDetail('timeout')">
+                    <div class="condition-type">⏱️</div>
+                    <h3 class="condition-title">Timeout</h3>
+                    <p class="condition-description">
+                        Limiti temporali o di iterazioni per prevenire esecuzioni infinite
                     </p>
-                    <div class="exit-code">raise ExecutionError()</div>
+                    <div class="condition-example">
+                        if iterations >= max_iter
+                    </div>
                 </div>
 
-                <div class="exit-card" onclick="showExitExample('limit')">
-                    <div class="exit-icon">🔢</div>
-                    <h3 class="exit-title">Limite Iterazioni</h3>
-                    <p class="exit-description">
-                        Raggiunto il numero massimo di iterazioni consentite
+                <div class="exit-condition-card" onclick="showExitDetail('error')">
+                    <div class="condition-type">⚠️</div>
+                    <h3 class="condition-title">Error-based</h3>
+                    <p class="condition-description">
+                        Gestione di errori critici che richiedono terminazione immediata
                     </p>
-                    <div class="exit-code">if iteration >= max_iter</div>
+                    <div class="condition-example">
+                        if error.is_critical()
+                    </div>
                 </div>
             </div>
 
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Implementazione Exit Conditions</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>class ExitConditionChecker:
-    """Gestisce le condizioni di uscita per l'agent run loop"""
-    
-    def __init__(self, max_iterations=10):
-        self.max_iterations = max_iterations
-        self.final_tools = ['output_result', 'send_response']
-    
-    def should_exit(self, response, iteration):
-        """
-        Determina se il loop deve terminare
-        
-        Returns:
-            (should_exit: bool, reason: str, result: any)
-        """
-        # 1. Check per tool call finale
-        if response.tool_calls:
-            for tool_call in response.tool_calls:
-                if tool_call.name in self.final_tools:
-                    return True, "final_tool", tool_call.result
-        
-        # 2. Risposta diretta senza tools
-        if response.content and not response.tool_calls:
-            return True, "direct_response", response.content
-        
-        # 3. Check per errori
-        if response.error:
-            return True, "error", response.error
-        
-        # 4. Limite iterazioni
-        if iteration >= self.max_iterations:
-            return True, "max_iterations", None
-        
-        return False, None, None
-
-# Esempio di utilizzo con output strutturato
-class StructuredOutput(BaseModel):
-    summary: str
-    recommendations: List[str]
-    confidence: float
-
-async def run_with_structured_output(agent, query):
-    """Run con output strutturato come exit condition"""
-    
-    async for response in agent.run_stream(query):
-        if response.structured_output:
-            # Exit quando otteniamo l'output strutturato desiderato
-            return response.structured_output
-        
-        # Continua il loop per altre risposte
-        yield response.content</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 3: Orchestrazione con Runner.run() -->
-        <div class="content-section">
-            <h2 class="section-title">
-                <div class="section-icon">🎭</div>
-                Orchestrazione con Runner.run()
-            </h2>
-
-            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Il metodo <code>Runner.run()</code> è il cuore dell'orchestrazione negli Agents SDK. 
-                Gestisce automaticamente il loop, le chiamate ai tools e le condizioni di uscita.
-            </p>
-
-            <div class="alert alert-warning">
-                <div style="font-size: 1.5rem;">⚠️</div>
-                <div>
-                    <strong>Best Practice:</strong> Non reimplementare il run loop da zero. 
-                    Usa Runner.run() e personalizza solo ciò che serve tramite hooks e guardrails.
-                </div>
-            </div>
-
-            <h3 style="margin: 2rem 0 1.5rem;">Esempio Pratico: Agente Analisi Finanziaria</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Financial Analysis Agent</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>from agents import Agent, Runner, Tool
-import yfinance as yf
-import pandas as pd
-
-# Definizione dei tools
-get_stock_data = Tool(
-    name="get_stock_data",
-    description="Recupera dati storici di un titolo azionario",
-    function=lambda symbol, period="1mo": yf.download(symbol, period=period)
-)
-
-calculate_metrics = Tool(
-    name="calculate_metrics",
-    description="Calcola metriche finanziarie chiave",
-    function=lambda df: {
-        "return": ((df['Close'][-1] - df['Close'][0]) / df['Close'][0] * 100),
-        "volatility": df['Close'].pct_change().std() * (252 ** 0.5),
-        "avg_volume": df['Volume'].mean()
-    }
-)
-
-generate_report = Tool(
-    name="generate_report",
-    description="Genera report finale di analisi",
-    function=lambda analysis: {
-        "type": "final_output",
-        "report": analysis
-    }
-)
-
-# Creazione dell'agente
-financial_agent = Agent(
-    name="Financial Analyst",
-    instructions="""
-    Sei un analista finanziario esperto. Il tuo compito è:
-    
-    1. Analizzare i dati storici del titolo richiesto
-    2. Calcolare le metriche chiave di performance
-    3. Fornire un'analisi dettagliata con raccomandazioni
-    
-    Processo:
-    - Usa get_stock_data per ottenere i dati
-    - Usa calculate_metrics per le metriche
-    - Genera un report completo con generate_report
-    
-    Il report deve includere:
-    - Performance del titolo
-    - Analisi della volatilità
-    - Raccomandazioni basate sui dati
-    """,
-    tools=[get_stock_data, calculate_metrics, generate_report]
-)
-
-# Esecuzione con Runner.run()
-async def analyze_stock(symbol: str):
-    """Esegue analisi completa di un titolo"""
-    
-    # Runner.run gestisce automaticamente:
-    # - Il loop di esecuzione
-    # - Le chiamate ai tools
-    # - La gestione degli errori
-    # - Le exit conditions
-    
-    result = await Runner.run(
-        agent=financial_agent,
-        messages=[{
-            "role": "user",
-            "content": f"Analizza il titolo {symbol} dell'ultimo mese"
-        }],
-        # Configurazioni opzionali
-        max_iterations=5,
-        temperature=0.7,
-        # Hook per logging
-        on_tool_call=lambda tool, args: print(f"🔧 Chiamando {tool} con {args}"),
-        on_iteration=lambda i, msg: print(f"📍 Iterazione {i}: {msg[:50]}...")
-    )
-    
-    return result.final_output
-
-# Gestione stato durante l'esecuzione
-class ExecutionState:
-    """Mantiene lo stato durante l'esecuzione dell'agente"""
-    
-    def __init__(self):
-        self.iterations = 0
-        self.tool_calls = []
-        self.intermediate_results = {}
-    
-    def update(self, event):
-        if event.type == "iteration":
-            self.iterations += 1
-        elif event.type == "tool_call":
-            self.tool_calls.append({
-                "tool": event.tool_name,
-                "args": event.args,
-                "result": event.result
-            })
-        elif event.type == "intermediate":
-            self.intermediate_results[event.key] = event.value
-
-# Pattern di orchestrazione avanzata
-async def orchestrate_with_state():
-    """Orchestrazione con gestione stato personalizzata"""
-    
-    state = ExecutionState()
-    
-    async for event in Runner.run_stream(
-        agent=financial_agent,
-        messages=[{"role": "user", "content": "Analizza AAPL"}]
-    ):
-        # Aggiorna stato
-        state.update(event)
-        
-        # React a eventi specifici
-        if event.type == "tool_call" and event.tool_name == "calculate_metrics":
-            print(f"📊 Metriche calcolate: {event.result}")
-        
-        # Possibilità di interrompere basandosi sullo stato
-        if state.iterations > 3 and not state.intermediate_results:
-            print("⚠️ Troppe iterazioni senza risultati")
-            break
-    
-    return state</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 4: Prompt Templates Avanzati -->
-        <div class="content-section">
-            <h2 class="section-title">
-                <div class="section-icon">📝</div>
-                Prompt Templates Avanzati
-            </h2>
-
-            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                I template permettono di gestire la complessità senza ricorrere a sistemi multi-agent. 
-                Un singolo template flessibile può adattarsi a molteplici scenari.
-            </p>
-
-            <div class="template-builder">
-                <h3 style="margin-bottom: 1.5rem;">Template Builder Interattivo</h3>
-                <p style="color: #94a3b8; margin-bottom: 1.5rem;">
-                    Costruisci template dinamici selezionando le variabili da includere:
+            <div style="margin-top: 2rem; padding: 2rem; background: rgba(16, 185, 129, 0.1); border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                <h4 style="color: var(--success); margin-bottom: 1rem;">
+                    🌳 Decision Tree Interattivo
+                </h4>
+                <p style="color: #cbd5e1; margin-bottom: 1rem;">
+                    Clicca sui nodi per esplorare il processo decisionale:
                 </p>
-
-                <div class="template-variables">
-                    <div class="variable-chip" onclick="toggleVariable(this, 'user_name')">
-                        <span>👤</span> user_name
-                    </div>
-                    <div class="variable-chip" onclick="toggleVariable(this, 'user_history')">
-                        <span>📊</span> user_history
-                    </div>
-                    <div class="variable-chip" onclick="toggleVariable(this, 'company_policy')">
-                        <span>📋</span> company_policy
-                    </div>
-                    <div class="variable-chip" onclick="toggleVariable(this, 'context')">
-                        <span>🌍</span> context
-                    </div>
-                    <div class="variable-chip" onclick="toggleVariable(this, 'language')">
-                        <span>🌐</span> language
+                <div id="decisionTree" style="text-align: center; padding: 2rem;">
+                    <!-- Simplified visual representation -->
+                    <div style="display: inline-block; background: var(--gradient); color: white; padding: 1rem 2rem; border-radius: 30px; cursor: pointer;" onclick="expandDecisionTree()">
+                        Esplora Decision Tree →
                     </div>
                 </div>
-
-                <div class="lab-output" id="templateOutput">
-                    Template generato apparirà qui...
-                </div>
-            </div>
-
-            <h3 style="margin: 2rem 0 1.5rem;">Esempio: Call Center Agent Adattivo</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Template System</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>from string import Template
-from typing import Dict, Any
-
-class AdaptivePromptTemplate:
-    """Sistema di template adattivi per agenti single-agent complessi"""
-    
-    def __init__(self):
-        self.base_template = Template("""
-Sei un assistente call center per $company_name.
-
-INFORMAZIONI CLIENTE:
-- Nome: $user_first_name $user_last_name
-- Account dal: $user_tenure
-- Tipo account: $account_type
-- Storico problemi: $complaint_history
-
-POLICY AZIENDALI RILEVANTI:
-$relevant_policies
-
-CONTESTO CONVERSAZIONE:
-- Lingua preferita: $preferred_language
-- Sentiment attuale: $current_sentiment
-- Priorità: $priority_level
-
-ISTRUZIONI SPECIFICHE:
-$dynamic_instructions
-
-STILE COMUNICAZIONE:
-- Tono: $tone_directive
-- Livello formalità: $formality_level
-- Personalizzazione: $personalization_rules
-
-Gestisci la richiesta del cliente seguendo le policy e mantenendo 
-il tono appropriato. $additional_context
-""")
-        
-        self.policy_templates = {
-            "refund": """
-            - Refund automatico per importi < €50
-            - Richiede approvazione manager per > €50
-            - Tempo processamento: 3-5 giorni lavorativi
-            """,
-            "technical": """
-            - Troubleshooting guidato obbligatorio
-            - Escalation dopo 3 tentativi falliti
-            - Remote assistance disponibile per premium
-            """,
-            "billing": """
-            - Verifica identità richiesta
-            - Modifiche piano con effetto prossimo ciclo
-            - Sconti discrezionali fino al 20%
-            """
-        }
-    
-    def generate_prompt(self, context: Dict[str, Any]) -> str:
-        """Genera prompt personalizzato basato sul contesto"""
-        
-        # Determina policy rilevanti
-        relevant_policies = self._get_relevant_policies(context)
-        
-        # Adatta istruzioni basate su sentiment
-        dynamic_instructions = self._adapt_instructions(
-            context.get('current_sentiment', 'neutral'),
-            context.get('issue_type', 'general')
-        )
-        
-        # Costruisci variabili template
-        template_vars = {
-            'company_name': context.get('company_name', 'TechCorp'),
-            'user_first_name': context.get('user_first_name', 'Cliente'),
-            'user_last_name': context.get('user_last_name', ''),
-            'user_tenure': context.get('user_tenure', 'nuovo cliente'),
-            'account_type': context.get('account_type', 'standard'),
-            'complaint_history': self._format_history(context.get('complaint_history', [])),
-            'relevant_policies': relevant_policies,
-            'preferred_language': context.get('preferred_language', 'italiano'),
-            'current_sentiment': context.get('current_sentiment', 'neutral'),
-            'priority_level': context.get('priority_level', 'normale'),
-            'dynamic_instructions': dynamic_instructions,
-            'tone_directive': self._get_tone_directive(context),
-            'formality_level': context.get('formality_level', 'professionale'),
-            'personalization_rules': self._get_personalization_rules(context),
-            'additional_context': context.get('additional_context', '')
-        }
-        
-        return self.base_template.substitute(**template_vars)
-    
-    def _get_relevant_policies(self, context: Dict[str, Any]) -> str:
-        """Seleziona policy rilevanti basate sul contesto"""
-        issue_type = context.get('issue_type', 'general')
-        policies = []
-        
-        if 'refund' in issue_type or 'rimborso' in issue_type:
-            policies.append(self.policy_templates['refund'])
-        if 'technical' in issue_type or 'tecnico' in issue_type:
-            policies.append(self.policy_templates['technical'])
-        if 'billing' in issue_type or 'fatturazione' in issue_type:
-            policies.append(self.policy_templates['billing'])
-        
-        return '\n'.join(policies) if policies else "Policy standard di servizio"
-    
-    def _adapt_instructions(self, sentiment: str, issue_type: str) -> str:
-        """Adatta istruzioni basate su sentiment e tipo problema"""
-        
-        instructions = []
-        
-        if sentiment == 'angry':
-            instructions.extend([
-                "- Riconosci immediatamente la frustrazione del cliente",
-                "- Offri scuse sincere per l'inconveniente",
-                "- Proponi soluzioni concrete entro i primi 2 scambi"
-            ])
-        elif sentiment == 'confused':
-            instructions.extend([
-                "- Usa spiegazioni semplici e chiare",
-                "- Verifica comprensione dopo ogni passaggio",
-                "- Offri esempi pratici quando possibile"
-            ])
-        
-        if issue_type == 'technical':
-            instructions.append("- Guida attraverso troubleshooting step-by-step")
-        elif issue_type == 'billing':
-            instructions.append("- Mostra trasparenza totale sui costi")
-        
-        return '\n'.join(instructions)
-    
-    def _get_tone_directive(self, context: Dict[str, Any]) -> str:
-        """Determina il tono appropriato"""
-        sentiment = context.get('current_sentiment', 'neutral')
-        account_type = context.get('account_type', 'standard')
-        
-        if sentiment == 'angry':
-            return "Empatico e risolutivo"
-        elif account_type == 'premium':
-            return "Professionale e prioritario"
-        else:
-            return "Cordiale e disponibile"
-
-# Esempio di utilizzo
-template_system = AdaptivePromptTemplate()
-
-# Scenario 1: Cliente arrabbiato con problema tecnico
-angry_context = {
-    'user_first_name': 'Mario',
-    'user_last_name': 'Rossi',
-    'user_tenure': '3 anni',
-    'account_type': 'premium',
-    'current_sentiment': 'angry',
-    'issue_type': 'technical',
-    'complaint_history': ['Disconnessioni frequenti', 'Lentezza servizio'],
-    'preferred_language': 'italiano',
-    'priority_level': 'alta'
-}
-
-prompt_angry = template_system.generate_prompt(angry_context)
-
-# Scenario 2: Nuovo cliente confuso su fatturazione
-confused_context = {
-    'user_first_name': 'Laura',
-    'user_last_name': 'Bianchi',
-    'user_tenure': '1 mese',
-    'account_type': 'standard',
-    'current_sentiment': 'confused',
-    'issue_type': 'billing',
-    'complaint_history': [],
-    'preferred_language': 'italiano',
-    'priority_level': 'normale'
-}
-
-prompt_confused = template_system.generate_prompt(confused_context)</code></pre>
             </div>
         </div>
 
-        <!-- Interactive Lab -->
-        <div class="orchestration-lab">
-            <div class="lab-header">
-                <div class="lab-icon">🔬</div>
-                <div>
-                    <h2 style="margin: 0;">Orchestration Visualizer</h2>
-                    <p style="color: #94a3b8; margin-top: 0.5rem;">
-                        Costruisci e testa run loops personalizzati con questo tool interattivo
-                    </p>
-                </div>
-            </div>
-
-            <div class="lab-controls">
-                <div class="control-group">
-                    <label class="control-label">Starting Message</label>
-                    <input type="text" class="control-input" id="startMessage" 
-                           placeholder="es. Analizza le vendite dell'ultimo trimestre" 
-                           value="Analizza il sentiment dei clienti">
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Tool Sequence</label>
-                    <select class="control-select" id="toolSequence" multiple size="4">
-                        <option value="fetch_data" selected>Fetch Data</option>
-                        <option value="analyze_sentiment" selected>Analyze Sentiment</option>
-                        <option value="generate_insights">Generate Insights</option>
-                        <option value="create_report" selected>Create Report</option>
-                    </select>
-                    <small style="color: #64748b;">Ctrl+Click per selezione multipla</small>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Exit Condition</label>
-                    <select class="control-select" id="exitCondition">
-                        <option value="final_tool">Final Tool Call</option>
-                        <option value="max_iterations">Max Iterations (5)</option>
-                        <option value="structured_output">Structured Output</option>
-                        <option value="confidence_threshold">Confidence > 0.8</option>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Error Handling</label>
-                    <select class="control-select" id="errorHandling">
-                        <option value="retry">Retry (max 3)</option>
-                        <option value="fallback">Fallback to Simple</option>
-                        <option value="escalate">Escalate to Human</option>
-                        <option value="graceful">Graceful Degradation</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="lab-actions">
-                <button class="lab-button" onclick="generateOrchestration()">
-                    🚀 Genera Codice
-                </button>
-                <button class="lab-button" style="background: rgba(99, 102, 241, 0.2);" onclick="simulateRun()">
-                    ▶️ Simula Esecuzione
-                </button>
-            </div>
-
-            <div class="lab-output" id="orchestrationOutput">
-                // Il codice generato apparirà qui...
-            </div>
-        </div>
-
-        <!-- Practical Example -->
+        <!-- Section 3: Template Systems vs Multi-Agent -->
         <div class="content-section">
             <h2 class="section-title">
-                <div class="section-icon">💼</div>
-                Esempio Pratico Completo: Research Assistant
+                <div class="section-icon">⚖️</div>
+                Template Systems vs Multi-Agent
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Implementiamo un Research Assistant completo che dimostra tutti i concetti di orchestrazione single-agent.
+                La scelta tra template dinamici e sistemi multi-agent dipende dalla complessità del task 
+                e dai requisiti di manutenibilità del sistema.
             </p>
 
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Research Assistant Completo</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+            <div class="decision-matrix">
+                <h4 style="color: var(--primary); margin-bottom: 1.5rem;">Matrice Decisionale</h4>
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Template Systems</th>
+                            <th>Multi-Agent</th>
+                            <th>Raccomandazione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Task semplici</td>
+                            <td><span class="complexity-low">✅ Ottimo</span></td>
+                            <td><span class="complexity-high">❌ Overkill</span></td>
+                            <td>Usa Templates</td>
+                        </tr>
+                        <tr>
+                            <td>Task complessi</td>
+                            <td><span class="complexity-medium">⚠️ Limitato</span></td>
+                            <td><span class="complexity-low">✅ Ideale</span></td>
+                            <td>Usa Multi-Agent</td>
+                        </tr>
+                        <tr>
+                            <td>Manutenibilità</td>
+                            <td><span class="complexity-low">✅ Semplice</span></td>
+                            <td><span class="complexity-medium">⚠️ Complessa</span></td>
+                            <td>Dipende dal team</td>
+                        </tr>
+                        <tr>
+                            <td>Performance</td>
+                            <td><span class="complexity-low">✅ Veloce</span></td>
+                            <td><span class="complexity-medium">⚠️ Overhead</span></td>
+                            <td>Valuta caso per caso</td>
+                        </tr>
+                        <tr>
+                            <td>Scalabilità</td>
+                            <td><span class="complexity-medium">⚠️ Media</span></td>
+                            <td><span class="complexity-low">✅ Eccellente</span></td>
+                            <td>Multi-Agent per crescita</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 15px;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">📝 Quando Usare Templates</h4>
+                    <ul style="color: #cbd5e1; padding-left: 1.5rem;">
+                        <li>Task con variazioni prevedibili</li>
+                        <li>Necessità di controllo fine sul prompt</li>
+                        <li>Team piccoli o risorse limitate</li>
+                        <li>Prototipazione rapida</li>
+                    </ul>
                 </div>
-                <pre><code>import asyncio
-from typing import List, Dict, Any
-from datetime import datetime
-import logging
-from agents import Agent, Runner, Tool
-
-# Configurazione logging dettagliato
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-class ResearchAssistant:
-    """
-    Research Assistant con orchestrazione avanzata single-agent
-    """
-    
-    def __init__(self):
-        self.search_history = []
-        self.synthesis_cache = {}
-        self.iteration_count = 0
-        
-        # Definizione tools
-        self.tools = [
-            Tool(
-                name="web_search",
-                description="Cerca informazioni sul web",
-                function=self._web_search
-            ),
-            Tool(
-                name="analyze_source",
-                description="Analizza credibilità e rilevanza di una fonte",
-                function=self._analyze_source
-            ),
-            Tool(
-                name="synthesize_findings",
-                description="Sintetizza i risultati della ricerca",
-                function=self._synthesize_findings
-            ),
-            Tool(
-                name="generate_report",
-                description="Genera report strutturato finale",
-                function=self._generate_report
-            )
-        ]
-        
-        # Template instructions adattivo
-        self.instructions_template = """
-        Sei un Research Assistant esperto. La tua missione è:
-        
-        QUERY: {query}
-        
-        PROCESSO DI RICERCA:
-        1. Analisi Query
-           - Identifica i concetti chiave
-           - Determina l'ambito della ricerca
-           - Definisci criteri di rilevanza
-        
-        2. Ricerca Iterativa
-           - Inizia con ricerche ampie
-           - Raffina basandoti sui risultati
-           - Massimo {max_searches} ricerche
-           
-        3. Validazione Fonti
-           - Verifica credibilità (score > 0.7)
-           - Controlla data di pubblicazione
-           - Prioritizza fonti primarie
-           
-        4. Sintesi e Report
-           - Aggrega informazioni validate
-           - Identifica pattern e insights
-           - Genera report strutturato
-        
-        CRITERI DI QUALITÀ:
-        - Accuratezza: Verifica ogni affermazione
-        - Completezza: Copri tutti gli aspetti della query
-        - Obiettività: Presenta multiple prospettive
-        - Chiarezza: Linguaggio accessibile
-        
-        GESTIONE STATO:
-        - Ricerche effettuate: {search_count}/{max_searches}
-        - Fonti validate: {validated_sources}
-        - Confidence attuale: {confidence_score}
-        
-        EXIT CONDITIONS:
-        - Report completo generato
-        - Raggiunto limite ricerche
-        - Confidence > 0.85
-        """
-        
-    async def research(self, query: str, max_iterations: int = 5) -> Dict[str, Any]:
-        """
-        Esegue ricerca completa con orchestrazione avanzata
-        """
-        logger.info(f"🔍 Avvio ricerca: {query}")
-        
-        # Prepara contesto iniziale
-        context = {
-            "query": query,
-            "max_searches": max_iterations * 2,
-            "search_count": 0,
-            "validated_sources": 0,
-            "confidence_score": 0.0
-        }
-        
-        # Crea agente con instructions personalizzate
-        agent = Agent(
-            name="Research Assistant",
-            instructions=self.instructions_template.format(**context),
-            tools=self.tools,
-            model="gpt-4"
-        )
-        
-        # Configurazione run con hooks per monitoring
-        result = await Runner.run(
-            agent=agent,
-            messages=[{"role": "user", "content": query}],
-            max_iterations=max_iterations,
-            # Hooks per tracking dettagliato
-            on_iteration_start=self._on_iteration_start,
-            on_tool_call=self._on_tool_call,
-            on_iteration_end=self._on_iteration_end,
-            # Exit condition personalizzata
-            exit_condition=self._check_research_complete
-        )
-        
-        logger.info(f"✅ Ricerca completata in {self.iteration_count} iterazioni")
-        return result.final_output
-    
-    async def _web_search(self, query: str, filters: Dict = None) -> List[Dict]:
-        """Simula ricerca web con risultati"""
-        logger.info(f"🌐 Ricerca web: {query}")
-        
-        # Tracking ricerche
-        self.search_history.append({
-            "query": query,
-            "timestamp": datetime.now(),
-            "filters": filters
-        })
-        
-        # Simula risultati (in produzione: API reale)
-        results = [
-            {
-                "title": f"Risultato rilevante per: {query}",
-                "url": "https://example.com/article1",
-                "snippet": "Informazioni dettagliate e aggiornate...",
-                "date": "2024-03-15",
-                "relevance_score": 0.85
-            },
-            {
-                "title": f"Analisi approfondita: {query}",
-                "url": "https://academic.edu/paper1",
-                "snippet": "Studio peer-reviewed che dimostra...",
-                "date": "2024-02-20",
-                "relevance_score": 0.92
-            }
-        ]
-        
-        await asyncio.sleep(0.5)  # Simula latenza
-        return results
-    
-    async def _analyze_source(self, source: Dict) -> Dict:
-        """Analizza credibilità e rilevanza fonte"""
-        logger.info(f"📊 Analisi fonte: {source['url']}")
-        
-        analysis = {
-            "url": source["url"],
-            "credibility_score": 0.8,  # In produzione: analisi reale
-            "relevance_score": source.get("relevance_score", 0.7),
-            "freshness": self._calculate_freshness(source.get("date")),
-            "source_type": "academic" if "academic" in source["url"] else "general",
-            "key_points": ["Punto 1", "Punto 2", "Punto 3"]
-        }
-        
-        await asyncio.sleep(0.3)
-        return analysis
-    
-    async def _synthesize_findings(self, findings: List[Dict]) -> Dict:
-        """Sintetizza risultati multipli"""
-        logger.info(f"🔄 Sintesi di {len(findings)} fonti")
-        
-        synthesis = {
-            "main_insights": [
-                "Insight principale dalla ricerca",
-                "Tendenza identificata nei dati",
-                "Conclusione supportata da multiple fonti"
-            ],
-            "consensus_points": ["Punto di consenso 1", "Punto di consenso 2"],
-            "conflicting_views": ["Vista alternativa 1"],
-            "confidence": 0.87,
-            "sources_count": len(findings)
-        }
-        
-        # Cache per ottimizzazione
-        cache_key = str(sorted([f["url"] for f in findings]))
-        self.synthesis_cache[cache_key] = synthesis
-        
-        await asyncio.sleep(0.5)
-        return synthesis
-    
-    async def _generate_report(self, synthesis: Dict, metadata: Dict) -> Dict:
-        """Genera report finale strutturato"""
-        logger.info("📄 Generazione report finale")
-        
-        report = {
-            "type": "final_output",
-            "title": f"Report di Ricerca: {metadata['query']}",
-            "executive_summary": "Sintesi esecutiva dei findings principali...",
-            "sections": [
-                {
-                    "title": "Findings Principali",
-                    "content": synthesis["main_insights"]
-                },
-                {
-                    "title": "Analisi Dettagliata",
-                    "content": "Analisi approfondita dei risultati..."
-                },
-                {
-                    "title": "Raccomandazioni",
-                    "content": ["Raccomandazione 1", "Raccomandazione 2"]
-                }
-            ],
-            "metadata": {
-                "generated_at": datetime.now().isoformat(),
-                "sources_analyzed": synthesis["sources_count"],
-                "confidence_score": synthesis["confidence"],
-                "iterations": self.iteration_count
-            }
-        }
-        
-        await asyncio.sleep(0.3)
-        return report
-    
-    def _on_iteration_start(self, iteration: int, messages: List):
-        """Hook chiamato all'inizio di ogni iterazione"""
-        self.iteration_count = iteration
-        logger.info(f"🔄 Iterazione {iteration} avviata")
-    
-    def _on_tool_call(self, tool_name: str, args: Dict, result: Any):
-        """Hook chiamato per ogni tool call"""
-        logger.info(f"🔧 Tool '{tool_name}' eseguito con successo")
-        
-        # Update del contesto basato sui risultati
-        if tool_name == "web_search":
-            self.search_count = len(self.search_history)
-        elif tool_name == "analyze_source" and result["credibility_score"] > 0.7:
-            self.validated_sources += 1
-    
-    def _on_iteration_end(self, iteration: int, response: Any):
-        """Hook chiamato alla fine di ogni iterazione"""
-        logger.info(f"✓ Iterazione {iteration} completata")
-    
-    def _check_research_complete(self, response: Any, context: Dict) -> bool:
-        """Exit condition personalizzata per la ricerca"""
-        # Exit se report finale generato
-        if hasattr(response, 'tool_calls'):
-            for call in response.tool_calls:
-                if call.name == "generate_report" and call.result.get("type") == "final_output":
-                    return True
-        
-        # Exit se confidence alta
-        if context.get("confidence_score", 0) > 0.85:
-            logger.info("🎯 Confidence threshold raggiunto")
-            return True
-        
-        # Exit se troppe ricerche
-        if len(self.search_history) >= context.get("max_searches", 10):
-            logger.info("⚠️ Limite ricerche raggiunto")
-            return True
-        
-        return False
-    
-    def _calculate_freshness(self, date_str: str) -> float:
-        """Calcola freshness score basato sulla data"""
-        if not date_str:
-            return 0.5
-        
-        # Implementazione semplificata
-        try:
-            date = datetime.fromisoformat(date_str)
-            days_old = (datetime.now() - date).days
-            return max(0, 1 - (days_old / 365))
-        except:
-            return 0.5
-
-# Esempio di utilizzo
-async def main():
-    assistant = ResearchAssistant()
-    
-    # Query di ricerca complessa
-    query = "Impatto dell'AI sulla produttività aziendale nel 2024"
-    
-    # Esegui ricerca con orchestrazione completa
-    report = await assistant.research(query, max_iterations=5)
-    
-    # Output report
-    print("\n" + "="*50)
-    print(f"📊 {report['title']}")
-    print("="*50)
-    print(f"\n📝 {report['executive_summary']}")
-    
-    for section in report['sections']:
-        print(f"\n### {section['title']}")
-        print(section['content'])
-    
-    print(f"\n📈 Metadata:")
-    for key, value in report['metadata'].items():
-        print(f"  - {key}: {value}")
-
-if __name__ == "__main__":
-    asyncio.run(main())</code></pre>
+                
+                <div style="background: rgba(236, 72, 153, 0.1); padding: 1.5rem; border-radius: 15px;">
+                    <h4 style="color: var(--secondary); margin-bottom: 1rem;">🤖 Quando Usare Multi-Agent</h4>
+                    <ul style="color: #cbd5e1; padding-left: 1.5rem;">
+                        <li>Task con molte specializzazioni</li>
+                        <li>Necessità di parallelizzazione</li>
+                        <li>Sistemi che devono crescere</li>
+                        <li>Team enterprise con risorse</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <!-- Challenge Section -->
-        <div class="challenge-section">
-            <h2 class="section-title">
-                <div class="section-icon">🎯</div>
-                Sfida Pratica: Sistema di Analisi Sentiment Multi-Fonte
-            </h2>
-
-            <p style="margin-bottom: 2rem; color: #cbd5e1;">
-                Applica tutto quello che hai imparato creando un sistema completo di analisi sentiment 
-                che orchestra multiple fonti di dati in tempo reale.
-            </p>
-
-            <div class="challenge-requirements">
-                <h3 style="color: var(--secondary); margin-bottom: 1rem;">📋 Requisiti del Sistema</h3>
-                <ul class="requirement-list">
-                    <li>Raccolta dati da almeno 3 API diverse (Twitter, Reddit, News)</li>
-                    <li>Analisi sentiment in tempo reale per ogni fonte</li>
-                    <li>Gestione rate limits con retry logic intelligente</li>
-                    <li>Aggregazione risultati con peso per fonte</li>
-                    <li>Dashboard finale con visualizzazioni</li>
-                    <li>Sistema di caching per ottimizzare performance</li>
-                    <li>Gestione errori robusta con fallback</li>
-                    <li>Exit conditions basate su confidence e coverage</li>
-                </ul>
-            </div>
-
-            <div class="alert alert-info" style="margin-top: 2rem;">
-                <div style="font-size: 1.5rem;">💡</div>
-                <div>
-                    <strong>Suggerimento:</strong> Inizia implementando un singolo tool per fonte, 
-                    poi aggiungi l'orchestrazione con Runner.run(). Usa template per adattare 
-                    l'analisi basandoti sul tipo di contenuto.
-                </div>
-            </div>
-
-            <h3 style="margin: 2rem 0 1rem;">Struttura Consigliata</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Struttura Base Challenge</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>class MultiSourceSentimentAnalyzer:
-    """
-    Il tuo sistema di analisi sentiment multi-fonte
-    """
-    
-    def __init__(self):
-        # Tools per ogni fonte
-        self.twitter_tool = Tool(...)
-        self.reddit_tool = Tool(...)
-        self.news_tool = Tool(...)
-        
-        # Tool di analisi
-        self.sentiment_analyzer = Tool(...)
-        self.aggregator_tool = Tool(...)
-        self.dashboard_generator = Tool(...)
-        
-        # Rate limiting
-        self.rate_limiter = RateLimiter({
-            'twitter': 100,  # requests per 15 min
-            'reddit': 60,    # requests per minute
-            'news': 1000     # requests per day
-        })
-    
-    async def analyze_topic(self, topic: str, timeframe: str = "24h"):
-        """
-        Orchestrazione principale dell'analisi
-        """
-        # 1. Setup agent con template dinamico
-        # 2. Implementa run loop con exit conditions
-        # 3. Gestisci stato e aggregazione
-        # 4. Genera dashboard finale
-        pass</code></pre>
-            </div>
-        </div>
-
-        <!-- Deep Dive Section -->
+        <!-- Section 4: State Management -->
         <div class="content-section">
             <h2 class="section-title">
-                <div class="section-icon">🔍</div>
-                Approfondimenti
+                <div class="section-icon">💾</div>
+                State Management nell'Orchestrazione
             </h2>
 
-            <h3 style="margin-bottom: 1.5rem;">Debugging e Logging in Produzione</h3>
-            <p style="color: #cbd5e1; margin-bottom: 1.5rem;">
-                Un sistema di orchestrazione robusto richiede visibilità completa su ogni step dell'esecuzione.
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                La gestione dello stato è fondamentale per mantenere contesto e coerenza durante l'esecuzione dell'agente.
             </p>
 
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Production Logging</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+            <div class="state-diagram">
+                <h4 style="color: var(--primary); margin-bottom: 2rem;">Pattern di Gestione Stato</h4>
+                
+                <div class="state-nodes">
+                    <div class="state-node" onclick="showStatePattern('memento')">
+                        <div class="state-node-icon">📸</div>
+                        <div class="state-node-label">Memento</div>
+                    </div>
+                    
+                    <div class="state-node" onclick="showStatePattern('state-machine')">
+                        <div class="state-node-icon">🎰</div>
+                        <div class="state-node-label">State Machine</div>
+                    </div>
+                    
+                    <div class="state-node" onclick="showStatePattern('event-sourcing')">
+                        <div class="state-node-icon">📊</div>
+                        <div class="state-node-label">Event Sourcing</div>
+                    </div>
                 </div>
-                <pre><code>import structlog
-from opentelemetry import trace
 
-# Configurazione structured logging
-logger = structlog.get_logger()
-tracer = trace.get_tracer(__name__)
-
-class ProductionRunner:
-    """Runner con logging e tracing production-ready"""
-    
-    async def run_with_telemetry(self, agent, messages):
-        with tracer.start_as_current_span("agent_run") as span:
-            span.set_attribute("agent.name", agent.name)
-            span.set_attribute("input.message", messages[0]["content"])
-            
-            try:
-                # Log strutturato per ogni fase
-                logger.info(
-                    "agent_run_started",
-                    agent_name=agent.name,
-                    input_tokens=len(messages[0]["content"]),
-                    timestamp=datetime.now().isoformat()
-                )
-                
-                result = await Runner.run(
-                    agent=agent,
-                    messages=messages,
-                    on_tool_call=self._log_tool_call
-                )
-                
-                logger.info(
-                    "agent_run_completed",
-                    success=True,
-                    output_tokens=len(str(result)),
-                    duration_ms=span.duration
-                )
-                
-                return result
-                
-            except Exception as e:
-                logger.error(
-                    "agent_run_failed",
-                    error=str(e),
-                    error_type=type(e).__name__
-                )
-                span.record_exception(e)
-                raise</code></pre>
+                <div id="statePatternDetails" style="margin-top: 2rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 15px; min-height: 100px;">
+                    <p style="color: #94a3b8; text-align: center;">
+                        Clicca su un pattern per vedere i dettagli
+                    </p>
+                </div>
             </div>
 
-            <h3 style="margin: 2rem 0 1.5rem;">Performance Optimization</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                <div style="background: rgba(15, 23, 42, 0.5); padding: 1.5rem; border-radius: 15px;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">🚀 Caching Strategico</h4>
-                    <p style="color: #cbd5e1;">
-                        Cache risultati di tool calls costose. Usa TTL appropriati basati sulla natura dei dati.
-                    </p>
+            <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <h4 style="color: var(--success);">✅ Persistenza</h4>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;">Database, Cache, File System</p>
                 </div>
                 
-                <div style="background: rgba(15, 23, 42, 0.5); padding: 1.5rem; border-radius: 15px;">
-                    <h4 style="color: var(--accent); margin-bottom: 1rem;">⚡ Parallel Execution</h4>
-                    <p style="color: #cbd5e1;">
-                        Quando possibile, esegui tool calls indipendenti in parallelo con asyncio.gather().
-                    </p>
+                <div style="background: rgba(245, 158, 11, 0.1); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <h4 style="color: var(--warning);">⚡ In-Memory</h4>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;">Veloce ma volatile</p>
                 </div>
                 
-                <div style="background: rgba(15, 23, 42, 0.5); padding: 1.5rem; border-radius: 15px;">
-                    <h4 style="color: var(--success); margin-bottom: 1rem;">📊 Monitoring Metriche</h4>
-                    <p style="color: #cbd5e1;">
-                        Traccia latenze, token usage e success rate per identificare bottlenecks.
-                    </p>
+                <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <h4 style="color: var(--primary);">🔄 Rollback</h4>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;">Recovery e undo operations</p>
                 </div>
             </div>
         </div>
 
-        <!-- Key Takeaways -->
+        <!-- Section 5: Performance e Monitoring -->
         <div class="content-section">
             <h2 class="section-title">
-                <div class="section-icon">💡</div>
-                Key Takeaways
+                <div class="section-icon">📊</div>
+                Performance e Monitoring
             </h2>
 
-            <div class="takeaways">
-                <div class="takeaway-card">
-                    <div class="takeaway-icon">🔄</div>
-                    <h3 class="takeaway-title">Run Loop è il Cuore</h3>
-                    <p class="takeaway-text">
-                        L'orchestrazione single-agent si basa su un loop intelligente che gestisce 
-                        autonomamente l'esecuzione fino al completamento.
-                    </p>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                Monitorare le performance è essenziale per ottimizzare l'orchestrazione e identificare bottleneck.
+            </p>
+
+            <div class="performance-dashboard">
+                <h4 style="color: var(--primary); margin-bottom: 2rem; text-align: center;">
+                    Dashboard Concettuale delle Metriche
+                </h4>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">2.3s</div>
+                        <div class="metric-label">Latenza Media</div>
+                        <div class="metric-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">95%</div>
+                        <div class="metric-label">Success Rate</div>
+                        <div class="metric-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">1.2K</div>
+                        <div class="metric-label">Tokens/Request</div>
+                        <div class="metric-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-value">8ms</div>
+                        <div class="metric-label">Tool Latency</div>
+                        <div class="metric-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="takeaway-card">
-                    <div class="takeaway-icon">🏁</div>
-                    <h3 class="takeaway-title">Exit Conditions Chiare</h3>
-                    <p class="takeaway-text">
-                        Definisci sempre condizioni di uscita esplicite per evitare loop infiniti 
-                        e garantire completamento deterministico.
-                    </p>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 0, 0, 0.3); border-radius: 15px;">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">🔍 Bottleneck Identification</h4>
+                    <ul style="color: #cbd5e1; padding-left: 1.5rem;">
+                        <li><strong>API Calls:</strong> Monitora latenza e rate limits</li>
+                        <li><strong>Token Usage:</strong> Ottimizza prompt e risposte</li>
+                        <li><strong>Tool Performance:</strong> Identifica tools lenti</li>
+                        <li><strong>Memory Usage:</strong> Previeni memory leaks</li>
+                    </ul>
                 </div>
 
-                <div class="takeaway-card">
-                    <div class="takeaway-icon">📝</div>
-                    <h3 class="takeaway-title">Template > Complessità</h3>
-                    <p class="takeaway-text">
-                        I prompt template adattivi permettono di gestire scenari complessi 
-                        senza ricorrere a sistemi multi-agent.
-                    </p>
-                </div>
-
-                <div class="takeaway-card">
-                    <div class="takeaway-icon">📊</div>
-                    <h3 class="takeaway-title">Visibilità è Cruciale</h3>
-                    <p class="takeaway-text">
-                        Implementa logging e monitoring dettagliati per debug efficace 
-                        e ottimizzazione continua del sistema.
-                    </p>
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 15px;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">📈 Observability Patterns</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
+                        <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 2rem;">📝</div>
+                            <div style="color: #cbd5e1; font-size: 0.9rem;">Structured Logging</div>
+                        </div>
+                        <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 2rem;">🔍</div>
+                            <div style="color: #cbd5e1; font-size: 0.9rem;">Distributed Tracing</div>
+                        </div>
+                        <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 2rem;">📊</div>
+                            <div style="color: #cbd5e1; font-size: 0.9rem;">Real-time Metrics</div>
+                        </div>
+                        <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 10px;">
+                            <div style="font-size: 2rem;">🚨</div>
+                            <div style="color: #cbd5e1; font-size: 0.9rem;">Smart Alerting</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Lab Visual -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🔬</div>
+                LAB: Orchestration Flow Designer
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                Progetta il tuo flusso di orchestrazione trascinando i componenti nel canvas. 
+                Nessun codice richiesto - solo logica visuale!
+            </p>
+
+            <div class="flow-designer">
+                <div class="designer-toolbar">
+                    <div class="tool-item" draggable="true" ondragstart="drag(event)" data-component="start">
+                        <span style="font-size: 1.5rem;">🚀</span>
+                        <span>Start Node</span>
+                    </div>
+                    <div class="tool-item" draggable="true" ondragstart="drag(event)" data-component="llm">
+                        <span style="font-size: 1.5rem;">🧠</span>
+                        <span>LLM Call</span>
+                    </div>
+                    <div class="tool-item" draggable="true" ondragstart="drag(event)" data-component="tool">
+                        <span style="font-size: 1.5rem;">🛠️</span>
+                        <span>Tool Call</span>
+                    </div>
+                    <div class="tool-item" draggable="true" ondragstart="drag(event)" data-component="condition">
+                        <span style="font-size: 1.5rem;">🔀</span>
+                        <span>Condition</span>
+                    </div>
+                    <div class="tool-item" draggable="true" ondragstart="drag(event)" data-component="end">
+                        <span style="font-size: 1.5rem;">🏁</span>
+                        <span>End Node</span>
+                    </div>
+                </div>
+
+                <div class="designer-canvas" ondrop="drop(event)" ondragover="allowDrop(event)" id="canvas">
+                    <div class="canvas-placeholder">
+                        Trascina qui i componenti per costruire il tuo flusso di orchestrazione
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button onclick="exportFlow()" style="background: var(--gradient); color: white; padding: 0.75rem 2rem; border: none; border-radius: 30px; cursor: pointer; font-size: 1rem;">
+                        📥 Esporta Diagramma
+                    </button>
+                    <button onclick="clearCanvas()" style="background: rgba(239, 68, 68, 0.2); color: var(--error); padding: 0.75rem 2rem; border: 1px solid var(--error); border-radius: 30px; cursor: pointer; font-size: 1rem; margin-left: 1rem;">
+                        🗑️ Reset Canvas
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guide Section -->
+        <div class="guide-section">
+            <h3>🔬 Implementazione Avanzata</h3>
+            <p>Pronto per costruire un sistema di orchestrazione completo?</p>
+            <a href="../../guide/research-assistant-orchestration.html" class="guide-btn coming-soon">
+                Research Assistant con Orchestrazione →
+            </a>
+            <p class="guide-note">Coming Soon: Run loops, template system, 
+               e monitoring production-ready</p>
         </div>
 
         <!-- Navigation -->
         <div class="lesson-nav">
             <a href="lezione-3.html" class="nav-btn">
-                ← Lezione 3
+                ← Lezione 3: Tools e Instructions
             </a>
-            <div style="text-align: center;">
-                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Prossima lezione:</p>
-                <strong>Sistemi Multi-Agent</strong>
-            </div>
-            <a href="lezione-5.html" class="nav-btn primary">
-                Continua →
+            <a href="lezione-5.html" class="nav-btn next">
+                Lezione 5: Multi-Agent Systems →
             </a>
         </div>
     </main>
 
     <script>
-        // Activate step in run loop visualization
-        function activateStep(index) {
-            const steps = document.querySelectorAll('.loop-step');
-            steps.forEach((step, i) => {
-                step.classList.toggle('active', i === index);
-            });
+        // Run Loop Animation
+        let currentState = 0;
+        const states = ['ready', 'running', 'waiting', 'complete'];
+        
+        function animateRunLoop() {
+            const stateElements = document.querySelectorAll('.loop-state');
+            stateElements.forEach(el => el.classList.remove('active'));
+            
+            if (currentState < stateElements.length) {
+                stateElements[currentState].classList.add('active');
+                currentState = (currentState + 1) % states.length;
+            }
         }
-
-        // Show exit condition example
-        function showExitExample(type) {
-            const examples = {
-                tool: `# Exit con tool finale
-if tool_call.name == "generate_report":
-    return tool_call.result`,
-                direct: `# Exit con risposta diretta
-if response.content and not response.tool_calls:
-    return response.content`,
-                error: `# Exit per errore
-if response.error:
-    logger.error(f"Execution failed: {response.error}")
-    raise ExecutionError(response.error)`,
-                limit: `# Exit per limite iterazioni
-if iteration >= self.max_iterations:
-    return {"status": "max_iterations_reached", "partial": results}`
+        
+        // Start animation
+        setInterval(animateRunLoop, 2000);
+        
+        // Interactive State Activation
+        function activateState(element, state) {
+            document.querySelectorAll('.loop-state').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Show state details
+            const details = {
+                ready: "Inizializzazione dell'agente con istruzioni e tools",
+                running: "Esecuzione attiva di task e chiamate LLM",
+                waiting: "Attesa di risposte da tools esterni o user input",
+                complete: "Task completato con successo o exit condition raggiunta"
             };
             
-            console.log(`Exit Condition Example - ${type}:\n${examples[type]}`);
+            // Could show a modal or update a detail section
+            console.log(details[state]);
         }
-
-        // Toggle template variables
-        let selectedVariables = new Set();
         
-        function toggleVariable(chip, variable) {
-            chip.classList.toggle('selected');
+        // Exit Condition Details
+        function showExitDetail(type) {
+            const details = {
+                deterministic: {
+                    title: "Exit Conditions Deterministiche",
+                    content: "Le condizioni deterministiche garantiscono una terminazione prevedibile basata su eventi specifici come tool calls finali o output strutturati."
+                },
+                probabilistic: {
+                    title: "Exit Conditions Probabilistiche",
+                    content: "Basate su metriche di confidence o threshold, permettono terminazione flessibile quando l'agente raggiunge un livello di certezza sufficiente."
+                },
+                timeout: {
+                    title: "Timeout e Limiti",
+                    content: "Protezioni essenziali contro loop infiniti, includono limiti di tempo, numero di iterazioni o consumo di risorse."
+                },
+                error: {
+                    title: "Gestione Errori",
+                    content: "Terminazione controllata in caso di errori critici, con possibilità di retry policy e graceful degradation."
+                }
+            };
             
-            if (selectedVariables.has(variable)) {
-                selectedVariables.delete(variable);
-            } else {
-                selectedVariables.add(variable);
+            // Could show in a modal or update a section
+            console.log(details[type]);
+        }
+        
+        // Decision Tree Expansion
+        function expandDecisionTree() {
+            const treeContainer = document.getElementById('decisionTree');
+            treeContainer.innerHTML = `
+                <div style="padding: 2rem; background: rgba(0, 0, 0, 0.3); border-radius: 15px;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: var(--primary);">START</strong> → Valuta Response
+                    </div>
+                    <div style="margin-left: 2rem; margin-bottom: 1rem;">
+                        ├─ Tool Call? → Check se finale → EXIT
+                    </div>
+                    <div style="margin-left: 2rem; margin-bottom: 1rem;">
+                        ├─ Direct Response? → No tools needed → EXIT
+                    </div>
+                    <div style="margin-left: 2rem; margin-bottom: 1rem;">
+                        ├─ Error? → Critical? → EXIT / RETRY
+                    </div>
+                    <div style="margin-left: 2rem;">
+                        └─ Max Iterations? → Force EXIT
+                    </div>
+                </div>
+            `;
+        }
+        
+        // State Pattern Details
+        function showStatePattern(pattern) {
+            const details = {
+                memento: {
+                    icon: "📸",
+                    title: "Memento Pattern",
+                    description: "Cattura e ripristina lo stato dell'agente in qualsiasi momento. Ideale per implementare undo/redo e checkpoint durante l'esecuzione."
+                },
+                'state-machine': {
+                    icon: "🎰",
+                    title: "State Machine Pattern",
+                    description: "Definisce stati discreti e transizioni valide. Perfetto per workflow complessi con regole di business specifiche."
+                },
+                'event-sourcing': {
+                    icon: "📊",
+                    title: "Event Sourcing Pattern",
+                    description: "Registra ogni evento come immutabile. Permette replay completo dell'esecuzione e audit trail dettagliato."
+                }
+            };
+            
+            const detailsDiv = document.getElementById('statePatternDetails');
+            const detail = details[pattern];
+            
+            detailsDiv.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">${detail.icon}</div>
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">${detail.title}</h4>
+                    <p style="color: #cbd5e1;">${detail.description}</p>
+                </div>
+            `;
+        }
+        
+        // Drag and Drop for Flow Designer
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        
+        function drag(ev) {
+            ev.dataTransfer.setData("component", ev.target.getAttribute('data-component'));
+        }
+        
+        function drop(ev) {
+            ev.preventDefault();
+            const component = ev.dataTransfer.getData("component");
+            const canvas = document.getElementById('canvas');
+            
+            // Remove placeholder if exists
+            const placeholder = canvas.querySelector('.canvas-placeholder');
+            if (placeholder) {
+                placeholder.remove();
             }
             
-            updateTemplate();
-        }
-
-        function updateTemplate() {
-            const output = document.getElementById('templateOutput');
-            const variables = Array.from(selectedVariables);
+            // Create component element
+            const componentEl = document.createElement('div');
+            componentEl.className = 'dropped-component';
             
-            if (variables.length === 0) {
-                output.textContent = 'Seleziona variabili per generare il template...';
+            const icons = {
+                start: '🚀 Start',
+                llm: '🧠 LLM Call',
+                tool: '🛠️ Tool Call',
+                condition: '🔀 Condition',
+                end: '🏁 End'
+            };
+            
+            componentEl.textContent = icons[component] || component;
+            canvas.appendChild(componentEl);
+        }
+        
+        function clearCanvas() {
+            const canvas = document.getElementById('canvas');
+            canvas.innerHTML = `
+                <div class="canvas-placeholder">
+                    Trascina qui i componenti per costruire il tuo flusso di orchestrazione
+                </div>
+            `;
+        }
+        
+        function exportFlow() {
+            const canvas = document.getElementById('canvas');
+            const components = canvas.querySelectorAll('.dropped-component');
+            
+            if (components.length === 0) {
+                alert('Aggiungi almeno un componente prima di esportare!');
                 return;
             }
             
-            let template = `TEMPLATE_PROMPT = """
-Sei un assistente AI professionale.
-
-`;
-            
-            if (variables.includes('user_name')) {
-                template += `UTENTE: {{user_name}}
-`;
-            }
-            
-            if (variables.includes('user_history')) {
-                template += `STORICO INTERAZIONI: {{user_history}}
-`;
-            }
-            
-            if (variables.includes('company_policy')) {
-                template += `POLICY AZIENDALI:
-{{company_policy}}
-
-`;
-            }
-            
-            if (variables.includes('context')) {
-                template += `CONTESTO ATTUALE:
-{{context}}
-
-`;
-            }
-            
-            if (variables.includes('language')) {
-                template += `LINGUA PREFERITA: {{language}}
-`;
-            }
-            
-            template += `
-ISTRUZIONI:
-Gestisci la richiesta dell'utente seguendo le policy e il contesto fornito.
-"""`;
-            
-            output.textContent = template;
-        }
-
-        // Generate orchestration code
-        function generateOrchestration() {
-            const message = document.getElementById('startMessage').value;
-            const tools = Array.from(document.getElementById('toolSequence').selectedOptions).map(o => o.value);
-            const exitCondition = document.getElementById('exitCondition').value;
-            const errorHandling = document.getElementById('errorHandling').value;
-            
-            const code = `# Orchestrazione Generata Automaticamente
-from agents import Agent, Runner, Tool
-
-# Definizione agent
-agent = Agent(
-    name="Custom Agent",
-    instructions="""${message}""",
-    tools=[${tools.map(t => `${t}_tool`).join(', ')}]
-)
-
-# Configurazione exit condition
-exit_config = {
-    "type": "${exitCondition}",
-    ${exitCondition === 'max_iterations' ? '"max_iterations": 5,' : ''}
-    ${exitCondition === 'confidence_threshold' ? '"threshold": 0.8,' : ''}
-}
-
-# Error handling
-error_strategy = "${errorHandling}"
-
-# Run orchestration
-async def run_orchestration():
-    try:
-        result = await Runner.run(
-            agent=agent,
-            messages=[{"role": "user", "content": "${message}"}],
-            exit_condition=exit_config,
-            error_strategy=error_strategy
-        )
-        return result
-    except Exception as e:
-        if error_strategy == "retry":
-            # Retry logic
-            pass
-        elif error_strategy == "fallback":
-            # Fallback to simple
-            pass
-        elif error_strategy == "escalate":
-            # Escalate to human
-            pass
-        else:
-            # Graceful degradation
-            pass
-`;
-            
-            document.getElementById('orchestrationOutput').textContent = code;
-        }
-
-        // Simulate run execution
-        let simulationStep = 0;
-        function simulateRun() {
-            const output = document.getElementById('orchestrationOutput');
-            const steps = [
-                '🚀 Avvio simulazione run...',
-                '📥 [Iteration 1] Input: "Analizza il sentiment dei clienti"',
-                '🧠 [Iteration 1] LLM decide: chiamare fetch_data',
-                '🔧 [Iteration 1] Esecuzione: fetch_data(source="reviews")',
-                '✅ [Iteration 1] Risultato: 500 recensioni recuperate',
-                '📥 [Iteration 2] Input: risultati fetch_data',
-                '🧠 [Iteration 2] LLM decide: chiamare analyze_sentiment',
-                '🔧 [Iteration 2] Esecuzione: analyze_sentiment(reviews)',
-                '✅ [Iteration 2] Risultato: 65% positivo, 20% neutro, 15% negativo',
-                '📥 [Iteration 3] Input: risultati analisi',
-                '🧠 [Iteration 3] LLM decide: chiamare create_report',
-                '🔧 [Iteration 3] Esecuzione: create_report(analysis)',
-                '🏁 [Exit] Condizione raggiunta: final_tool chiamato',
-                '✨ Run completato con successo!'
-            ];
-            
-            output.textContent = '';
-            simulationStep = 0;
-            
-            const interval = setInterval(() => {
-                if (simulationStep < steps.length) {
-                    output.textContent += steps[simulationStep] + '\n';
-                    simulationStep++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 800);
-        }
-
-        // Copy code function
-        function copyCode(button) {
-            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
-            const text = codeBlock.innerText;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.innerText;
-                button.innerText = '✅ Copiato!';
-                setTimeout(() => {
-                    button.innerText = originalText;
-                }, 2000);
+            let flow = "Flusso di Orchestrazione:\n";
+            components.forEach((comp, index) => {
+                flow += `${index + 1}. ${comp.textContent}\n`;
             });
+            
+            // In a real app, this would generate a proper diagram
+            console.log(flow);
+            alert('Diagramma esportato! (Check console)');
         }
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '0';
-                    entry.target.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        entry.target.style.transition = 'all 0.6s ease-out';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    observer.unobserve(entry.target);
-                }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start animations
+            animateRunLoop();
+            
+            // Add smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
             });
-        }, observerOptions);
-
-        // Observe all content sections
-        document.querySelectorAll('.content-section, .orchestration-lab, .challenge-section').forEach(section => {
-            observer.observe(section);
         });
     </script>
 </body>

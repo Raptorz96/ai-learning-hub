@@ -3,111 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Learning Hub - Impara l'Intelligenza Artificiale</title>
+    <title>AI Learning Hub - Il Futuro dell'Intelligenza Artificiale</title>
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark);
+            color: #e2e8f0;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Animated Background */
-        .bg-animation {
+        /* Animazioni Background */
+        .hero-bg {
             position: fixed;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
             z-index: -1;
-            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
             overflow: hidden;
         }
 
-        .neural-network {
+        .particle {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite;
         }
 
-        .node {
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.1;
+            }
+            25% {
+                transform: translateY(-200px) translateX(100px);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-400px) translateX(-100px);
+                opacity: 0.1;
+            }
+            75% {
+                transform: translateY(-200px) translateX(50px);
+                opacity: 0.3;
+            }
+        }
+
+        /* Neural Network Animation */
+        .neural-network {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(99, 102, 241, 0.8);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            opacity: 0.1;
+        }
+
+        .neuron {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-            animation: pulse 3s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--accent);
+            animation: pulse 3s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.5); opacity: 1; }
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform-origin: left center;
+            animation: flow 3s infinite;
+        }
+
+        @keyframes flow {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+            }
         }
 
         /* Header */
         header {
-            padding: 2rem 0;
-            backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.8);
             position: fixed;
-            width: 100%;
             top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
         }
 
         nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            font-size: 2rem;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
             list-style: none;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
             color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s;
             position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
         }
 
         .nav-links a::after {
@@ -118,11 +201,30 @@
             width: 0;
             height: 2px;
             background: var(--primary);
-            transition: width 0.3s ease;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
         }
 
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        .cta-button {
+            background: var(--gradient);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Hero Section */
@@ -131,7 +233,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6rem 2rem 4rem;
+            padding: 5rem 2rem 2rem;
             position: relative;
         }
 
@@ -139,16 +241,6 @@
             max-width: 1200px;
             text-align: center;
             z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             animation: fadeInUp 1s ease-out;
         }
 
@@ -163,70 +255,139 @@
             }
         }
 
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: #94a3b8;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
         }
 
-        .cta-buttons {
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
             display: flex;
             gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
         }
 
         .btn-primary {
             background: var(--gradient);
             color: white;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-2px);
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
         }
 
-        /* Features Grid */
+        /* Stats Section */
+        .stats {
+            padding: 4rem 2rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(99, 102, 241, 0.15);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Features Section */
         .features {
-            padding: 6rem 2rem;
+            padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section-title {
-            font-size: 3rem;
             text-align: center;
-            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
         }
 
         .features-grid {
@@ -236,12 +397,11 @@
         }
 
         .feature-card {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            background: rgba(15, 23, 42, 0.5);
+            padding: 2rem;
             border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
             position: relative;
             overflow: hidden;
         }
@@ -255,13 +415,12 @@
             height: 3px;
             background: var(--gradient);
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
         }
 
         .feature-card:hover::before {
@@ -276,50 +435,114 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2rem;
             margin-bottom: 1.5rem;
         }
 
-        .feature-card h3 {
+        .feature-title {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #f8fafc;
+            color: var(--primary);
         }
 
-        .feature-card p {
-            color: #94a3b8;
-            line-height: 1.6;
+        .feature-description {
+            color: #cbd5e1;
+            line-height: 1.8;
         }
 
-        /* Learning Path */
-        .learning-path {
-            padding: 6rem 2rem;
+        /* Learning Paths */
+        .learning-paths {
+            padding: 5rem 2rem;
             background: rgba(15, 23, 42, 0.5);
         }
 
-        .path-container {
-            max-width: 1000px;
+        .paths-container {
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .path-item {
-            display: flex;
-            align-items: center;
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: slideIn 0.6s ease-out forwards;
+            margin-top: 3rem;
         }
 
-        .path-item:nth-child(1) { animation-delay: 0.1s; }
-        .path-item:nth-child(2) { animation-delay: 0.2s; }
-        .path-item:nth-child(3) { animation-delay: 0.3s; }
-        .path-item:nth-child(4) { animation-delay: 0.4s; }
+        .path-card {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
 
-        @keyframes slideIn {
+        .path-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .path-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .path-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .path-lessons {
+            color: #94a3b8;
+        }
+
+        /* Interactive Demo */
+        .demo-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-container {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            margin-top: 2rem;
+        }
+
+        .chat-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .chat-message {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translateX(-20px);
             }
             to {
                 opacity: 1;
@@ -327,88 +550,68 @@
             }
         }
 
-        .path-number {
-            min-width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
+        .message-user {
+            text-align: right;
         }
 
-        .path-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .path-content p {
-            color: #94a3b8;
-        }
-
-        /* Interactive Demo */
-        .demo-section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .demo-container {
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            padding: 3rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .ai-chat {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .chat-input input {
-            flex: 1;
+        .message-bubble {
+            display: inline-block;
             padding: 1rem 1.5rem;
-            border-radius: 50px;
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            background: rgba(15, 23, 42, 0.5);
-            color: white;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+            border-radius: 20px;
+            max-width: 70%;
         }
 
-        .chat-input input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .chat-input button {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: none;
+        .user-bubble {
             background: var(--gradient);
             color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s ease;
         }
 
-        .chat-input button:hover {
-            transform: scale(1.05);
+        .ai-bubble {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 20px;
+            margin-left: 1rem;
+        }
+
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
         }
 
         /* Footer */
         footer {
-            padding: 4rem 2rem 2rem;
-            background: rgba(15, 23, 42, 0.8);
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
             text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .footer-content {
@@ -416,106 +619,48 @@
             margin: 0 auto;
         }
 
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
         .social-links {
             display: flex;
-            gap: 1.5rem;
             justify-content: center;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
-        .social-links a {
-            width: 50px;
-            height: 50px;
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.1);
             border-radius: 50%;
-            background: rgba(148, 163, 184, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #94a3b8;
-            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.3s;
         }
 
-        .social-links a:hover {
-            background: var(--gradient);
+        .social-link:hover {
+            background: var(--primary);
             color: white;
             transform: translateY(-3px);
-        }
-
-        /* Hamburger Menu */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 4px;
-            padding: 10px;
-        }
-
-        .hamburger-line {
-            width: 25px;
-            height: 3px;
-            background-color: #fff;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .hamburger-menu.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger-menu.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger-menu.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(20px);
-            transition: left 0.3s ease;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .mobile-menu.active {
-            left: 0;
-        }
-
-        .mobile-menu a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 2rem;
-            font-weight: 600;
-            transition: color 0.3s ease;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .mobile-menu-close {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 2rem;
-            cursor: pointer;
         }
 
         /* Responsive */
@@ -524,143 +669,225 @@
                 display: none;
             }
 
-            .hamburger-menu {
-                display: flex;
-            }
-            
             .hero h1 {
-                font-size: 3rem;
+                font-size: 2rem;
             }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+
+            .hero-subtitle {
+                font-size: 1rem;
             }
-            
+
             .features-grid {
                 grid-template-columns: 1fr;
             }
+
+            .path-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeOut 0.5s ease-out 2s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .loader-brain {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            animation: pulse 1.5s infinite;
+        }
+
+        .loader-brain::before {
+            content: '🧠';
+            font-size: 4rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="neural-network" id="neural-network"></div>
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-brain"></div>
+    </div>
+
+    <!-- Background Effects -->
+    <div class="hero-bg">
+        <!-- Particles -->
+        <div class="particle" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+        <div class="particle" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+        <div class="particle" style="top: 60%; left: 10%; animation-delay: 2s;"></div>
+        <div class="particle" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+        <div class="particle" style="top: 30%; left: 50%; animation-delay: 4s;"></div>
+
+        <!-- Neural Network -->
+        <div class="neural-network">
+            <div class="neuron" style="top: 50%; left: 50%;"></div>
+            <div class="neuron" style="top: 20%; left: 30%;"></div>
+            <div class="neuron" style="top: 20%; left: 70%;"></div>
+            <div class="neuron" style="top: 80%; left: 30%;"></div>
+            <div class="neuron" style="top: 80%; left: 70%;"></div>
+            <div class="connection" style="top: 50%; left: 50%; width: 150px; transform: rotate(-45deg);"></div>
+            <div class="connection" style="top: 50%; left: 50%; width: 150px; transform: rotate(45deg);"></div>
+            <div class="connection" style="top: 50%; left: 50%; width: 150px; transform: rotate(135deg);"></div>
+            <div class="connection" style="top: 50%; left: 50%; width: 150px; transform: rotate(-135deg);"></div>
+        </div>
     </div>
 
     <!-- Header -->
     <header>
         <nav>
-            <div class="logo">
+            <a href="#" class="logo">
                 <span>🧠</span> AI Learning Hub
-            </div>
+            </a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="lezioni.html">Lezioni</a></li>
-                <li><a href="guide.html">Guide</a></li>
-                <li><a href="#risorse">Risorse</a></li>
-                <li><a href="#contatti">Contatti</a></li>
+                <li><a href="#features">Caratteristiche</a></li>
+                <li><a href="#paths">Percorsi</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="lezioni.html" class="cta-button">Inizia ora →</a></li>
             </ul>
-            <div class="hamburger-menu" onclick="toggleMobileMenu()">
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-            </div>
         </nav>
     </header>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <button class="mobile-menu-close" onclick="toggleMobileMenu()">×</button>
-        <a href="#home" onclick="toggleMobileMenu()">Home</a>
-        <a href="lezioni.html" onclick="toggleMobileMenu()">Lezioni</a>
-        <a href="guide.html" onclick="toggleMobileMenu()">Guide</a>
-        <a href="#risorse" onclick="toggleMobileMenu()">Risorse</a>
-        <a href="#contatti" onclick="toggleMobileMenu()">Contatti</a>
-    </div>
-
     <!-- Hero Section -->
-    <section class="hero" id="home">
+    <section class="hero">
         <div class="hero-content">
-            <h1>Scopri il Futuro con l'Intelligenza Artificiale</h1>
+            <h1>Il Futuro dell'Intelligenza Artificiale<br>Inizia Qui</h1>
             <p class="hero-subtitle">
-                Impara a costruire, comprendere e utilizzare l'AI attraverso lezioni pratiche e progetti reali
+                Impara a costruire agenti AI, padroneggia il prompt engineering e scopri come l'AI sta trasformando il mondo. Lezioni pratiche, progetti reali, risultati concreti.
             </p>
-            <div class="cta-buttons">
-                <a href="lezioni/agenti-openai/lezione-1.html" class="btn btn-primary">Inizia il Percorso</a>
-                <a href="#demo" class="btn btn-secondary">Prova Demo Live</a>
+            <div class="hero-buttons">
+                <a href="lezioni.html" class="btn-primary">
+                    🚀 Esplora i Corsi
+                </a>
+                <a href="#demo" class="btn-secondary">
+                    🤖 Prova la Demo
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">40+</div>
+                <div class="stat-label">Lezioni Interattive</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Documenti Fonte</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Pratico</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0€</div>
+                <div class="stat-label">Sempre Gratis</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
     <section class="features" id="features">
-        <h2 class="section-title">Cosa Imparerai</h2>
+        <h2 class="section-title">Perché AI Learning Hub?</h2>
+        <p class="section-subtitle">
+            Un approccio rivoluzionario all'apprendimento dell'intelligenza artificiale
+        </p>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Agenti AI Intelligenti</h3>
-                <p>Scopri come costruire agenti autonomi che possono eseguire task complessi, prendere decisioni e interagire con il mondo reale.</p>
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Approccio Pratico</h3>
+                <p class="feature-description">
+                    Niente teoria astratta. Ogni lezione include esempi concreti, codice funzionante e progetti che puoi implementare subito. Impara facendo, non solo leggendo.
+                </p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🧠</div>
-                <h3>Machine Learning Pratico</h3>
-                <p>Applica algoritmi di ML a problemi reali: classificazione, regressione, clustering e reti neurali con esempi concreti.</p>
+                <div class="feature-icon">🌟</div>
+                <h3 class="feature-title">Visual Interattive</h3>
+                <p class="feature-description">
+                    Dashboard animate, simulatori di agenti AI, e tool di configurazione drag-and-drop. L'AI diventa tangibile attraverso visualizzazioni moderne e coinvolgenti.
+                </p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3>Natural Language Processing</h3>
-                <p>Costruisci chatbot, analizza sentimenti, genera testi e comprendi come i LLM processano il linguaggio umano.</p>
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">Contenuti Aggiornati</h3>
+                <p class="feature-description">
+                    Basati su documenti ufficiali di OpenAI, Google e leader del settore. Sempre allineati con le ultime best practices e tecnologie emergenti.
+                </p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🎨</div>
-                <h3>AI Generativa</h3>
-                <p>Esplora DALL-E, Stable Diffusion e altri modelli per creare immagini, musica e contenuti creativi con l'AI.</p>
+                <div class="feature-icon">🛠️</div>
+                <h3 class="feature-title">Dal Zero al Deploy</h3>
+                <p class="feature-description">
+                    Parti dalle basi e arriva fino al deployment in produzione. Guide step-by-step per ogni livello, con supporto per troubleshooting e ottimizzazione.
+                </p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Progetti Pratici</h3>
-                <p>Ogni lezione include progetti reali che puoi implementare subito nella tua software house o nei tuoi progetti personali.</p>
+                <div class="feature-icon">🤝</div>
+                <h3 class="feature-title">Comunità Attiva</h3>
+                <p class="feature-description">
+                    Unisciti a migliaia di appassionati di AI. Condividi progetti, risolvi dubbi e collabora con altri learner nel tuo percorso di crescita.
+                </p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔧</div>
-                <h3>Tools & Framework</h3>
-                <p>Padroneggia OpenAI API, LangChain, Hugging Face e gli strumenti più utilizzati nel mondo professionale dell'AI.</p>
+                <div class="feature-icon">🔐</div>
+                <h3 class="feature-title">Best Practices</h3>
+                <p class="feature-description">
+                    Sicurezza, etica e sostenibilità al centro. Impara non solo come costruire AI, ma come farlo responsabilmente e in modo scalabile.
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Learning Path -->
-    <section class="learning-path" id="percorso">
-        <div class="path-container">
-            <h2 class="section-title">Il Tuo Percorso di Apprendimento</h2>
-            <div class="path-item">
-                <div class="path-number">1</div>
-                <div class="path-content">
-                    <h3>Fondamenti dell'AI</h3>
-                    <p>Comprendi i concetti base: cos'è l'AI, come funziona e quali problemi può risolvere</p>
+    <!-- Learning Paths -->
+    <section class="learning-paths" id="paths">
+        <div class="paths-container">
+            <h2 class="section-title">I Tuoi Percorsi di Apprendimento</h2>
+            <p class="section-subtitle">
+                Scegli il percorso più adatto ai tuoi obiettivi
+            </p>
+            <div class="path-grid">
+                <div class="path-card" onclick="window.location.href='lezioni.html#agents'">
+                    <div class="path-icon">🤖</div>
+                    <h3 class="path-title">Agenti AI</h3>
+                    <p class="path-lessons">6 lezioni • Da zero a production</p>
                 </div>
-            </div>
-            <div class="path-item">
-                <div class="path-number">2</div>
-                <div class="path-content">
-                    <h3>Costruire con gli LLM</h3>
-                    <p>Impara a utilizzare GPT, Claude e altri modelli per creare applicazioni intelligenti</p>
+                <div class="path-card" onclick="window.location.href='lezioni.html#prompt'">
+                    <div class="path-icon">💬</div>
+                    <h3 class="path-title">Prompt Engineering</h3>
+                    <p class="path-lessons">8 lezioni • Master prompting</p>
                 </div>
-            </div>
-            <div class="path-item">
-                <div class="path-number">3</div>
-                <div class="path-content">
-                    <h3>Agenti AI Autonomi</h3>
-                    <p>Progetta sistemi che possono pianificare, ragionare e agire autonomamente</p>
+                <div class="path-card" onclick="window.location.href='lezioni.html#enterprise'">
+                    <div class="path-icon">🏢</div>
+                    <h3 class="path-title">Enterprise AI</h3>
+                    <p class="path-lessons">10 lezioni • AI in azienda</p>
                 </div>
-            </div>
-            <div class="path-item">
-                <div class="path-number">4</div>
-                <div class="path-content">
-                    <h3>Deploy & Produzione</h3>
-                    <p>Porta i tuoi progetti AI in produzione con best practices di sicurezza e scalabilità</p>
+                <div class="path-card" onclick="window.location.href='lezioni.html#usecases'">
+                    <div class="path-icon">💡</div>
+                    <h3 class="path-title">Use Cases</h3>
+                    <p class="path-lessons">15 lezioni • Applicazioni reali</p>
                 </div>
             </div>
         </div>
@@ -669,20 +896,27 @@
     <!-- Interactive Demo -->
     <section class="demo-section" id="demo">
         <h2 class="section-title">Prova l'AI in Azione</h2>
+        <p class="section-subtitle">
+            Un assaggio di cosa imparerai a costruire
+        </p>
         <div class="demo-container">
-            <div class="ai-chat">
-                <p style="color: #94a3b8; text-align: center; margin-bottom: 2rem;">
-                    Chiedimi qualsiasi cosa sull'intelligenza artificiale e ti risponderò!
-                </p>
-                <div id="chat-messages" style="min-height: 200px; margin-bottom: 2rem;">
-                    <div style="background: rgba(99, 102, 241, 0.1); padding: 1rem; border-radius: 15px; margin-bottom: 1rem;">
-                        <p>🤖 Ciao! Sono un assistente AI. Chiedimi qualcosa sull'intelligenza artificiale, machine learning o come iniziare il tuo percorso nell'AI!</p>
+            <div class="chat-demo" id="chatDemo">
+                <div class="chat-message">
+                    <div class="message-bubble ai-bubble">
+                        👋 Ciao! Sono il tuo assistente AI. Cosa vorresti imparare oggi?
                     </div>
                 </div>
-                <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Scrivi la tua domanda qui..." />
-                    <button onclick="sendMessage()">Invia</button>
-                </div>
+            </div>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="askQuestion('agenti')" class="btn-secondary">
+                    Cos'è un agente AI?
+                </button>
+                <button onclick="askQuestion('prompt')" class="btn-secondary">
+                    Come scrivo prompt efficaci?
+                </button>
+                <button onclick="askQuestion('start')" class="btn-secondary">
+                    Da dove comincio?
+                </button>
             </div>
         </div>
     </section>
@@ -690,54 +924,78 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="social-links">
-                <a href="#"><span>📧</span></a>
-                <a href="#"><span>💻</span></a>
-                <a href="#"><span>🐦</span></a>
-                <a href="#"><span>📺</span></a>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Termini di Servizio</a>
+                <a href="#">Contatti</a>
+                <a href="#">FAQ</a>
             </div>
-            <p style="color: #94a3b8;">© 2024 AI Learning Hub. Costruiamo il futuro insieme.</p>
+            <div class="social-links">
+                <a href="#" class="social-link">📧</a>
+                <a href="#" class="social-link">💼</a>
+                <a href="#" class="social-link">🐦</a>
+                <a href="#" class="social-link">📱</a>
+            </div>
+            <p style="color: #64748b;">
+                © 2025 AI Learning Hub. Fatto con ❤️ per la comunità AI.
+            </p>
         </div>
     </footer>
 
     <script>
-        // Neural Network Animation
-        function createNeuralNetwork() {
-            const network = document.getElementById('neural-network');
-            const nodes = 30;
+        // Chat Demo
+        function askQuestion(topic) {
+            const chatDemo = document.getElementById('chatDemo');
             
-            for (let i = 0; i < nodes; i++) {
-                const node = document.createElement('div');
-                node.className = 'node';
-                node.style.left = Math.random() * 100 + '%';
-                node.style.top = Math.random() * 100 + '%';
-                node.style.animationDelay = Math.random() * 3 + 's';
-                network.appendChild(node);
-            }
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message message-user';
+            userMessage.innerHTML = `
+                <div class="message-bubble user-bubble">
+                    ${topic === 'agenti' ? "Cos'è un agente AI?" :
+                      topic === 'prompt' ? "Come scrivo prompt efficaci?" :
+                      "Da dove dovrei cominciare?"}
+                </div>
+            `;
+            chatDemo.appendChild(userMessage);
             
-            // Create connections
-            setInterval(() => {
-                const nodeElements = document.querySelectorAll('.node');
-                nodeElements.forEach(node => {
-                    node.style.opacity = Math.random() > 0.5 ? '1' : '0.3';
-                });
-            }, 2000);
+            // Add typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
+            chatDemo.appendChild(typingDiv);
+            
+            // Scroll to bottom
+            chatDemo.scrollTop = chatDemo.scrollHeight;
+            
+            // Simulate response
+            setTimeout(() => {
+                typingDiv.remove();
+                
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'chat-message';
+                
+                let response = '';
+                if (topic === 'agenti') {
+                    response = "Un agente AI è un sistema autonomo che può eseguire task complessi utilizzando modelli di linguaggio, tools esterni e logiche di orchestrazione. Nel nostro corso imparerai a costruirne uno da zero! 🚀";
+                } else if (topic === 'prompt') {
+                    response = "Il prompt engineering è l'arte di comunicare efficacemente con l'AI. I principi chiave sono: chiarezza, contesto, esempi e constraints. Vuoi vedere tecniche avanzate? Inizia dal nostro corso dedicato! 💡";
+                } else {
+                    response = "Ti consiglio di iniziare con il corso 'Costruire Agenti AI' - è perfetto per principianti! Parti dalla Lezione 1 per capire i concetti base, poi procedi con i lab pratici. Ogni lezione dura circa 20-30 minuti. Pronto a iniziare? 🎯";
+                }
+                
+                aiMessage.innerHTML = `<div class="message-bubble ai-bubble">${response}</div>`;
+                chatDemo.appendChild(aiMessage);
+                chatDemo.scrollTop = chatDemo.scrollHeight;
+            }, 1500);
         }
-        
-        createNeuralNetwork();
-        
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.background = 'rgba(15, 23, 42, 0.95)';
-                header.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
-            } else {
-                header.style.background = 'rgba(15, 23, 42, 0.8)';
-                header.style.boxShadow = 'none';
-            }
-        });
-        
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -751,62 +1009,46 @@
                 }
             });
         });
-        
-        // Simple chat demo
-        function sendMessage() {
-            const input = document.getElementById('user-input');
-            const messages = document.getElementById('chat-messages');
-            
-            if (input.value.trim() === '') return;
-            
-            // Add user message
-            const userMsg = document.createElement('div');
-            userMsg.style.cssText = 'background: rgba(148, 163, 184, 0.1); padding: 1rem; border-radius: 15px; margin-bottom: 1rem; text-align: right;';
-            userMsg.innerHTML = `<p>👤 ${input.value}</p>`;
-            messages.appendChild(userMsg);
-            
-            // Simulate AI response
+
+        // Remove loader after page load
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.style.cssText = 'background: rgba(99, 102, 241, 0.1); padding: 1rem; border-radius: 15px; margin-bottom: 1rem;';
-                
-                const responses = [
-                    "Ottima domanda! L'AI sta rivoluzionando ogni settore. Nelle nostre lezioni esploreremo proprio questo aspetto!",
-                    "Questo è un argomento affascinante! Ti consiglio di iniziare con la lezione sui fondamenti degli LLM.",
-                    "Hai toccato un punto cruciale! Nella sezione sugli agenti AI approfondiamo esattamente questo tema.",
-                    "È proprio per questo che abbiamo creato questo percorso! Ogni lezione ti darà gli strumenti pratici per applicare l'AI."
-                ];
-                
-                aiMsg.innerHTML = `<p>🤖 ${responses[Math.floor(Math.random() * responses.length)]}</p>`;
-                messages.appendChild(aiMsg);
-                messages.scrollTop = messages.scrollHeight;
-            }, 1000);
-            
-            input.value = '';
-        }
-        
-        // Enter key support for chat
-        document.getElementById('user-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+                document.querySelector('.loader').style.display = 'none';
+            }, 2000);
         });
 
-        // Mobile menu toggle function
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const hamburgerMenu = document.querySelector('.hamburger-menu');
-            
-            mobileMenu.classList.toggle('active');
-            hamburgerMenu.classList.toggle('active');
-            
-            // Prevent body scroll when menu is open
-            if (mobileMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        }
+        // Parallax effect for particles
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const speed = 0.5 + (index * 0.1);
+                particle.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards
+        document.querySelectorAll('.feature-card, .path-card, .stat-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
     </script>
 </body>
 </html>

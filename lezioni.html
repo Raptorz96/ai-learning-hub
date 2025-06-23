@@ -3,109 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutte le Lezioni - AI Learning Hub</title>
+    <title>Lezioni - AI Learning Hub</title>
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark);
+            color: #e2e8f0;
+            line-height: 1.6;
         }
 
         /* Background Effects */
-        .bg-gradient {
+        .bg-grid {
             position: fixed;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             z-index: -1;
-            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
-            overflow: hidden;
-        }
-
-        .floating-shapes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.3;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .shape:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            background: var(--primary);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .shape:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            background: var(--secondary);
-            top: 60%;
-            right: 10%;
-            animation-delay: 5s;
-        }
-
-        .shape:nth-child(3) {
-            width: 250px;
-            height: 250px;
-            background: var(--accent);
-            bottom: 10%;
-            left: 30%;
-            animation-delay: 10s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.1); }
-            50% { transform: translate(-20px, 20px) scale(0.9); }
-            75% { transform: translate(20px, 30px) scale(1.05); }
         }
 
         /* Header */
         header {
-            padding: 1.5rem 0;
-            backdrop-filter: blur(20px);
             background: rgba(15, 23, 42, 0.9);
-            position: fixed;
-            width: 100%;
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
 
         nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -114,58 +66,143 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            font-size: 2rem;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
             list-style: none;
+            gap: 2rem;
             align-items: center;
         }
 
         .nav-links a {
             color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .back-home {
+            background: var(--gradient);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
         /* Main Content */
         main {
-            margin-top: 100px;
-            padding: 3rem 2rem;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 80px);
         }
 
         /* Page Header */
         .page-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .page-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            font-size: 3rem;
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
         }
 
         .page-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
         }
 
         /* Filter Tabs */
@@ -178,64 +215,56 @@
         }
 
         .filter-tab {
-            padding: 0.8rem 2rem;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            border-radius: 50px;
-            color: #94a3b8;
+            background: rgba(99, 102, 241, 0.1);
+            color: #cbd5e1;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid transparent;
         }
 
         .filter-tab:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-            transform: translateY(-2px);
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
         }
 
         .filter-tab.active {
             background: var(--gradient);
             color: white;
-            border: none;
+            border-color: transparent;
         }
 
-        /* Course Cards */
+        /* Courses Grid */
         .courses-grid {
             display: grid;
             gap: 2rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .course-card {
-            background: rgba(30, 41, 59, 0.3);
+            background: rgba(15, 23, 42, 0.5);
             border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 2rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .course-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .course-card:hover::before {
-            transform: scaleX(1);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
         }
 
         .course-header {
@@ -247,63 +276,69 @@
 
         .course-title {
             font-size: 1.8rem;
+            color: var(--primary);
             margin-bottom: 0.5rem;
         }
 
         .course-source {
-            display: inline-flex;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .course-status {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--primary);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
         }
 
         .course-description {
-            color: #94a3b8;
+            color: #cbd5e1;
             margin-bottom: 2rem;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
+        /* Lessons List */
         .lessons-list {
             display: grid;
             gap: 1rem;
         }
 
         .lesson-item {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
             display: flex;
             align-items: center;
-            padding: 1rem 1.5rem;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 12px;
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            gap: 1.5rem;
+            transition: all 0.3s;
             text-decoration: none;
-            color: white;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            color: inherit;
         }
 
         .lesson-item:hover {
-            transform: translateX(10px);
-            border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(99, 102, 241, 0.05);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.2);
         }
 
         .lesson-number {
-            min-width: 40px;
-            height: 40px;
-            background: rgba(99, 102, 241, 0.2);
-            border-radius: 10px;
+            background: var(--gradient);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
             font-weight: bold;
-            margin-right: 1rem;
-            color: var(--primary);
+            flex-shrink: 0;
         }
 
         .lesson-content {
@@ -311,90 +346,85 @@
         }
 
         .lesson-title {
-            font-weight: 600;
-            margin-bottom: 0.2rem;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
         }
 
         .lesson-duration {
+            color: #94a3b8;
             font-size: 0.9rem;
-            color: #64748b;
         }
 
         .lesson-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .status-available {
+            background: rgba(16, 185, 129, 0.1);
             color: var(--success);
         }
 
-        .status-coming {
-            color: var(--warning);
-        }
-
         .status-locked {
+            background: rgba(148, 163, 184, 0.1);
             color: #64748b;
         }
 
-        /* Stats Section */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-
-        .stat-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 15px;
-            padding: 1.5rem;
+        /* Coming Soon Card */
+        .coming-soon-card {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
             text-align: center;
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            margin-top: 2rem;
         }
 
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .coming-soon-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
-        .stat-label {
-            color: #94a3b8;
-            margin-top: 0.5rem;
+        .coming-soon-title {
+            color: var(--warning);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .coming-soon-text {
+            color: #cbd5e1;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .page-header h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
-            
+
             .filter-tabs {
                 justify-content: flex-start;
                 overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
+                padding-bottom: 1rem;
             }
-            
-            .stats-section {
-                grid-template-columns: 1fr;
+
+            .lesson-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background Effects -->
-    <div class="bg-gradient">
-        <div class="floating-shapes">
-            <div class="shape"></div>
-            <div class="shape"></div>
-            <div class="shape"></div>
-        </div>
-    </div>
+    <!-- Background Grid -->
+    <div class="bg-grid"></div>
 
     <!-- Header -->
     <header>
@@ -403,10 +433,8 @@
                 <span>🧠</span> AI Learning Hub
             </a>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="lezioni.html" style="color: var(--primary);">Lezioni</a></li>
-                <li><a href="guide.html">Guide</a></li>
-                <li><a href="#contatti">Contatti</a></li>
+                <li><a href="guide.html">Guide Pratiche</a></li>
+                <li><a href="index.html" class="back-home">🏠 Home</a></li>
             </ul>
         </nav>
     </header>
@@ -415,9 +443,9 @@
     <main>
         <!-- Page Header -->
         <div class="page-header">
-            <h1>Tutte le Lezioni</h1>
+            <h1>I Nostri Corsi</h1>
             <p class="page-subtitle">
-                Esplora il nostro catalogo completo di corsi sull'intelligenza artificiale
+                Percorsi di apprendimento strutturati dalle fonti più autorevoli del settore AI
             </p>
         </div>
 
@@ -470,6 +498,10 @@
                         <h2 class="course-title">🤖 Costruire Agenti AI</h2>
                         <span class="course-source">📄 OpenAI - Building Agents Guide</span>
                     </div>
+                    <div class="course-status">
+                        <span>✨</span>
+                        <span>4 di 6 lezioni</span>
+                    </div>
                 </div>
                 <p class="course-description">
                     Impara a progettare e implementare agenti AI autonomi che possono eseguire task complessi. 
@@ -507,11 +539,23 @@
                             ✅ Disponibile
                         </div>
                     </a>
-                    <div class="lesson-item" style="opacity: 0.5; cursor: not-allowed;">
-                        <div class="lesson-number">4-6</div>
+                    
+                    <a href="lezioni/agenti-openai/lezione-4.html" class="lesson-item">
+                        <div class="lesson-number">4</div>
                         <div class="lesson-content">
-                            <div class="lesson-title">+ 3 lezioni avanzate</div>
-                            <div class="lesson-duration">Orchestrazione, Multi-Agent, Guardrails</div>
+                            <div class="lesson-title">Orchestrazione Single-Agent</div>
+                            <div class="lesson-duration">30 min • Visual Interattive</div>
+                        </div>
+                        <div class="lesson-status status-available">
+                            ✅ Disponibile
+                        </div>
+                    </a>
+                    
+                    <div class="lesson-item" style="opacity: 0.5; cursor: not-allowed;">
+                        <div class="lesson-number">5-6</div>
+                        <div class="lesson-content">
+                            <div class="lesson-title">+ 2 lezioni avanzate</div>
+                            <div class="lesson-duration">Multi-Agent, Guardrails</div>
                         </div>
                         <div class="lesson-status status-locked">
                             🔒 Prossimamente
@@ -529,170 +573,137 @@
                     </div>
                 </div>
                 <p class="course-description">
-                    Padroneggia l'arte del prompt engineering. Impara tecniche base e avanzate per ottenere 
-                    risultati ottimali da qualsiasi modello AI.
+                    Padroneggia l'arte del prompt engineering. Dalle basi alle tecniche avanzate per ottenere 
+                    risultati eccezionali dai modelli AI.
                 </p>
                 <div class="lessons-list">
-                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
-                        <div class="lesson-number">1</div>
+                    <div class="lesson-item" style="opacity: 0.5; cursor: not-allowed;">
+                        <div class="lesson-number">🔒</div>
                         <div class="lesson-content">
-                            <div class="lesson-title">Cos'è un Prompt?</div>
-                            <div class="lesson-duration">15 min • Interattivo</div>
+                            <div class="lesson-title">8 lezioni in arrivo</div>
+                            <div class="lesson-duration">Prompt Design, Chain of Thought, Few-shot Learning</div>
                         </div>
-                        <div class="lesson-status status-coming">
-                            🚧 In arrivo
+                        <div class="lesson-status status-locked">
+                            🚧 In sviluppo
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Course 3: AI in Enterprise -->
+            <!-- Course 3: Enterprise AI -->
             <div class="course-card" data-category="enterprise">
                 <div class="course-header">
                     <div>
-                        <h2 class="course-title">🏢 AI in Azienda</h2>
-                        <span class="course-source">📄 OpenAI - AI in the Enterprise</span>
+                        <h2 class="course-title">🏢 AI per l'Azienda</h2>
+                        <span class="course-source">📄 OpenAI - Enterprise Guide</span>
                     </div>
                 </div>
                 <p class="course-description">
-                    Scopri come implementare l'AI in contesti aziendali. Strategie, best practices e casi studio 
-                    per trasformare il tuo business.
+                    Strategie e best practices per implementare l'AI in contesti aziendali. 
+                    Governance, sicurezza, ROI e change management.
                 </p>
                 <div class="lessons-list">
-                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
-                        <div class="lesson-number">1</div>
+                    <div class="lesson-item" style="opacity: 0.5; cursor: not-allowed;">
+                        <div class="lesson-number">🔒</div>
                         <div class="lesson-content">
-                            <div class="lesson-title">Strategia AI Aziendale</div>
-                            <div class="lesson-duration">30 min • Case Studies</div>
+                            <div class="lesson-title">10 lezioni pianificate</div>
+                            <div class="lesson-duration">Strategy, Implementation, Governance, ROI</div>
                         </div>
-                        <div class="lesson-status status-coming">
-                            🚧 In arrivo
+                        <div class="lesson-status status-locked">
+                            🚧 In sviluppo
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Course 4: Anthropic Prompt Engineering -->
-            <div class="course-card" data-category="prompt">
-                <div class="course-header">
-                    <div>
-                        <h2 class="course-title">🎯 Prompt Engineering Avanzato</h2>
-                        <span class="course-source">📄 Anthropic - Prompt Engineering Overview</span>
-                    </div>
-                </div>
-                <p class="course-description">
-                    Tecniche avanzate di prompt engineering specifiche per Claude e altri modelli di frontiera. 
-                    Include chain-of-thought, few-shot learning e altro.
-                </p>
-                <div class="lessons-list">
-                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
-                        <div class="lesson-number">1</div>
-                        <div class="lesson-content">
-                            <div class="lesson-title">Tecniche Avanzate</div>
-                            <div class="lesson-duration">25 min • Workshop</div>
-                        </div>
-                        <div class="lesson-status status-coming">
-                            🚧 In arrivo
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Course 5: 601 Use Cases -->
+            <!-- Course 4: Use Cases -->
             <div class="course-card" data-category="usecases">
                 <div class="course-header">
                     <div>
-                        <h2 class="course-title">💡 601 Use Cases Reali</h2>
-                        <span class="course-source">📄 Google - 601 Real World AI Use Cases</span>
+                        <h2 class="course-title">💡 Use Cases Reali</h2>
+                        <span class="course-source">📄 Google - AI Applications</span>
                     </div>
                 </div>
                 <p class="course-description">
-                    Esplora centinaia di applicazioni pratiche dell'AI in ogni settore. 
-                    Trova ispirazione per i tuoi progetti e scopri nuove opportunità.
+                    Esplora applicazioni concrete dell'AI in diversi settori. 
+                    Customer service, healthcare, finance, education e molto altro.
                 </p>
                 <div class="lessons-list">
-                    <div class="lesson-item" style="opacity: 0.7; cursor: not-allowed;">
-                        <div class="lesson-number">1</div>
+                    <div class="lesson-item" style="opacity: 0.5; cursor: not-allowed;">
+                        <div class="lesson-number">🔒</div>
                         <div class="lesson-content">
-                            <div class="lesson-title">AI nella Creatività</div>
-                            <div class="lesson-duration">20 min • Esempi</div>
+                            <div class="lesson-title">15 case studies</div>
+                            <div class="lesson-duration">Implementazioni reali con metriche e risultati</div>
                         </div>
-                        <div class="lesson-status status-coming">
-                            🚧 In arrivo
+                        <div class="lesson-status status-locked">
+                            🚧 In sviluppo
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Coming Soon Section -->
+        <div class="coming-soon-card">
+            <div class="coming-soon-icon">🚀</div>
+            <h3 class="coming-soon-title">Nuovi contenuti in arrivo!</h3>
+            <p class="coming-soon-text">
+                Stiamo lavorando per portarti i migliori contenuti sull'AI. 
+                Torna presto per scoprire nuove lezioni e percorsi formativi.
+            </p>
         </div>
     </main>
 
     <script>
-        // Filter courses by category
+        // Filter courses
         function filterCourses(category) {
+            const courses = document.querySelectorAll('.course-card');
+            const tabs = document.querySelectorAll('.filter-tab');
+            
             // Update active tab
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            tabs.forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Filter course cards
-            const cards = document.querySelectorAll('.course-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        card.style.transition = 'all 0.5s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 100);
+            // Filter courses
+            courses.forEach(course => {
+                if (category === 'all' || course.dataset.category === category) {
+                    course.style.display = 'block';
+                    course.style.animation = 'fadeIn 0.5s ease-out';
                 } else {
-                    card.style.display = 'none';
+                    course.style.display = 'none';
                 }
             });
         }
 
-        // Add hover effect to lesson items
-        document.querySelectorAll('.lesson-item').forEach(item => {
-            if (!item.style.cursor || item.style.cursor !== 'not-allowed') {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateX(10px)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                });
-            }
+        // Smooth scroll for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
 
-        // Animate elements on scroll
+        // Animate stats on scroll
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '0';
-                    entry.target.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        entry.target.style.transition = 'all 0.6s ease-out';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    observer.unobserve(entry.target);
+                    entry.target.style.animation = 'fadeInDown 0.8s ease-out';
                 }
             });
         }, observerOptions);
 
-        // Observe all course cards
-        document.querySelectorAll('.course-card').forEach(card => {
+        document.querySelectorAll('.stat-card').forEach(card => {
             observer.observe(card);
         });
     </script>

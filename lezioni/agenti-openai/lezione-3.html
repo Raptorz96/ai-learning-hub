@@ -13,71 +13,39 @@
 
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
             --secondary: #ec4899;
             --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --success: #10b981;
             --warning: #f59e0b;
             --error: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
             line-height: 1.6;
+            color: #e2e8f0;
+            background: #0f172a;
+            overflow-x: hidden;
         }
-
-        /* Tool Animation Background */
-        .tools-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
-        }
-
-        .tool-icon-float {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.1;
-            animation: float-tool 20s infinite ease-in-out;
-        }
-
-        @keyframes float-tool {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(50px, -50px) rotate(90deg); }
-            50% { transform: translate(-30px, 30px) rotate(180deg); }
-            75% { transform: translate(30px, -30px) rotate(270deg); }
-        }
-
-        .tool-icon-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .tool-icon-float:nth-child(2) { top: 20%; right: 20%; animation-delay: 3s; }
-        .tool-icon-float:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 6s; }
-        .tool-icon-float:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 9s; }
 
         /* Header */
         header {
-            padding: 1.5rem 0;
-            backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.9);
-            position: fixed;
-            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            animation: slideDown 0.5s ease-out;
         }
 
         nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -86,9 +54,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -105,7 +71,7 @@
         .nav-links a {
             color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
@@ -113,429 +79,287 @@
         }
 
         .back-home {
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            transition: all 0.3s ease;
+            background: var(--gradient);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: white !important;
         }
 
-        .back-home:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
+        /* Tools Background Animation */
+        .tools-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .tool-icon-float {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.05;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .tool-icon-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .tool-icon-float:nth-child(2) { top: 20%; right: 20%; animation-delay: 5s; }
+        .tool-icon-float:nth-child(3) { bottom: 30%; left: 30%; animation-delay: 10s; }
+        .tool-icon-float:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 15s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(0) rotate(180deg); }
+            75% { transform: translateY(20px) rotate(270deg); }
         }
 
         /* Main Content */
         main {
-            margin-top: 80px;
-            padding: 2rem;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
         }
 
         /* Lesson Header */
         .lesson-header {
             text-align: center;
-            padding: 3rem 0;
-            position: relative;
+            margin-bottom: 4rem;
+            animation: slideUp 0.8s ease-out;
         }
 
         .lesson-meta {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            margin-bottom: 1rem;
+            color: var(--accent);
             font-size: 0.9rem;
-            color: var(--primary);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            margin-bottom: 1rem;
         }
 
         .lesson-header h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .lesson-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: #94a3b8;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        /* Progress Indicator */
+        /* Progress */
         .progress-container {
-            margin: 3rem 0;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .progress-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 1rem;
+            color: #cbd5e1;
         }
 
         .progress-bar {
             height: 8px;
             background: rgba(148, 163, 184, 0.2);
-            border-radius: 10px;
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: var(--gradient);
             width: 50%;
-            transition: width 0.5s ease;
-            position: relative;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 20px;
-            background: rgba(255, 255, 255, 0.3);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-20px); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateX(20px); opacity: 0; }
+            background: var(--gradient);
+            animation: progressFill 1s ease-out;
         }
 
         /* Content Sections */
         .content-section {
-            margin: 3rem 0;
-            background: rgba(30, 41, 59, 0.2);
-            border-radius: 20px;
-            padding: 2.5rem;
+            background: rgba(30, 41, 59, 0.5);
             border: 1px solid rgba(148, 163, 184, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .content-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
         }
 
         .section-title {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
         .section-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2.5rem;
         }
 
         /* Tool Categories */
         .tool-categories {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .tool-category {
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(51, 65, 85, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.2);
             border-radius: 15px;
             padding: 2rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s;
         }
 
         .tool-category:hover {
             transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .tool-category::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: var(--gradient);
-            opacity: 0.1;
-            border-radius: 50%;
-            transform: translate(30px, -30px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
         }
 
         .category-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
         .category-title {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #f8fafc;
+            color: var(--primary);
         }
 
         .category-description {
-            color: #94a3b8;
+            color: #cbd5e1;
             margin-bottom: 1.5rem;
         }
 
         .tool-examples {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
         }
 
         .tool-examples h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
             font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
         }
 
         .tool-examples ul {
             list-style: none;
-            padding: 0;
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
 
-        .tool-examples li {
-            color: #cbd5e1;
-            padding: 0.3rem 0;
-            padding-left: 1.5rem;
-            position: relative;
+        .tool-examples li:before {
+            content: "→ ";
+            color: var(--secondary);
+            font-weight: bold;
         }
 
-        .tool-examples li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        /* Interactive Tool Builder */
-        .tool-builder {
-            background: rgba(16, 185, 129, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 3rem 0;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .builder-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .builder-badge {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .builder-form {
+        /* Subcategories */
+        .subcategories {
             display: grid;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-label {
-            color: #f8fafc;
-            font-weight: 600;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            padding: 0.8rem 1.2rem;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-            font-family: monospace;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .builder-actions {
-            display: flex;
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
-        .builder-button {
-            padding: 0.8rem 2rem;
-            background: var(--gradient);
-            border: none;
+        .subcategory-card {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1rem;
             border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .builder-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        .builder-output {
-            background: #1e293b;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            font-family: monospace;
-            white-space: pre-wrap;
-            color: #10b981;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        /* Code Examples */
-        .code-example {
-            background: #1e293b;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            position: relative;
             border: 1px solid rgba(148, 163, 184, 0.1);
         }
 
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
+        .subcategory-card h5 {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subcategory-card p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* Decision Matrix */
+        .decision-matrix {
+            background: rgba(51, 65, 85, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: 1rem;
+            text-align: left;
             border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
 
-        .code-lang {
+        .matrix-table th {
+            background: rgba(99, 102, 241, 0.1);
             color: var(--primary);
             font-weight: 600;
         }
 
-        .copy-btn {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: var(--primary);
-            padding: 0.4rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            border: none;
-        }
-
-        pre {
-            color: #e2e8f0;
-            overflow-x: auto;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* Best Practices Cards */
-        .best-practices {
-            display: grid;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .practice-card {
+        .matrix-table tr:hover {
             background: rgba(99, 102, 241, 0.05);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 15px;
-            padding: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
         }
 
-        .practice-icon {
-            min-width: 40px;
-            height: 40px;
-            background: var(--gradient);
-            border-radius: 10px;
+        /* Anti-patterns */
+        .antipatterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .antipattern-card {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .antipattern-card h4 {
+            color: var(--error);
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
+            gap: 0.5rem;
         }
 
-        .practice-content h4 {
-            color: #f8fafc;
-            margin-bottom: 0.5rem;
+        .antipattern-card .correct {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            color: var(--success);
         }
 
-        .practice-content p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-        }
-
-        /* Interactive Flow Diagram */
+        /* Flow Diagram */
         .flow-diagram {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 20px;
+            background: rgba(51, 65, 85, 0.2);
+            border-radius: 15px;
             padding: 2rem;
             margin: 2rem 0;
             text-align: center;
         }
 
-        .flow-nodes {
+        .flow-steps {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -544,113 +368,330 @@
             flex-wrap: wrap;
         }
 
-        .flow-node {
+        .flow-step {
             background: rgba(99, 102, 241, 0.1);
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            border-radius: 15px;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
             padding: 1.5rem;
             min-width: 150px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
             position: relative;
         }
 
-        .flow-node:hover {
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        /* Design Patterns */
+        .pattern-showcase {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pattern-card {
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            transition: all 0.3s;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .pattern-name {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pattern-use-case {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .pattern-visual {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Orchestration Diagram */
+        .orchestration-visual {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .dag-nodes {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .dag-node {
             background: rgba(99, 102, 241, 0.2);
-            transform: scale(1.05);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .dag-node-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dag-node-label {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Instructions Templates */
+        .template-gallery {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .template-card {
+            background: rgba(51, 65, 85, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .template-type {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .template-structure {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        /* Psychology Section */
+        .psychology-insights {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .insight-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .insight-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .insight-icon {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* Challenge Section */
+        .architecture-challenge {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .challenge-requirements {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .requirement-card {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .requirement-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .checklist li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Guide Section */
+        .guide-section {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(99, 102, 241, 0.1));
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .guide-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .guide-btn {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .guide-btn:hover {
+            transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
-        .flow-node.active {
-            background: var(--gradient);
-            border: none;
+        .guide-note {
+            margin-top: 1rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
         }
 
-        .flow-arrow {
-            font-size: 2rem;
-            color: var(--primary);
-            animation: pulse 2s infinite;
+        /* Key Takeaways */
+        .key-takeaways {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
         }
 
-        /* Alert Boxes */
-        .alert {
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        }
-
-        .alert-info {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #cbd5e1;
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #cbd5e1;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #cbd5e1;
+        .takeaway-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         /* Navigation */
         .lesson-nav {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin: 4rem 0 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            flex-wrap: wrap;
-            gap: 1rem;
+            margin-top: 4rem;
+            gap: 2rem;
         }
 
         .nav-btn {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            gap: 1rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
         .nav-btn:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
+            transform: translateX(-5px);
+            background: rgba(99, 102, 241, 0.1);
         }
 
-        .nav-btn.primary {
-            background: var(--gradient);
-            border: none;
+        .nav-btn.next:hover {
+            transform: translateX(5px);
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes progressFill {
+            from { width: 0; }
+            to { width: 50%; }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .lesson-header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .tool-categories {
-                grid-template-columns: 1fr;
-            }
-            
-            .flow-nodes {
-                flex-direction: column;
-            }
-            
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
+            .lesson-header h1 { font-size: 2.5rem; }
+            .tool-categories { grid-template-columns: 1fr; }
+            .pattern-showcase { grid-template-columns: 1fr; }
+            .challenge-requirements { grid-template-columns: 1fr; }
+            .flow-steps { flex-direction: column; }
+            .flow-step::after { display: none; }
         }
     </style>
 </head>
@@ -686,7 +727,7 @@
             </div>
             <h1>Tools e Instructions Avanzate</h1>
             <p class="lesson-subtitle">
-                Padroneggia l'arte di creare tools potenti e istruzioni precise per agenti AI che risolvono problemi reali
+                Esplora l'architettura avanzata dei tools, pattern di design e strategie di orchestrazione per costruire agenti AI enterprise-ready
             </p>
         </div>
 
@@ -701,780 +742,722 @@
             </div>
         </div>
 
-        <!-- Section 1: Le Tre Categorie di Tools -->
+        <!-- Section 1: Le Tre Categorie di Tools (Espansa) -->
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🔧</div>
-                Le Tre Categorie di Tools
+                Le Tre Categorie di Tools - Analisi Approfondita
             </h2>
             
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                I tools estendono le capacità del tuo agente permettendogli di interagire con il mondo esterno. 
-                Comprendere le tre categorie fondamentali ti aiuterà a progettare agenti più efficaci.
+                I tools sono l'interfaccia tra il mondo digitale degli LLM e la realtà operativa. 
+                Una comprensione profonda delle categorie e delle loro interazioni è fondamentale per progettare sistemi scalabili.
             </p>
 
             <div class="tool-categories">
+                <!-- Data Tools -->
                 <div class="tool-category">
                     <div class="category-icon">📊</div>
                     <h3 class="category-title">Data Tools</h3>
                     <p class="category-description">
-                        Permettono all'agente di recuperare contesto e informazioni necessarie per eseguire il workflow.
+                        Recuperano informazioni da fonti interne ed esterne, fornendo il contesto necessario per decisioni informate.
                     </p>
+                    
+                    <div class="subcategories">
+                        <div class="subcategory-card">
+                            <h5>Read-Only Tools</h5>
+                            <p>Query database, API GET, file reader</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Real-Time Tools</h5>
+                            <p>Stream data, webhook listener, monitor</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Aggregation Tools</h5>
+                            <p>Data merger, report builder, analyzer</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Transform Tools</h5>
+                            <p>Parser, formatter, data cleaner</p>
+                        </div>
+                    </div>
+                    
                     <div class="tool-examples">
-                        <h4>Esempi comuni:</h4>
+                        <h4>Pattern di implementazione:</h4>
                         <ul>
-                            <li>Query database SQL</li>
-                            <li>Lettura documenti PDF</li>
-                            <li>Ricerca web</li>
-                            <li>API di dati esterni</li>
-                            <li>Accesso a CRM</li>
+                            <li>Caching layer per ottimizzazione</li>
+                            <li>Rate limiting per API esterne</li>
+                            <li>Fallback su fonti alternative</li>
+                            <li>Validazione schema dati</li>
                         </ul>
                     </div>
                 </div>
 
+                <!-- Action Tools -->
                 <div class="tool-category">
                     <div class="category-icon">⚡</div>
                     <h3 class="category-title">Action Tools</h3>
                     <p class="category-description">
-                        Consentono all'agente di compiere azioni concrete, modificare sistemi o comunicare con utenti.
+                        Eseguono modifiche nel sistema, comunicano con utenti e integrano servizi esterni con side effects.
                     </p>
+                    
+                    <div class="subcategories">
+                        <div class="subcategory-card">
+                            <h5>Write Tools</h5>
+                            <p>Database update, file writer, API POST</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Communication Tools</h5>
+                            <p>Email sender, SMS, notification push</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Integration Tools</h5>
+                            <p>Webhook trigger, API caller, RPC</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Control Tools</h5>
+                            <p>Process starter, device controller</p>
+                        </div>
+                    </div>
+                    
                     <div class="tool-examples">
-                        <h4>Esempi comuni:</h4>
+                        <h4>Considerazioni critiche:</h4>
                         <ul>
-                            <li>Invio email/SMS</li>
-                            <li>Update record CRM</li>
-                            <li>Creazione ticket</li>
-                            <li>Modifica database</li>
-                            <li>Controllo dispositivi IoT</li>
+                            <li>Idempotenza delle operazioni</li>
+                            <li>Rollback e compensazione</li>
+                            <li>Audit trail completo</li>
+                            <li>Gestione transazionale</li>
                         </ul>
                     </div>
                 </div>
 
+                <!-- Orchestration Tools -->
                 <div class="tool-category">
                     <div class="category-icon">🎯</div>
                     <h3 class="category-title">Orchestration Tools</h3>
                     <p class="category-description">
-                        Gli agenti stessi possono fungere da tools per altri agenti, creando sistemi multi-agente.
+                        Agenti specializzati che fungono da tools, creando architetture multi-livello e delegazione intelligente.
                     </p>
+                    
+                    <div class="subcategories">
+                        <div class="subcategory-card">
+                            <h5>Specialist Agents</h5>
+                            <p>Domain expert, analyzer, validator</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Workflow Agents</h5>
+                            <p>Pipeline manager, task scheduler</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Decision Agents</h5>
+                            <p>Router, classifier, prioritizer</p>
+                        </div>
+                        <div class="subcategory-card">
+                            <h5>Meta Agents</h5>
+                            <p>Monitor, optimizer, learner</p>
+                        </div>
+                    </div>
+                    
                     <div class="tool-examples">
-                        <h4>Esempi comuni:</h4>
+                        <h4>Architetture avanzate:</h4>
                         <ul>
-                            <li>Agente di ricerca</li>
-                            <li>Agente di analisi</li>
-                            <li>Agente di scrittura</li>
-                            <li>Agente di traduzione</li>
-                            <li>Agente di validazione</li>
+                            <li>Hierarchical agent networks</li>
+                            <li>Peer-to-peer collaboration</li>
+                            <li>Dynamic agent spawning</li>
+                            <li>Consensus mechanisms</li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Section 2: Creare Tools Efficaci -->
-        <div class="content-section">
-            <h2 class="section-title">
-                <div class="section-icon">⚙️</div>
-                Principi per Creare Tools Efficaci
-            </h2>
+            <!-- Decision Matrix -->
+            <div class="decision-matrix">
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary);">
+                    🎯 Matrice Decisionale per la Selezione dei Tools
+                </h3>
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Categoria Primaria</th>
+                            <th>Tools Complementari</th>
+                            <th>Complessità</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Report Generation</td>
+                            <td>Data Tools</td>
+                            <td>Action (PDF export)</td>
+                            <td>Bassa</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Support</td>
+                            <td>Orchestration</td>
+                            <td>Data + Action</td>
+                            <td>Alta</td>
+                        </tr>
+                        <tr>
+                            <td>Data Migration</td>
+                            <td>Data Tools</td>
+                            <td>Action + Orchestration</td>
+                            <td>Molto Alta</td>
+                        </tr>
+                        <tr>
+                            <td>Real-time Monitoring</td>
+                            <td>Data Tools</td>
+                            <td>Action (alerts)</td>
+                            <td>Media</td>
+                        </tr>
+                        <tr>
+                            <td>Workflow Automation</td>
+                            <td>Orchestration</td>
+                            <td>Tutti</td>
+                            <td>Molto Alta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <div class="best-practices">
-                <div class="practice-card">
-                    <div class="practice-icon">📐</div>
-                    <div class="practice-content">
-                        <h4>Standardizzazione</h4>
-                        <p>
-                            Ogni tool dovrebbe avere una definizione standardizzata con parametri chiari, 
-                            documentazione completa e gestione errori robusta.
-                        </p>
+            <!-- Anti-patterns -->
+            <h3 style="margin: 3rem 0 1rem; color: var(--error);">
+                ⚠️ Anti-patterns Comuni per Categoria
+            </h3>
+            <div class="antipatterns-grid">
+                <div class="antipattern-card">
+                    <h4>❌ Data Tool Overload</h4>
+                    <p>Recuperare troppi dati "per sicurezza" sovraccarica il context window dell'LLM.</p>
+                    <div class="correct">
+                        <strong>✅ Soluzione:</strong> Implementa query selettive e pagination intelligente.
                     </div>
                 </div>
-
-                <div class="practice-card">
-                    <div class="practice-icon">🔄</div>
-                    <div class="practice-content">
-                        <h4>Riusabilità</h4>
-                        <p>
-                            Progetta tools che possano essere utilizzati da più agenti. Evita dipendenze 
-                            specifiche e mantieni interfacce pulite.
-                        </p>
+                <div class="antipattern-card">
+                    <h4>❌ Action Without Validation</h4>
+                    <p>Eseguire azioni distruttive senza conferma o validazione dei prerequisiti.</p>
+                    <div class="correct">
+                        <strong>✅ Soluzione:</strong> Pre-flight checks e confirmation patterns.
                     </div>
                 </div>
-
-                <div class="practice-card">
-                    <div class="practice-icon">🛡️</div>
-                    <div class="practice-content">
-                        <h4>Sicurezza</h4>
-                        <p>
-                            Implementa validazione input, limiti di rate, e permessi appropriati. 
-                            Ogni tool dovrebbe fallire in modo sicuro.
-                        </p>
+                <div class="antipattern-card">
+                    <h4>❌ Orchestration Inception</h4>
+                    <p>Agenti che chiamano agenti che chiamano agenti... perdita di controllo e context.</p>
+                    <div class="correct">
+                        <strong>✅ Soluzione:</strong> Limita la profondità a 3 livelli massimo.
                     </div>
                 </div>
-
-                <div class="practice-card">
-                    <div class="practice-icon">📊</div>
-                    <div class="practice-content">
-                        <h4>Monitoraggio</h4>
-                        <p>
-                            Aggiungi logging e metriche per tracciare l'uso, le performance e gli errori 
-                            di ogni tool in produzione.
-                        </p>
+                <div class="antipattern-card">
+                    <h4>❌ Synchronous Everything</h4>
+                    <p>Bloccare l'agente principale per operazioni lunghe degradando l'UX.</p>
+                    <div class="correct">
+                        <strong>✅ Soluzione:</strong> Async patterns con status updates.
                     </div>
                 </div>
             </div>
 
-            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Esempio: Tool di Ricerca Database</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Tool ben progettato</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>from typing import Dict, Any, Optional
-import logging
-from datetime import datetime
-from functools import wraps
-
-# Decorator per logging e rate limiting
-def tool_wrapper(max_calls_per_minute: int = 60):
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            # Log della chiamata
-            logger.info(f"Tool {func.__name__} chiamato con args: {args}")
-            start_time = datetime.now()
-            
-            try:
-                # Esegui il tool
-                result = func(*args, **kwargs)
-                
-                # Log del successo
-                duration = (datetime.now() - start_time).total_seconds()
-                logger.info(f"Tool {func.__name__} completato in {duration}s")
-                
-                return result
-                
-            except Exception as e:
-                # Log dell'errore
-                logger.error(f"Tool {func.__name__} fallito: {str(e)}")
-                
-                # Ritorna errore strutturato
-                return {
-                    "success": False,
-                    "error": str(e),
-                    "error_type": type(e).__name__,
-                    "timestamp": datetime.now().isoformat()
-                }
-        
-        return wrapper
-    return decorator
-
-@tool_wrapper(max_calls_per_minute=30)
-def search_customer_database(
-    customer_id: Optional[str] = None,
-    email: Optional[str] = None,
-    phone: Optional[str] = None,
-    limit: int = 10
-) -> Dict[str, Any]:
-    """
-    Cerca clienti nel database aziendale.
-    
-    Args:
-        customer_id: ID univoco del cliente
-        email: Email del cliente
-        phone: Numero di telefono
-        limit: Numero massimo di risultati (max 100)
-        
-    Returns:
-        Dict con risultati o errore
-        
-    Raises:
-        ValueError: Se nessun parametro di ricerca fornito
-        DatabaseError: Se errore di connessione
-    """
-    # Validazione input
-    if not any([customer_id, email, phone]):
-        raise ValueError("Almeno un parametro di ricerca richiesto")
-    
-    if limit > 100:
-        limit = 100  # Limita per sicurezza
-    
-    # Sanitizza input per prevenire SQL injection
-    params = {}
-    if customer_id:
-        params['id'] = sanitize_input(customer_id)
-    if email:
-        params['email'] = validate_email(email)
-    if phone:
-        params['phone'] = sanitize_phone(phone)
-    
-    try:
-        # Query sicura con parametri
-        query = build_safe_query(params, limit)
-        results = db.execute(query, params)
-        
-        # Formatta risultati
-        customers = []
-        for row in results:
-            customers.append({
-                "id": row.id,
-                "name": row.name,
-                "email": row.email,
-                "phone": row.phone,
-                "status": row.status,
-                "created_at": row.created_at.isoformat()
-            })
-        
-        return {
-            "success": True,
-            "count": len(customers),
-            "customers": customers,
-            "query_params": params,
-            "timestamp": datetime.now().isoformat()
-        }
-        
-    except DatabaseError as e:
-        # Gestione specifica errori database
-        logger.error(f"Database error: {e}")
-        raise
-    except Exception as e:
-        # Gestione errori generici
-        logger.error(f"Unexpected error: {e}")
-        raise
-
-# Definizione del tool per l'agente
-customer_search_tool = {
-    "name": "search_customer_database",
-    "description": "Cerca clienti nel database usando ID, email o telefono",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "customer_id": {
-                "type": "string",
-                "description": "ID univoco del cliente (opzionale)"
-            },
-            "email": {
-                "type": "string",
-                "description": "Email del cliente (opzionale)"
-            },
-            "phone": {
-                "type": "string",
-                "description": "Numero di telefono (opzionale)"
-            },
-            "limit": {
-                "type": "integer",
-                "description": "Numero massimo di risultati (default: 10, max: 100)"
-            }
-        },
-        "required": []  # Tutti opzionali ma almeno uno necessario
-    },
-    "function": search_customer_database
-}</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 3: Tool Concatenation -->
-        <div class="content-section">
-            <h2 class="section-title">
-                <div class="section-icon">🔗</div>
-                Concatenazione di Tools
-            </h2>
-
-            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                La vera potenza emerge quando combini più tools per creare workflow complessi. 
-                Ecco come progettare tools che lavorano bene insieme.
-            </p>
-
+            <!-- Flow Diagram -->
             <div class="flow-diagram">
-                <h3 style="margin-bottom: 2rem;">Esempio: Workflow di Analisi Ordini</h3>
-                <div class="flow-nodes">
-                    <div class="flow-node" onclick="highlightNode(this, 'search')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
-                        <strong>Cerca Cliente</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            search_customer
-                        </p>
+                <h3 style="color: var(--primary); margin-bottom: 2rem;">
+                    🔄 Diagramma di Flusso per Selezione Tool Ottimale
+                </h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div style="font-size: 1.5rem;">🤔</div>
+                        <div>Analizza Richiesta</div>
                     </div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node" onclick="highlightNode(this, 'orders')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📦</div>
-                        <strong>Recupera Ordini</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            get_orders
-                        </p>
+                    <div class="flow-step">
+                        <div style="font-size: 1.5rem;">📋</div>
+                        <div>Identifica Requisiti</div>
                     </div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node" onclick="highlightNode(this, 'analyze')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
-                        <strong>Analizza Pattern</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            analyze_patterns
-                        </p>
+                    <div class="flow-step">
+                        <div style="font-size: 1.5rem;">🎯</div>
+                        <div>Mappa Categorie</div>
                     </div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node" onclick="highlightNode(this, 'report')">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
-                        <strong>Genera Report</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            create_report
-                        </p>
+                    <div class="flow-step">
+                        <div style="font-size: 1.5rem;">⚖️</div>
+                        <div>Valuta Trade-offs</div>
+                    </div>
+                    <div class="flow-step">
+                        <div style="font-size: 1.5rem;">🚀</div>
+                        <div>Implementa Soluzione</div>
                     </div>
                 </div>
                 <p style="margin-top: 2rem; color: #94a3b8;">
-                    <em>Clicca su ogni nodo per vedere il codice del tool</em>
+                    Ogni step richiede considerazioni specifiche su performance, affidabilità e manutenibilità
                 </p>
-            </div>
-
-            <div id="tool-code-display" style="display: none;">
-                <div class="code-example">
-                    <div class="code-header">
-                        <span class="code-lang" id="tool-code-title">Python</span>
-                        <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                    </div>
-                    <pre><code id="tool-code-content"></code></pre>
-                </div>
-            </div>
-
-            <div class="alert alert-info" style="margin-top: 2rem;">
-                <h4 style="margin-bottom: 1rem; color: var(--primary);">
-                    💡 Best Practice per Tools Concatenati
-                </h4>
-                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Output strutturati:</strong> Ogni tool deve restituire dati in formato JSON consistente
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Gestione errori a cascata:</strong> Se un tool fallisce, i successivi devono gestirlo gracefully
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Passaggio di contesto:</strong> Usa un oggetto context condiviso per mantenere stato
-                    </li>
-                    <li>
-                        <strong>Idempotenza:</strong> I tools dovrebbero essere sicuri da eseguire più volte
-                    </li>
-                </ol>
             </div>
         </div>
 
-        <!-- Section 4: Instructions Avanzate -->
+        <!-- Section 2: Design Patterns per Tools -->
         <div class="content-section">
             <h2 class="section-title">
-                <div class="section-icon">📋</div>
-                Scrivere Instructions Efficaci
+                <div class="section-icon">🏗️</div>
+                Design Patterns per Tools
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Le istruzioni sono il cervello operativo del tuo agente. Impara a trasformare procedure complesse 
-                in direttive chiare che l'AI può seguire con precisione.
+                I pattern consolidati dal software engineering si applicano perfettamente al design di tools per agenti AI, 
+                garantendo robustezza e scalabilità.
             </p>
 
-            <div class="alert alert-warning" style="margin-bottom: 2rem;">
-                <h4 style="color: var(--warning); margin-bottom: 1rem;">
-                    ⚠️ Errori Comuni nelle Instructions
-                </h4>
-                <ul style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li>Ambiguità nei passaggi decisionali</li>
-                    <li>Mancanza di gestione degli edge case</li>
-                    <li>Istruzioni troppo generiche o vaghe</li>
-                    <li>Assenza di criteri di successo chiari</li>
-                </ul>
-            </div>
-
-            <h3 style="margin-bottom: 1.5rem;">Template per Instructions Strutturate</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Markdown - Template Instructions</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code># Ruolo e Contesto
-Sei un [RUOLO SPECIFICO] esperto in [DOMINIO].
-Il tuo obiettivo principale è [OBIETTIVO CHIARO].
-
-# Principi Guida
-1. [PRINCIPIO 1]: [Spiegazione dettagliata]
-2. [PRINCIPIO 2]: [Spiegazione dettagliata]
-3. [PRINCIPIO 3]: [Spiegazione dettagliata]
-
-# Processo Step-by-Step
-
-## Fase 1: Raccolta Informazioni
-1. Identifica [COSA CERCARE]
-2. Usa il tool `[NOME_TOOL]` per [AZIONE]
-3. Se [CONDIZIONE], allora [AZIONE_A], altrimenti [AZIONE_B]
-
-## Fase 2: Analisi
-1. Valuta [CRITERI SPECIFICI]
-2. Confronta con [STANDARD/BASELINE]
-3. Documenta [COSA REGISTRARE]
-
-## Fase 3: Azione
-1. Basandoti sull'analisi:
-   - Se [SCENARIO_1]: Esegui [AZIONE_1]
-   - Se [SCENARIO_2]: Esegui [AZIONE_2]
-   - Altrimenti: [AZIONE_DEFAULT]
-
-# Gestione Edge Case
-
-## Caso: [NOME_EDGE_CASE]
-- **Quando si verifica**: [CONDIZIONE]
-- **Come gestirlo**: [PROCEDURA]
-- **Fallback**: [PIANO_B]
-
-# Criteri di Successo
-- ✅ [CRITERIO_1]
-- ✅ [CRITERIO_2]
-- ✅ [CRITERIO_3]
-
-# Esempi
-
-## Esempio 1: [SCENARIO]
-**Input**: [ESEMPIO_INPUT]
-**Processo**: [PASSI_ESEGUITI]
-**Output**: [RISULTATO_ATTESO]
-
-# Note Importanti
-- ⚠️ [AVVERTIMENTO_1]
-- 💡 [SUGGERIMENTO_1]
-- 🚫 [COSA_NON_FARE]</code></pre>
-            </div>
-
-            <h3 style="margin-top: 2rem; margin-bottom: 1.5rem;">Esempio Reale: Customer Service Agent</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Instructions Avanzate</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>CUSTOMER_SERVICE_INSTRUCTIONS = """
-# Ruolo e Contesto
-Sei un Senior Customer Service Agent per TechCorp, specializzato nella 
-risoluzione di problemi tecnici e gestione reclami. Il tuo obiettivo è 
-risolvere i problemi dei clienti rapidamente mantenendo alta la soddisfazione.
-
-# Principi Guida
-1. **Empatia Prima**: Riconosci sempre le frustrazioni del cliente prima 
-   di proporre soluzioni
-2. **Risoluzione Proattiva**: Anticipa problemi correlati e offri soluzioni 
-   preventive
-3. **Escalation Intelligente**: Sai quando è il momento di coinvolgere un umano
-
-# Processo Step-by-Step
-
-## Fase 1: Comprensione del Problema
-1. Saluta il cliente usando il suo nome (usa `get_customer_info`)
-2. Riassumi il problema per confermare la comprensione
-3. Usa `search_knowledge_base` per trovare soluzioni note
-4. Se il problema non è chiaro:
-   - Fai massimo 3 domande di chiarimento
-   - Usa esempi concreti per aiutare il cliente
-
-## Fase 2: Diagnosi e Risoluzione
-1. Controlla lo storico del cliente con `get_customer_history`:
-   - Se problema ricorrente → Offri soluzione permanente
-   - Se primo problema → Approccio standard
-   
-2. Classifica la gravità:
-   - **Critico** (servizio down): Priorità immediata + compensazione
-   - **Alto** (funzionalità bloccata): Risoluzione entro 24h
-   - **Medio** (inconveniente): Risoluzione entro 48h
-   - **Basso** (domanda): Risposta immediata
-
-3. Applica la soluzione appropriata:
-   ```
-   if problema in KNOWN_ISSUES:
-       applica_soluzione_standard()
-   elif complessità > THRESHOLD:
-       escalate_to_human()
-   else:
-       proponi_troubleshooting_guidato()
-   ```
-
-## Fase 3: Follow-up e Chiusura
-1. Verifica che la soluzione funzioni
-2. Documenta la risoluzione con `update_ticket`
-3. Se cliente VIP o problema critico:
-   - Programma follow-up con `schedule_callback`
-   - Offri compensazione se appropriato
-
-# Gestione Edge Case
-
-## Caso: Cliente Arrabbiato
-- **Quando**: Sentiment score < -0.7 o linguaggio aggressivo
-- **Come gestirlo**: 
-  1. "Capisco perfettamente la sua frustrazione..."
-  2. Offri subito escalation a supervisore
-  3. Se rifiuta, procedi con tono extra-professionale
-- **Fallback**: Trasferimento immediato a senior agent
-
-## Caso: Problema Sconosciuto
-- **Quando**: Confidence < 0.6 dopo ricerca knowledge base
-- **Come gestirlo**:
-  1. "Questo è un caso particolare che richiede attenzione speciale..."
-  2. Raccogli tutti i dettagli con `create_detailed_report`
-  3. Escalate a technical team con priorità
-- **Fallback**: Callback garantito entro 4 ore
-
-## Caso: Richiesta di Rimborso > €500
-- **Quando**: Importo supera threshold autorizzazione
-- **Come gestirlo**:
-  1. Verifica eligibilità con `check_refund_policy`
-  2. Se eligibile, prepara documentazione
-  3. Inoltra a finance team per approvazione
-- **Fallback**: Manager approval richiesto
-
-# Tools e Quando Usarli
-
-- `get_customer_info`: SEMPRE all'inizio
-- `search_knowledge_base`: Per OGNI problema tecnico
-- `get_customer_history`: Se problema ricorrente o VIP
-- `update_ticket`: SEMPRE prima di chiudere
-- `escalate_to_human`: Se confidence < 0.6 o cliente insiste
-- `schedule_callback`: Per follow-up su problemi critici/VIP
-- `check_refund_policy`: Per qualsiasi richiesta monetaria
-- `send_compensation`: Solo dopo approvazione manager
-
-# Frasi Chiave da Usare
-
-## Apertura
-- "Buongiorno [Nome], sono qui per aiutarla con [problema]"
-- "Capisco quanto possa essere frustrante [situazione]"
-
-## Durante la Risoluzione
-- "Ho trovato una soluzione che dovrebbe risolvere..."
-- "Mentre risolviamo questo, ho notato che potrebbe interessarle..."
-
-## Chiusura
-- "È tutto risolto? C'è altro in cui posso assisterla?"
-- "Ho documentato tutto, riceverà un'email di conferma"
-
-# Metriche di Successo
-- ✅ Risoluzione al primo contatto > 70%
-- ✅ Customer Satisfaction Score > 4.5/5
-- ✅ Tempo medio risoluzione < 15 minuti
-- ✅ Escalation rate < 20%
-
-# Note Importanti
-- ⚠️ MAI promettere tempistiche non verificate
-- 💡 Offri sempre self-service per problemi futuri simili
-- 🚫 NON discutere policy aziendali - riferisci a manager
-- 🎯 Priorità assoluta: clienti con servizio business critical down
-"""
-
-# Configurazione dell'agente con le istruzioni
-agent = Agent(
-    name="Customer Service Expert",
-    instructions=CUSTOMER_SERVICE_INSTRUCTIONS,
-    tools=[
-        get_customer_info,
-        search_knowledge_base,
-        get_customer_history,
-        update_ticket,
-        escalate_to_human,
-        schedule_callback,
-        check_refund_policy,
-        send_compensation
-    ],
-    temperature=0.7,  # Bilanciamento tra consistenza e naturalezza
-    max_iterations=10  # Limita loop infiniti
-)</code></pre>
-            </div>
-        </div>
-
-        <!-- Interactive Tool Builder -->
-        <div class="tool-builder">
-            <div class="builder-header">
-                <h2 class="section-title" style="margin: 0;">
-                    <div class="section-icon">🛠️</div>
-                    Lab: Costruisci il Tuo Tool
-                </h2>
-                <span class="builder-badge">Interattivo</span>
-            </div>
-
-            <p style="margin-bottom: 2rem;">
-                Usa questo builder per creare rapidamente definizioni di tools per i tuoi agenti. 
-                Il sistema genererà automaticamente il codice con best practices incluse.
-            </p>
-
-            <div class="builder-form">
-                <div class="form-group">
-                    <label class="form-label">Nome del Tool</label>
-                    <input type="text" class="form-input" id="tool-name" placeholder="es. search_products">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Descrizione</label>
-                    <input type="text" class="form-input" id="tool-description" placeholder="Cerca prodotti nel catalogo aziendale">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Categoria</label>
-                    <select class="form-select" id="tool-category">
-                        <option value="data">Data Tool (Lettura)</option>
-                        <option value="action">Action Tool (Scrittura)</option>
-                        <option value="orchestration">Orchestration Tool (Altri Agenti)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Parametri (uno per riga, formato: nome:tipo:descrizione)</label>
-                    <textarea class="form-textarea" id="tool-params" placeholder="product_name:string:Nome del prodotto da cercare
-category:string:Categoria di prodotti (opzionale)
-limit:integer:Numero massimo di risultati"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Richiede Autenticazione?</label>
-                    <select class="form-select" id="tool-auth">
-                        <option value="none">Nessuna</option>
-                        <option value="api_key">API Key</option>
-                        <option value="oauth">OAuth</option>
-                        <option value="jwt">JWT Token</option>
-                    </select>
-                </div>
-
-                <div class="builder-actions">
-                    <button class="builder-button" onclick="generateTool()">
-                        Genera Codice Tool
-                    </button>
-                    <button class="builder-button" style="background: rgba(99, 102, 241, 0.2);" onclick="resetBuilder()">
-                        Reset
-                    </button>
-                </div>
-            </div>
-
-            <div class="builder-output" id="tool-output" style="display: none;">
-                <em>Il codice generato apparirà qui...</em>
-            </div>
-        </div>
-
-        <!-- Practical Challenge -->
-        <div class="content-section" style="background: rgba(236, 72, 153, 0.05); border: 1px solid rgba(236, 72, 153, 0.2);">
-            <h2 class="section-title">
-                <div class="section-icon">🎯</div>
-                Sfida Pratica
-            </h2>
-
-            <p style="margin-bottom: 2rem; color: #cbd5e1;">
-                Metti in pratica quello che hai imparato creando un sistema completo di tools per un caso d'uso reale.
-            </p>
-
-            <div style="background: rgba(30, 41, 59, 0.5); border-radius: 15px; padding: 2rem;">
-                <h3 style="margin-bottom: 1.5rem;">📚 Progetto: Sistema di Gestione Biblioteca</h3>
-                
-                <p style="margin-bottom: 1.5rem; color: #cbd5e1;">
-                    Crea un agente che gestisca una biblioteca digitale con queste funzionalità:
-                </p>
-
-                <ol style="padding-left: 1.5rem; color: #cbd5e1; margin-bottom: 2rem;">
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Ricerca libri</strong> per titolo, autore, genere o ISBN
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Gestione prestiti</strong> con check-out e check-in
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Raccomandazioni personalizzate</strong> basate sulla storia utente
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <strong>Notifiche automatiche</strong> per scadenze e nuovi arrivi
-                    </li>
-                </ol>
-
-                <h4 style="margin-bottom: 1rem; color: var(--secondary);">Tools da Implementare:</h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
-                        <strong>search_books</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            Data tool per cercare nel catalogo
-                        </p>
-                    </div>
-                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
-                        <strong>check_availability</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            Data tool per verificare disponibilità
-                        </p>
-                    </div>
-                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
-                        <strong>process_loan</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            Action tool per prestiti
-                        </p>
-                    </div>
-                    <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: 10px;">
-                        <strong>send_notification</strong>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">
-                            Action tool per notifiche
-                        </p>
-                    </div>
-                </div>
-
-                <div class="alert alert-success" style="margin-top: 2rem;">
-                    <h4 style="color: var(--success); margin-bottom: 0.5rem;">
-                        🏆 Bonus Challenge
-                    </h4>
+            <div class="pattern-showcase">
+                <!-- Singleton Pattern -->
+                <div class="pattern-card">
+                    <h3 class="pattern-name">Singleton Pattern</h3>
+                    <div class="pattern-use-case">Per risorse condivise e connessioni</div>
                     <p style="color: #cbd5e1;">
-                        Implementa un recommendation_agent come orchestration tool che usa gli altri tools 
-                        per suggerire libri basandosi su: generi preferiti, autori letti, valutazioni date.
+                        Garantisce una singola istanza di risorse costose come connessioni database o client API.
+                    </p>
+                    <div class="pattern-visual">
+                        DatabaseTool<br/>
+                        ├── instance: null<br/>
+                        ├── getInstance()<br/>
+                        └── connection_pool<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── max_connections: 10
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
+                        <strong>Vantaggi:</strong> Risparmio risorse, stato condiviso coerente<br/>
+                        <strong>Quando usarlo:</strong> Database connections, API clients, Cache managers
+                    </p>
+                </div>
+
+                <!-- Factory Pattern -->
+                <div class="pattern-card">
+                    <h3 class="pattern-name">Factory Pattern</h3>
+                    <div class="pattern-use-case">Per tools dinamici e polimorfici</div>
+                    <p style="color: #cbd5e1;">
+                        Crea tools diversi basandosi su configurazione runtime senza modificare il codice chiamante.
+                    </p>
+                    <div class="pattern-visual">
+                        ToolFactory<br/>
+                        ├── createTool(type, config)<br/>
+                        ├── registerTool(type, class)<br/>
+                        └── tools_registry<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── "email" → EmailTool<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── "sms" → SMSTool
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
+                        <strong>Vantaggi:</strong> Estensibilità, disaccoppiamento<br/>
+                        <strong>Quando usarlo:</strong> Multi-channel notifications, Dynamic integrations
+                    </p>
+                </div>
+
+                <!-- Adapter Pattern -->
+                <div class="pattern-card">
+                    <h3 class="pattern-name">Adapter Pattern</h3>
+                    <div class="pattern-use-case">Per integrare API esterne eterogenee</div>
+                    <p style="color: #cbd5e1;">
+                        Fornisce un'interfaccia uniforme per servizi esterni con API diverse.
+                    </p>
+                    <div class="pattern-visual">
+                        WeatherAdapter<br/>
+                        ├── getWeather(location)<br/>
+                        └── providers<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── OpenWeatherAdapter<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── WeatherAPIAdapter<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── fallback_chain[]
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
+                        <strong>Vantaggi:</strong> Interfaccia consistente, fallback automatico<br/>
+                        <strong>Quando usarlo:</strong> Multi-provider services, Legacy system integration
+                    </p>
+                </div>
+
+                <!-- Observer Pattern -->
+                <div class="pattern-card">
+                    <h3 class="pattern-name">Observer Pattern</h3>
+                    <div class="pattern-use-case">Per tools reattivi e event-driven</div>
+                    <p style="color: #cbd5e1;">
+                        Notifica automaticamente altri componenti quando si verificano eventi rilevanti.
+                    </p>
+                    <div class="pattern-visual">
+                        EventManager<br/>
+                        ├── subscribe(event, handler)<br/>
+                        ├── emit(event, data)<br/>
+                        └── listeners<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── "data_updated" → [...]<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── "error_occurred" → [...]
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
+                        <strong>Vantaggi:</strong> Decoupling, reattività real-time<br/>
+                        <strong>Quando usarlo:</strong> Monitoring systems, Real-time updates
                     </p>
                 </div>
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 15px;">
-            <p style="color: #cbd5e1; margin-bottom: 1rem;">
-                Vuoi implementare questa sfida con una guida completa passo-passo?
+        <!-- Section 3: Orchestrazione di Tools Complessi -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🎼</div>
+                Orchestrazione di Tools Complessi
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
+                L'orchestrazione efficace richiede comprensione profonda di dipendenze, parallelismo e gestione dello stato.
             </p>
-            <a href="../../guide/sistema-biblioteca-ai.html" 
-               style="display: inline-block; padding: 0.8rem 2rem; background: var(--gradient); 
-                      color: white; text-decoration: none; border-radius: 50px; 
-                      font-weight: 600; transition: transform 0.3s ease;">
-                Vai alla Guida Completa →
+
+            <!-- DAG Theory -->
+            <div class="orchestration-visual">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                    Directed Acyclic Graphs (DAG) per Tool Dependencies
+                </h3>
+                
+                <div class="dag-nodes">
+                    <div class="dag-node">
+                        <div class="dag-node-icon">🔍</div>
+                        <div class="dag-node-label">Search Tool</div>
+                    </div>
+                    <div class="dag-node">
+                        <div class="dag-node-icon">📊</div>
+                        <div class="dag-node-label">Analyze Tool</div>
+                    </div>
+                    <div class="dag-node">
+                        <div class="dag-node-icon">📧</div>
+                        <div class="dag-node-label">Report Tool</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(15, 23, 42, 0.8); border-radius: 10px;">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Principi DAG per Tools:</h4>
+                    <ul style="list-style: none; color: #cbd5e1;">
+                        <li>📌 <strong>Acyclicity:</strong> Nessun loop circolare nelle dipendenze</li>
+                        <li>📌 <strong>Topological Sort:</strong> Determina ordine ottimale di esecuzione</li>
+                        <li>📌 <strong>Parallelization:</strong> Identifica tools eseguibili in parallelo</li>
+                        <li>📌 <strong>Critical Path:</strong> Ottimizza il percorso più lungo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- State Management -->
+            <div style="margin-top: 3rem; padding: 2rem; background: rgba(51, 65, 85, 0.3); border-radius: 15px;">
+                <h3 style="color: var(--secondary); margin-bottom: 1.5rem;">
+                    🔄 State Management tra Tools
+                </h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+                        <h4 style="color: var(--primary);">Immutable State</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            Ogni tool produce nuovo stato senza modificare input
+                        </p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔐</div>
+                        <h4 style="color: var(--primary);">State Isolation</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            Tools non condividono stato mutable direttamente
+                        </p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                        <h4 style="color: var(--primary);">State Tracking</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            Audit completo di tutte le trasformazioni
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parallelism Strategies -->
+            <div style="margin-top: 2rem;">
+                <h3 style="color: var(--accent); margin-bottom: 1rem;">
+                    ⚡ Strategie di Parallelismo
+                </h3>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--primary);">
+                        <strong>Fork-Join:</strong> Esegui tools indipendenti in parallelo, attendi tutti prima di procedere
+                    </div>
+                    <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--secondary);">
+                        <strong>Pipeline:</strong> Stream processing con buffering tra stages
+                    </div>
+                    <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--accent);">
+                        <strong>Map-Reduce:</strong> Distribuisci lavoro su tool instances multiple
+                    </div>
+                    <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--success);">
+                        <strong>Reactive Streams:</strong> Back-pressure e flow control automatico
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Instructions Engineering Avanzato -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <div class="section-icon">🧠</div>
+                Instructions Engineering Avanzato
+            </h2>
+
+            <!-- Psychology Section -->
+            <div class="psychology-insights">
+                <h3 style="color: var(--secondary); margin-bottom: 1.5rem;">
+                    🎭 Psicologia Cognitiva degli LLM
+                </h3>
+                <p style="margin-bottom: 1.5rem;">
+                    Comprendere come gli LLM "pensano" permette di scrivere instructions più efficaci:
+                </p>
+                <ul class="insight-list">
+                    <li>
+                        <span class="insight-icon">💡</span>
+                        <div>
+                            <strong>Attention Mechanism:</strong> Gli LLM prestano più attenzione all'inizio e alla fine delle instructions. 
+                            Posiziona informazioni critiche strategicamente.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="insight-icon">💡</span>
+                        <div>
+                            <strong>Token Distance:</strong> Concetti correlati dovrebbero essere vicini nel testo. 
+                            La distanza influenza la capacità di correlazione.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="insight-icon">💡</span>
+                        <div>
+                            <strong>Repetition Reinforcement:</strong> Ripetere concetti chiave in forme diverse 
+                            aumenta l'aderenza alle direttive.
+                        </div>
+                    </li>
+                    <li>
+                        <span class="insight-icon">💡</span>
+                        <div>
+                            <strong>Cognitive Load:</strong> Instructions troppo dense riducono performance. 
+                            Struttura gerarchica e bullet points migliorano comprensione.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Template Patterns -->
+            <div class="template-gallery">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                    📋 Template Patterns Avanzati
+                </h3>
+
+                <!-- Role-Based Template -->
+                <div class="template-card">
+                    <div class="template-header">
+                        <span class="template-type">Role-Based Template</span>
+                        <span style="color: #94a3b8;">Per expertise specializzata</span>
+                    </div>
+                    <div class="template-structure">
+# ROLE DEFINITION<br/>
+You are a [SPECIFIC_ROLE] with expertise in [DOMAINS].<br/>
+Your approach is [CHARACTERISTICS].<br/><br/>
+
+# CORE COMPETENCIES<br/>
+- [COMPETENCY_1]: [DETAILED_DESCRIPTION]<br/>
+- [COMPETENCY_2]: [DETAILED_DESCRIPTION]<br/><br/>
+
+# DECISION FRAMEWORK<br/>
+When faced with [SCENARIO_TYPE]:<br/>
+1. First assess [PRIMARY_FACTORS]<br/>
+2. Then consider [SECONDARY_FACTORS]<br/>
+3. Always prioritize [KEY_PRIORITIES]
+                    </div>
+                </div>
+
+                <!-- Constraint-Based Template -->
+                <div class="template-card">
+                    <div class="template-header">
+                        <span class="template-type">Constraint-Based Template</span>
+                        <span style="color: #94a3b8;">Per limiti e compliance</span>
+                    </div>
+                    <div class="template-structure">
+# OPERATIONAL BOUNDARIES<br/>
+MUST: [HARD_REQUIREMENTS]<br/>
+MUST NOT: [PROHIBITIONS]<br/>
+SHOULD: [SOFT_REQUIREMENTS]<br/><br/>
+
+# EDGE CASE HANDLING<br/>
+IF [CONDITION] THEN [SPECIFIC_ACTION]<br/>
+ELSE IF [CONDITION] THEN [ALTERNATIVE_ACTION]<br/>
+DEFAULT: [FALLBACK_BEHAVIOR]<br/><br/>
+
+# ESCALATION PROTOCOL<br/>
+When confidence < [THRESHOLD]: [ESCALATION_PATH]
+                    </div>
+                </div>
+
+                <!-- Context-Aware Template -->
+                <div class="template-card">
+                    <div class="template-header">
+                        <span class="template-type">Context-Aware Template</span>
+                        <span style="color: #94a3b8;">Per adattamento dinamico</span>
+                    </div>
+                    <div class="template-structure">
+# CONTEXT DETECTION<br/>
+Analyze user input for:<br/>
+- Intent: [INTENT_CATEGORIES]<br/>
+- Urgency: [URGENCY_LEVELS]<br/>
+- Complexity: [COMPLEXITY_SCALE]<br/><br/>
+
+# ADAPTIVE RESPONSES<br/>
+For [CONTEXT_TYPE]:<br/>
+- Tone: [APPROPRIATE_TONE]<br/>
+- Detail Level: [DETAIL_SPECIFICATION]<br/>
+- Tool Selection: [PREFERRED_TOOLS]
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ambiguity Management -->
+            <div style="margin-top: 3rem; padding: 2rem; background: rgba(51, 65, 85, 0.3); border-radius: 15px;">
+                <h3 style="color: var(--accent); margin-bottom: 1.5rem;">
+                    🔍 Gestione Ambiguità e Edge Cases
+                </h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Strategie Preventive</h4>
+                        <ul style="list-style: none; color: #cbd5e1;">
+                            <li>✓ Definizioni esplicite di termini ambigui</li>
+                            <li>✓ Esempi concreti per ogni scenario</li>
+                            <li>✓ Matrici decisionali per casi complessi</li>
+                            <li>✓ Default behaviors chiaramente specificati</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--secondary); margin-bottom: 1rem;">Tecniche di Disambiguation</h4>
+                        <ul style="list-style: none; color: #cbd5e1;">
+                            <li>✓ Clarifying questions protocol</li>
+                            <li>✓ Confidence thresholds espliciti</li>
+                            <li>✓ Fallback su comportamenti sicuri</li>
+                            <li>✓ Audit trail per decisioni critiche</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A/B Testing -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(236, 72, 153, 0.1); border-radius: 15px; border: 1px solid rgba(236, 72, 153, 0.3);">
+                <h4 style="color: var(--secondary); margin-bottom: 1rem;">
+                    📊 A/B Testing di Instructions
+                </h4>
+                <p style="color: #cbd5e1; margin-bottom: 1rem;">
+                    Metriche chiave per valutare l'efficacia delle instructions:
+                </p>
+                <ul style="list-style: none; color: #94a3b8;">
+                    <li>📈 <strong>Task Completion Rate:</strong> Percentuale di successo nel completamento</li>
+                    <li>📈 <strong>Error Rate:</strong> Frequenza di interpretazioni errate</li>
+                    <li>📈 <strong>Efficiency Score:</strong> Token utilizzati vs risultato ottenuto</li>
+                    <li>📈 <strong>Consistency Index:</strong> Variabilità delle risposte su input simili</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Challenge Section -->
+        <div class="architecture-challenge">
+            <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">
+                🏗️ Sfida: Progetta l'Architettura
+            </h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem;">
+                Sistema di Gestione Biblioteca Intelligente - Focus su Design e Architettura
+            </p>
+
+            <p style="margin-bottom: 2rem;">
+                Il tuo compito è progettare l'architettura completa per un sistema di gestione biblioteca AI-powered. 
+                Non scrivere codice, ma crea diagrammi dettagliati, decisioni di design e documentazione architetturale.
+            </p>
+
+            <div class="challenge-requirements">
+                <div class="requirement-card">
+                    <h4>📊 Analisi dei Requisiti</h4>
+                    <ul class="checklist">
+                        <li>Identifica tutti gli stakeholder</li>
+                        <li>Mappa i casi d'uso principali</li>
+                        <li>Definisci requisiti non-funzionali</li>
+                        <li>Prioritizza features con MoSCoW</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>🔧 Design dei Tools</h4>
+                    <ul class="checklist">
+                        <li>Categorizza tools necessari</li>
+                        <li>Definisci interfacce e contratti</li>
+                        <li>Progetta error handling strategy</li>
+                        <li>Specifica data flow tra tools</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>🏛️ Architettura Sistema</h4>
+                    <ul class="checklist">
+                        <li>Disegna component diagram</li>
+                        <li>Crea sequence diagrams</li>
+                        <li>Definisci deployment architecture</li>
+                        <li>Pianifica scalability strategy</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>📋 Instructions Design</h4>
+                    <ul class="checklist">
+                        <li>Struttura gerarchica agenti</li>
+                        <li>Template per ogni agent role</li>
+                        <li>Decision trees per ambiguità</li>
+                        <li>Metriche di valutazione</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 12px;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem;">
+                    📐 Deliverables Richiesti
+                </h4>
+                <ol style="color: #cbd5e1; padding-left: 1.5rem;">
+                    <li>Architecture Decision Records (ADRs) per scelte chiave</li>
+                    <li>Tool interaction matrix con dependencies</li>
+                    <li>Risk assessment e mitigation strategies</li>
+                    <li>Performance benchmarks attesi</li>
+                    <li>Roadmap implementativa con milestones</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Guide Section -->
+        <div class="guide-section">
+            <h3>🛠️ Case Study Completo</h3>
+            <p>Scopri come 4 tools collaborano in un sistema reale:</p>
+            <a href="../../guide/sistema-biblioteca-ai.html" class="guide-btn">
+                Sistema Biblioteca Multi-Tool →
             </a>
+            <p class="guide-note">Ricerca, prestiti, raccomandazioni e 
+               notifiche in un'implementazione production-ready</p>
         </div>
 
         <!-- Key Takeaways -->
-        <div class="content-section">
-            <h2 class="section-title">
-                <div class="section-icon">🎓</div>
-                Concetti Chiave da Ricordare
-            </h2>
-
-            <div style="display: grid; gap: 1rem;">
+        <div class="key-takeaways">
+            <h2>🎯 Punti Chiave da Ricordare</h2>
+            <div class="takeaway-grid">
                 <div style="background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(99, 102, 241, 0.3);">
                     <h4 style="color: var(--primary); margin-bottom: 0.5rem;">
-                        1️⃣ Tools come Building Blocks
+                        1️⃣ Architettura prima del codice
                     </h4>
                     <p style="color: #cbd5e1;">
-                        I tools sono i mattoni fondamentali degli agenti. Progettali per essere modulari, 
-                        riusabili e componibili. Un buon tool fa una cosa e la fa bene.
+                        Investi tempo nel design: un'architettura ben progettata risparmia settimane di refactoring. 
+                        Tools mal progettati sono debito tecnico immediato.
                     </p>
                 </div>
 
                 <div style="background: rgba(236, 72, 153, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(236, 72, 153, 0.3);">
                     <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">
-                        2️⃣ Instructions come Sistema Operativo
+                        2️⃣ Patterns sono tuoi alleati
                     </h4>
                     <p style="color: #cbd5e1;">
-                        Le istruzioni sono il "sistema operativo" del tuo agente. Devono essere precise, 
-                        complete e gestire ogni scenario possibile. Investi tempo nella loro scrittura.
+                        Non reinventare la ruota: i design patterns esistono per risolvere problemi ricorrenti. 
+                        Adattali al contesto AI mantenendo i principi core.
                     </p>
                 </div>
 
                 <div style="background: rgba(6, 182, 212, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(6, 182, 212, 0.3);">
                     <h4 style="color: var(--accent); margin-bottom: 0.5rem;">
-                        3️⃣ Concatenazione per Complessità
+                        3️⃣ Instructions sono codice
                     </h4>
                     <p style="color: #cbd5e1;">
-                        La vera potenza emerge quando concateni tools semplici per creare workflow complessi. 
-                        Pensa in termini di pipeline e flussi di dati.
-                    </p>
-                </div>
-
-                <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.3);">
-                    <h4 style="color: var(--success); margin-bottom: 0.5rem;">
-                        4️⃣ Test e Iterazione Continua
-                    </h4>
-                    <p style="color: #cbd5e1;">
-                        Nessun tool o instruction è perfetto al primo tentativo. Testa con casi reali, 
-                        raccogli feedback e itera continuamente per migliorare.
+                        Tratta le instructions con lo stesso rigore del codice: versioning, testing, review. 
+                        Instructions ambigue generano comportamenti imprevedibili.
                     </p>
                 </div>
             </div>
@@ -1482,350 +1465,25 @@ limit:integer:Numero massimo di risultati"></textarea>
 
         <!-- Navigation -->
         <div class="lesson-nav">
-            <a href="lezione-2.html" class="nav-btn">
-                ← Lezione 2
+            <a href="lezione-2.html" class="nav-btn prev">
+                <span>← Lezione 2</span>
+                <div>
+                    <strong>I Fondamenti del Design</strong>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0;">Model, Tools, Instructions</p>
+                </div>
             </a>
-            <div style="text-align: center;">
-                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Prossima lezione:</p>
-                <strong>Orchestrazione Single-Agent</strong>
-            </div>
-            <a href="lezione-4.html" class="nav-btn primary">
-                Continua →
+            <a href="lezione-4.html" class="nav-btn next">
+                <div style="text-align: right;">
+                    <strong>Orchestrazione Single-Agent</strong>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0;">Run loops e exit conditions</p>
+                </div>
+                <span>Lezione 4 →</span>
             </a>
         </div>
     </main>
 
     <script>
-        // Copy code function
-        function copyCode(button) {
-            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
-            const text = codeBlock.innerText;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.innerText;
-                button.innerText = '✅ Copiato!';
-                button.style.background = 'rgba(16, 185, 129, 0.2)';
-                button.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-                button.style.color = '#10b981';
-                
-                setTimeout(() => {
-                    button.innerText = originalText;
-                    button.style.background = '';
-                    button.style.borderColor = '';
-                    button.style.color = '';
-                }, 2000);
-            });
-        }
-
-        // Tool examples for flow diagram
-        const toolExamples = {
-            search: {
-                title: "Python - Tool di Ricerca Cliente",
-                code: `@tool_wrapper()
-def search_customer(
-    query: str,
-    filters: Optional[Dict] = None
-) -> Dict[str, Any]:
-    """Cerca clienti nel database."""
-    
-    results = db.customers.search(
-        query=query,
-        filters=filters or {},
-        limit=10
-    )
-    
-    return {
-        "customers": results,
-        "count": len(results),
-        "query": query
-    }`
-            },
-            orders: {
-                title: "Python - Tool Recupero Ordini",
-                code: `@tool_wrapper()
-def get_orders(
-    customer_id: str,
-    date_range: Optional[Tuple[date, date]] = None
-) -> Dict[str, Any]:
-    """Recupera ordini di un cliente."""
-    
-    if not date_range:
-        date_range = (
-            datetime.now() - timedelta(days=365),
-            datetime.now()
-        )
-    
-    orders = db.orders.find({
-        "customer_id": customer_id,
-        "created_at": {
-            "$gte": date_range[0],
-            "$lte": date_range[1]
-        }
-    })
-    
-    return {
-        "orders": list(orders),
-        "total_value": sum(o.total for o in orders),
-        "count": len(orders)
-    }`
-            },
-            analyze: {
-                title: "Python - Tool Analisi Pattern",
-                code: `@tool_wrapper()
-def analyze_patterns(
-    orders: List[Dict],
-    analysis_type: str = "comprehensive"
-) -> Dict[str, Any]:
-    """Analizza pattern negli ordini."""
-    
-    df = pd.DataFrame(orders)
-    
-    patterns = {
-        "frequency": df.groupby('product_category').size(),
-        "seasonality": analyze_seasonal_trends(df),
-        "average_value": df.groupby('month')['total'].mean(),
-        "top_products": df['product_id'].value_counts().head(10),
-        "churn_risk": calculate_churn_probability(df)
-    }
-    
-    insights = generate_insights(patterns)
-    
-    return {
-        "patterns": patterns,
-        "insights": insights,
-        "recommendations": generate_recommendations(patterns)
-    }`
-            },
-            report: {
-                title: "Python - Tool Generazione Report",
-                code: `@tool_wrapper()
-def create_report(
-    customer_data: Dict,
-    order_data: Dict,
-    analysis: Dict,
-    format: str = "pdf"
-) -> Dict[str, Any]:
-    """Genera report completo."""
-    
-    report = Report()
-    
-    # Header
-    report.add_header(
-        title=f"Analisi Cliente: {customer_data['name']}",
-        date=datetime.now()
-    )
-    
-    # Sommario
-    report.add_summary({
-        "total_orders": order_data['count'],
-        "total_value": order_data['total_value'],
-        "key_insights": analysis['insights'][:3]
-    })
-    
-    # Dettagli
-    report.add_charts(analysis['patterns'])
-    report.add_recommendations(analysis['recommendations'])
-    
-    # Genera file
-    if format == "pdf":
-        file_path = report.to_pdf()
-    else:
-        file_path = report.to_html()
-    
-    return {
-        "report_path": file_path,
-        "summary": report.get_summary(),
-        "sent_to": customer_data.get('email')
-    }`
-            }
-        };
-
-        // Highlight flow node
-        function highlightNode(element, toolKey) {
-            // Reset all nodes
-            document.querySelectorAll('.flow-node').forEach(node => {
-                node.classList.remove('active');
-            });
-            
-            // Highlight selected
-            element.classList.add('active');
-            
-            // Show code
-            const codeDisplay = document.getElementById('tool-code-display');
-            const codeTitle = document.getElementById('tool-code-title');
-            const codeContent = document.getElementById('tool-code-content');
-            
-            if (toolExamples[toolKey]) {
-                codeTitle.textContent = toolExamples[toolKey].title;
-                codeContent.textContent = toolExamples[toolKey].code;
-                codeDisplay.style.display = 'block';
-                
-                // Smooth scroll
-                codeDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        // Tool Builder Functions
-        function generateTool() {
-            const name = document.getElementById('tool-name').value;
-            const description = document.getElementById('tool-description').value;
-            const category = document.getElementById('tool-category').value;
-            const paramsText = document.getElementById('tool-params').value;
-            const auth = document.getElementById('tool-auth').value;
-            
-            if (!name || !description) {
-                alert('Per favore compila nome e descrizione del tool');
-                return;
-            }
-            
-            // Parse parameters
-            const params = [];
-            if (paramsText) {
-                paramsText.split('\n').forEach(line => {
-                    const parts = line.trim().split(':');
-                    if (parts.length >= 3) {
-                        params.push({
-                            name: parts[0],
-                            type: parts[1],
-                            description: parts.slice(2).join(':')
-                        });
-                    }
-                });
-            }
-            
-            // Generate code based on category
-            let code = generateToolCode(name, description, category, params, auth);
-            
-            // Display
-            const output = document.getElementById('tool-output');
-            output.textContent = code;
-            output.style.display = 'block';
-            
-            // Animation
-            output.style.opacity = '0';
-            setTimeout(() => {
-                output.style.transition = 'opacity 0.5s ease';
-                output.style.opacity = '1';
-            }, 100);
-        }
-
-        function generateToolCode(name, description, category, params, auth) {
-            let code = `from typing import Dict, Any, Optional
-import logging
-from datetime import datetime
-${auth !== 'none' ? 'from auth import authenticate\n' : ''}
-@tool_wrapper(max_calls_per_minute=${category === 'action' ? '30' : '60'})
-${auth !== 'none' ? '@authenticate("' + auth + '")\n' : ''}def ${name}(`;
-
-            // Add parameters
-            if (params.length > 0) {
-                code += '\n';
-                params.forEach((param, index) => {
-                    const pythonType = param.type === 'string' ? 'str' : 
-                                     param.type === 'integer' ? 'int' : 
-                                     param.type === 'boolean' ? 'bool' : 'Any';
-                    code += `    ${param.name}: ${pythonType}`;
-                    if (index < params.length - 1) code += ',';
-                    code += '\n';
-                });
-            }
-
-            code += `) -> Dict[str, Any]:
-    """
-    ${description}
-    
-    Args:`;
-            
-            params.forEach(param => {
-                code += `
-        ${param.name}: ${param.description}`;
-            });
-            
-            code += `
-        
-    Returns:
-        Dict con risultati dell'operazione
-    """
-    try:
-        # Validazione input
-        ${params.map(p => `validate_${p.type}(${p.name})`).join('\n        ')}
-        
-        # Logica principale del tool
-        ${category === 'data' ? `# Recupera dati
-        results = fetch_data(${params.map(p => p.name).join(', ')})
-        
-        return {
-            "success": True,
-            "data": results,
-            "count": len(results),
-            "timestamp": datetime.now().isoformat()
-        }` : 
-        category === 'action' ? `# Esegui azione
-        result = perform_action(${params.map(p => p.name).join(', ')})
-        
-        # Log dell'azione
-        log_action("${name}", result)
-        
-        return {
-            "success": True,
-            "result": result,
-            "action": "${name}",
-            "timestamp": datetime.now().isoformat()
-        }` :
-        `# Chiama agente specializzato
-        agent_result = specialized_agent.run(${params.map(p => p.name).join(', ')})
-        
-        return {
-            "success": True,
-            "agent_output": agent_result,
-            "delegated_to": specialized_agent.name,
-            "timestamp": datetime.now().isoformat()
-        }`}
-        
-    except ValidationError as e:
-        logger.error(f"Validation error in ${name}: {e}")
-        return {
-            "success": False,
-            "error": str(e),
-            "error_type": "validation"
-        }
-    except Exception as e:
-        logger.error(f"Error in ${name}: {e}")
-        return {
-            "success": False,
-            "error": str(e),
-            "error_type": type(e).__name__
-        }
-
-# Definizione per OpenAI Function Calling
-${name}_definition = {
-    "name": "${name}",
-    "description": "${description}",
-    "parameters": {
-        "type": "object",
-        "properties": {${params.map(param => `
-            "${param.name}": {
-                "type": "${param.type}",
-                "description": "${param.description}"
-            }`).join(',')}
-        },
-        "required": [${params.filter(p => !p.description.includes('opzionale')).map(p => `"${p.name}"`).join(', ')}]
-    }
-}`;
-
-            return code;
-        }
-
-        function resetBuilder() {
-            document.getElementById('tool-name').value = '';
-            document.getElementById('tool-description').value = '';
-            document.getElementById('tool-category').value = 'data';
-            document.getElementById('tool-params').value = '';
-            document.getElementById('tool-auth').value = 'none';
-            document.getElementById('tool-output').style.display = 'none';
-        }
-
-        // Add animation on scroll
+        // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1834,22 +1492,17 @@ ${name}_definition = {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '0';
-                    entry.target.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        entry.target.style.transition = 'all 0.6s ease-out';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    observer.unobserve(entry.target);
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
         }, observerOptions);
 
         // Observe all content sections
         document.querySelectorAll('.content-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
             observer.observe(section);
         });
     </script>
