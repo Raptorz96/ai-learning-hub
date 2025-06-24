@@ -203,7 +203,7 @@ Il progetto è open source e accetta contribuzioni:
 1. **Contenuti**: Nuove lezioni o guide
 2. **Traduzioni**: Multilingua
 3. **Bug Fix**: Segnalazioni e fix
-4. **Features**: Nuove funzionalità
+4. **Features**: Nuove funzionalità3
 
 ---
 

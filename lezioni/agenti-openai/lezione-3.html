@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lezione 3: Strumenti e Istruzioni Avanzate - AI Learning Hub</title>
+    <title>Lezione 3: Tools e Instructions Avanzate - AI Learning Hub</title>
     <style>
         * {
             margin: 0;
@@ -725,9 +725,9 @@
             <div class="lesson-meta">
                 📄 Fonte: OpenAI - A Practical Guide to Building Agents
             </div>
-            <h1>Strumenti e Istruzioni Avanzate</h1>
+            <h1>Tools e Instructions Avanzate</h1>
             <p class="lesson-subtitle">
-                Esplora l'architettura avanzata degli strumenti, modelli di progettazione e strategie di coordinamento per costruire agenti AI professionali
+                Scopri come progettare tools potenti, scrivere istruzioni chiare e far collaborare i componenti per creare agenti AI professionali
             </p>
         </div>
 
@@ -746,49 +746,49 @@
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🔧</div>
-                Le Tre Categorie di Strumenti - Analisi Approfondita
+                Le Tre Categorie di Tools
             </h2>
             
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Gli strumenti sono il ponte tra il mondo digitale dell'intelligenza artificiale e la realtà pratica. 
-                Capire bene come funzionano e come si collegano tra loro è essenziale per creare sistemi che funzionano davvero.
+                I tools sono come le "mani" del tuo agente AI: gli permettono di fare cose concrete nel mondo reale. 
+                Capire le tre categorie principali ti aiuterà a costruire agenti più utili e potenti.
             </p>
 
             <div class="tool-categories">
                 <!-- Data Tools -->
                 <div class="tool-category">
                     <div class="category-icon">📊</div>
-                    <h3 class="category-title">Strumenti per i Dati</h3>
+                    <h3 class="category-title">Data Tools</h3>
                     <p class="category-description">
-                        Raccolgono informazioni da database, file e servizi esterni per dare all'agente le informazioni necessarie per prendere decisioni.
+                        Recuperano informazioni da fonti interne ed esterne, fornendo il contesto necessario per decisioni informate.
                     </p>
                     
                     <div class="subcategories">
                         <div class="subcategory-card">
-                            <h5>Strumenti di Lettura</h5>
-                            <p>Leggono database, chiamano API, aprono file</p>
+                            <h5>Tools di Lettura</h5>
+                            <p>Leggono dati senza modificarli</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Strumenti in Tempo Reale</h5>
-                            <p>Monitorano dati live, ascoltano eventi</p>
+                            <h5>Tools in Tempo Reale</h5>
+                            <p>Monitorano cambiamenti istantanei</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Strumenti di Aggregazione</h5>
-                            <p>Uniscono dati, creano report, analizzano</p>
+                            <h5>Tools di Aggregazione</h5>
+                            <p>Combinano dati da più fonti</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Strumenti di Trasformazione</h5>
-                            <p>Convertono formati, puliscono dati</p>
+                            <h5>Tools di Trasformazione</h5>
+                            <p>Puliscono e formattano i dati</p>
                         </div>
                     </div>
                     
                     <div class="tool-examples">
-                        <h4>Tecniche utili:</h4>
+                        <h4>Come implementarli bene:</h4>
                         <ul>
-                            <li>Memorizzare risultati per velocizzare</li>
-                            <li>Limitare chiamate per non sovraccaricare API</li>
-                            <li>Avere fonti alternative se una non funziona</li>
-                            <li>Controllare che i dati siano nel formato giusto</li>
+                            <li>Salva i dati in cache per non ripetere richieste</li>
+                            <li>Metti limiti alle chiamate API esterne</li>
+                            <li>Prepara alternative se una fonte non funziona</li>
+                            <li>Controlla sempre che i dati siano validi</li>
                         </ul>
                     </div>
                 </div>
@@ -796,37 +796,37 @@
                 <!-- Action Tools -->
                 <div class="tool-category">
                     <div class="category-icon">⚡</div>
-                    <h3 class="category-title">Strumenti di Azione</h3>
+                    <h3 class="category-title">Action Tools</h3>
                     <p class="category-description">
-                        Fanno succedere le cose: modificano database, inviano email, chiamano altri servizi per eseguire operazioni.
+                        Eseguono modifiche nel sistema, comunicano con utenti e integrano servizi esterni con side effects.
                     </p>
                     
                     <div class="subcategories">
                         <div class="subcategory-card">
-                            <h5>Strumenti di Scrittura</h5>
-                            <p>Aggiornano database, scrivono file</p>
+                            <h5>Tools di Scrittura</h5>
+                            <p>Salvano o modificano dati</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Strumenti di Comunicazione</h5>
-                            <p>Inviano email, SMS, notifiche</p>
+                            <h5>Tools di Comunicazione</h5>
+                            <p>Inviano messaggi agli utenti</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Strumenti di Integrazione</h5>
-                            <p>Si collegano ad altri servizi esterni</p>
+                            <h5>Tools di Integrazione</h5>
+                            <p>Si connettono ad altri servizi</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Strumenti di Controllo</h5>
-                            <p>Avviano processi, controllano dispositivi</p>
+                            <h5>Tools di Controllo</h5>
+                            <p>Avviano processi o controllano dispositivi</p>
                         </div>
                     </div>
                     
                     <div class="tool-examples">
-                        <h4>Aspetti importanti:</h4>
+                        <h4>Cose importanti da ricordare:</h4>
                         <ul>
-                            <li>Ripetere la stessa azione deve dare lo stesso risultato</li>
-                            <li>Poter annullare operazioni se qualcosa va male</li>
-                            <li>Tenere traccia di tutte le modifiche fatte</li>
-                            <li>Raggruppare operazioni correlate</li>
+                            <li>Fai in modo che ripetere un'azione sia sicuro</li>
+                            <li>Prepara sempre un modo per annullare</li>
+                            <li>Tieni traccia di tutto quello che fai</li>
+                            <li>Gestisci gruppi di operazioni insieme</li>
                         </ul>
                     </div>
                 </div>
@@ -834,37 +834,37 @@
                 <!-- Orchestration Tools -->
                 <div class="tool-category">
                     <div class="category-icon">🎯</div>
-                    <h3 class="category-title">Strumenti di Coordinamento</h3>
+                    <h3 class="category-title">Orchestration Tools</h3>
                     <p class="category-description">
-                        Altri agenti intelligenti che funzionano come strumenti, permettendo di creare sistemi complessi dove ogni agente ha il suo ruolo.
+                        Agenti specializzati che fungono da tools, creando architetture multi-livello e delegazione intelligente.
                     </p>
                     
                     <div class="subcategories">
                         <div class="subcategory-card">
-                            <h5>Agenti Specializzati</h5>
-                            <p>Esperti in settori specifici, analizzatori</p>
+                            <h5>Agenti Specialisti</h5>
+                            <p>Esperti di domini specifici</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Agenti di Processo</h5>
-                            <p>Gestiscono sequenze di operazioni</p>
+                            <h5>Agenti di Flusso</h5>
+                            <p>Gestiscono processi complessi</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Agenti Decisionali</h5>
-                            <p>Decidono quale strada prendere</p>
+                            <h5>Agenti Decisori</h5>
+                            <p>Scelgono la strada migliore</p>
                         </div>
                         <div class="subcategory-card">
-                            <h5>Agenti di Supervisione</h5>
-                            <p>Controllano e ottimizzano il sistema</p>
+                            <h5>Agenti Monitor</h5>
+                            <p>Controllano e ottimizzano</p>
                         </div>
                     </div>
                     
                     <div class="tool-examples">
-                        <h4>Strutture avanzate:</h4>
+                        <h4>Modi di usarli:</h4>
                         <ul>
-                            <li>Agenti organizzati in gerarchia (capo → team)</li>
-                            <li>Agenti che collaborano da pari a pari</li>
-                            <li>Creare nuovi agenti quando servono</li>
-                            <li>Agenti che si mettono d'accordo sulle decisioni</li>
+                            <li>Reti di agenti che collaborano</li>
+                            <li>Agenti che si aiutano a vicenda</li>
+                            <li>Creazione automatica di nuovi agenti</li>
+                            <li>Decisioni prese in gruppo</li>
                         </ul>
                     </div>
                 </div>
@@ -873,47 +873,47 @@
             <!-- Decision Matrix -->
             <div class="decision-matrix">
                 <h3 style="margin-bottom: 1.5rem; color: var(--primary);">
-                    🎯 Tabella per Scegliere gli Strumenti Giusti
+                    🎯 Quando Usare Ogni Tipo di Tool
                 </h3>
                 <table class="matrix-table">
                     <thead>
                         <tr>
-                            <th>Situazione</th>
-                            <th>Strumento Principale</th>
-                            <th>Strumenti di Supporto</th>
+                            <th>Cosa vuoi fare</th>
+                            <th>Tool principale</th>
+                            <th>Tool di supporto</th>
                             <th>Difficoltà</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Creare Report</td>
-                            <td>Strumenti Dati</td>
-                            <td>Azione (esporta PDF)</td>
-                            <td>Bassa</td>
+                            <td>Creare un report</td>
+                            <td>Data Tools</td>
+                            <td>Action (per salvare)</td>
+                            <td>Facile</td>
                         </tr>
                         <tr>
-                            <td>Assistenza Clienti</td>
-                            <td>Coordinamento</td>
-                            <td>Dati + Azione</td>
-                            <td>Alta</td>
-                        </tr>
-                        <tr>
-                            <td>Migrazione Dati</td>
-                            <td>Strumenti Dati</td>
-                            <td>Azione + Coordinamento</td>
-                            <td>Molto Alta</td>
-                        </tr>
-                        <tr>
-                            <td>Monitoraggio in Tempo Reale</td>
-                            <td>Strumenti Dati</td>
-                            <td>Azione (avvisi)</td>
+                            <td>Assistenza clienti</td>
+                            <td>Orchestration</td>
+                            <td>Data + Action</td>
                             <td>Media</td>
                         </tr>
                         <tr>
-                            <td>Automazione Processi</td>
-                            <td>Coordinamento</td>
-                            <td>Tutti</td>
-                            <td>Molto Alta</td>
+                            <td>Monitorare prezzi</td>
+                            <td>Data Tools</td>
+                            <td>Action (notifiche)</td>
+                            <td>Facile</td>
+                        </tr>
+                        <tr>
+                            <td>Automatizzare email</td>
+                            <td>Action Tools</td>
+                            <td>Data (per contenuti)</td>
+                            <td>Media</td>
+                        </tr>
+                        <tr>
+                            <td>Sistema completo</td>
+                            <td>Orchestration</td>
+                            <td>Tutti i tipi</td>
+                            <td>Difficile</td>
                         </tr>
                     </tbody>
                 </table>
@@ -926,30 +926,30 @@
             <div class="antipatterns-grid">
                 <div class="antipattern-card">
                     <h4>❌ Troppi Dati</h4>
-                    <p>Raccogliere troppi dati "per sicurezza" confonde l'intelligenza artificiale e la rallenta.</p>
+                    <p>Recuperare tutti i dati "per sicurezza" confonde l'AI.</p>
                     <div class="correct">
-                        <strong>✅ Soluzione:</strong> Prendi solo i dati che servono davvero, a piccoli pezzi.
+                        <strong>✅ Soluzione:</strong> Chiedi solo i dati che ti servono davvero.
                     </div>
                 </div>
                 <div class="antipattern-card">
-                    <h4>❌ Azioni Senza Controlli</h4>
-                    <p>Fare cose pericolose (come cancellare dati) senza chiedere conferma o verificare che sia tutto a posto.</p>
+                    <h4>❌ Azioni Senza Controllo</h4>
+                    <p>Fare modifiche importanti senza verificare prima.</p>
                     <div class="correct">
-                        <strong>✅ Soluzione:</strong> Controlla sempre prima di agire e chiedi conferma per le azioni importanti.
+                        <strong>✅ Soluzione:</strong> Controlla sempre prima di modificare o cancellare.
                     </div>
                 </div>
                 <div class="antipattern-card">
-                    <h4>❌ Troppi Livelli di Agenti</h4>
-                    <p>Agenti che chiamano altri agenti che chiamano altri agenti... si perde il controllo e diventa un casino.</p>
+                    <h4>❌ Troppi Livelli</h4>
+                    <p>Agenti che chiamano agenti che chiamano agenti...</p>
                     <div class="correct">
-                        <strong>✅ Soluzione:</strong> Non superare mai 3 livelli di agenti uno dentro l'altro.
+                        <strong>✅ Soluzione:</strong> Massimo 2-3 livelli di profondità.
                     </div>
                 </div>
                 <div class="antipattern-card">
-                    <h4>❌ Tutto in Fila</h4>
-                    <p>Far aspettare l'utente mentre l'agente fa operazioni lunghe rende l'esperienza frustrante.</p>
+                    <h4>❌ Tutto Bloccato</h4>
+                    <p>L'utente aspetta troppo per operazioni lunghe.</p>
                     <div class="correct">
-                        <strong>✅ Soluzione:</strong> Fai le cose in background e tieni aggiornato l'utente sui progressi.
+                        <strong>✅ Soluzione:</strong> Usa notifiche per operazioni lunghe.
                     </div>
                 </div>
             </div>
@@ -957,32 +957,32 @@
             <!-- Flow Diagram -->
             <div class="flow-diagram">
                 <h3 style="color: var(--primary); margin-bottom: 2rem;">
-                    🔄 Come Scegliere lo Strumento Giusto - Passo dopo Passo
+                    🔄 Come Scegliere il Tool Giusto
                 </h3>
                 <div class="flow-steps">
                     <div class="flow-step">
                         <div style="font-size: 1.5rem;">🤔</div>
-                        <div>Capisci il Problema</div>
+                        <div>Cosa devi fare?</div>
                     </div>
                     <div class="flow-step">
                         <div style="font-size: 1.5rem;">📋</div>
-                        <div>Cosa Serve Fare?</div>
+                        <div>Di cosa hai bisogno?</div>
                     </div>
                     <div class="flow-step">
                         <div style="font-size: 1.5rem;">🎯</div>
-                        <div>Quale Tipo di Strumento?</div>
+                        <div>Quale categoria?</div>
                     </div>
                     <div class="flow-step">
                         <div style="font-size: 1.5rem;">⚖️</div>
-                        <div>Pro e Contro</div>
+                        <div>Pro e contro</div>
                     </div>
                     <div class="flow-step">
                         <div style="font-size: 1.5rem;">🚀</div>
-                        <div>Metti in Pratica</div>
+                        <div>Implementa!</div>
                     </div>
                 </div>
                 <p style="margin-top: 2rem; color: #94a3b8;">
-                    Ogni passo è importante: devi pensare a velocità, sicurezza e facilità di gestione
+                    Ogni passaggio è importante: non saltarne nessuno per evitare problemi dopo
                 </p>
             </div>
         </div>
@@ -991,95 +991,93 @@
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🏗️</div>
-                Modelli di Progettazione per Strumenti
+                Pattern di Design per Tools Efficaci
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                I modelli di progettazione sono come "ricette" collaudate per risolvere problemi comuni. 
-                Anche per gli strumenti degli agenti AI, usare questi modelli aiuta a creare sistemi più robusti e facili da gestire.
+                Così come in architettura esistono modelli collaudati per costruire edifici solidi, 
+                anche per i tools AI esistono "schemi" che funzionano bene. Vediamo i più utili!
             </p>
 
             <div class="pattern-showcase">
                 <!-- Singleton Pattern -->
                 <div class="pattern-card">
-                    <h3 class="pattern-name">Modello "Una Sola Istanza"</h3>
-                    <div class="pattern-use-case">Per connessioni e risorse condivise</div>
+                    <h3 class="pattern-name">Pattern Singleton</h3>
+                    <div class="pattern-use-case">Una sola connessione condivisa</div>
                     <p style="color: #cbd5e1;">
-                        Assicura che ci sia una sola connessione al database o servizio esterno, evitando sprechi e conflitti.
+                        Immagina di avere un solo telefono in casa: tutti lo usano ma non serve comprarne uno per ogni persona. 
+                        Lo stesso vale per connessioni costose come database.
                     </p>
                     <div class="pattern-visual">
-                        DatabaseTool<br/>
-                        ├── instance: null<br/>
-                        ├── getInstance()<br/>
-                        └── connection_pool<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;└── max_connections: 10
+                        Tool Database<br/>
+                        └── Connessione unica<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── Usata da Tool 1<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── Usata da Tool 2<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── Usata da Tool 3
                     </div>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
-                        <strong>Vantaggi:</strong> Risparmia memoria, evita conflitti<br/>
-                        <strong>Quando usarlo:</strong> Connessioni database, client API, gestori cache
+                        <strong>Quando usarlo:</strong> Per connessioni a database, client API, gestori di cache
                     </p>
                 </div>
 
                 <!-- Factory Pattern -->
                 <div class="pattern-card">
-                    <h3 class="pattern-name">Modello "Fabbrica"</h3>
-                    <div class="pattern-use-case">Per creare strumenti diversi al volo</div>
+                    <h3 class="pattern-name">Pattern Factory</h3>
+                    <div class="pattern-use-case">Crea tools al volo</div>
                     <p style="color: #cbd5e1;">
-                        Crea automaticamente lo strumento giusto in base alla situazione, senza dover cambiare il codice principale.
+                        Come una fabbrica che produce diversi modelli di auto sulla stessa linea, 
+                        questo pattern crea tools diversi basandosi su quello che serve.
                     </p>
                     <div class="pattern-visual">
-                        ToolFactory<br/>
-                        ├── createTool(type, config)<br/>
-                        ├── registerTool(type, class)<br/>
-                        └── tools_registry<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;├── "email" → EmailTool<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;└── "sms" → SMSTool
+                        Fabbrica di Tools<br/>
+                        ├── "email" → Crea EmailTool<br/>
+                        ├── "sms" → Crea SMSTool<br/>
+                        └── "chat" → Crea ChatTool
                     </div>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
-                        <strong>Vantaggi:</strong> Facile aggiungere nuovi strumenti, codice più flessibile<br/>
-                        <strong>Quando usarlo:</strong> Notifiche multi-canale, integrazioni dinamiche
+                        <strong>Quando usarlo:</strong> Per notifiche multi-canale, integrazioni dinamiche
                     </p>
                 </div>
 
                 <!-- Adapter Pattern -->
                 <div class="pattern-card">
-                    <h3 class="pattern-name">Modello "Adattatore"</h3>
-                    <div class="pattern-use-case">Per collegare servizi diversi</div>
+                    <h3 class="pattern-name">Pattern Adapter</h3>
+                    <div class="pattern-use-case">Parla con servizi diversi</div>
                     <p style="color: #cbd5e1;">
-                        Fa funzionare insieme servizi esterni che "parlano lingue diverse", traducendo automaticamente tra loro.
+                        Come un adattatore universale per le prese elettriche, questo pattern fa parlare 
+                        il tuo agente con API diverse usando sempre lo stesso "linguaggio".
                     </p>
                     <div class="pattern-visual">
-                        WeatherAdapter<br/>
-                        ├── getWeather(location)<br/>
-                        └── providers<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;├── OpenWeatherAdapter<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;├── WeatherAPIAdapter<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;└── fallback_chain[]
+                        Adattatore Meteo<br/>
+                        ├── chiediMeteo(città)<br/>
+                        └── Traduce per:<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── OpenWeather API<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├── Weather.com API<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── MeteoIt API
                     </div>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
-                        <strong>Vantaggi:</strong> Tutto funziona allo stesso modo, backup automatici<br/>
-                        <strong>Quando usarlo:</strong> Servizi multipli, sistemi vecchi da integrare
+                        <strong>Quando usarlo:</strong> Per servizi multipli, sistemi legacy
                     </p>
                 </div>
 
                 <!-- Observer Pattern -->
                 <div class="pattern-card">
-                    <h3 class="pattern-name">Modello "Osservatore"</h3>
-                    <div class="pattern-use-case">Per reagire automaticamente agli eventi</div>
+                    <h3 class="pattern-name">Pattern Observer</h3>
+                    <div class="pattern-use-case">Reagisci agli eventi</div>
                     <p style="color: #cbd5e1;">
-                        Avvisa automaticamente tutti gli interessati quando succede qualcosa di importante, come un sistema di notifiche.
+                        Come le notifiche del telefono: quando succede qualcosa di importante, 
+                        tutti gli interessati vengono avvisati automaticamente.
                     </p>
                     <div class="pattern-visual">
-                        EventManager<br/>
-                        ├── subscribe(event, handler)<br/>
-                        ├── emit(event, data)<br/>
-                        └── listeners<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;├── "data_updated" → [...]<br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;└── "error_occurred" → [...]
+                        Gestore Eventi<br/>
+                        ├── "nuovo_ordine"<br/>
+                        │   ├── → Notifica Email<br/>
+                        │   └── → Aggiorna Dashboard<br/>
+                        └── "errore_critico"<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── → Alert Admin
                     </div>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: #94a3b8;">
-                        <strong>Vantaggi:</strong> Componenti indipendenti, reazioni immediate<br/>
-                        <strong>Quando usarlo:</strong> Sistemi di monitoraggio, aggiornamenti in tempo reale
+                        <strong>Quando usarlo:</strong> Per monitoraggio, aggiornamenti real-time
                     </p>
                 </div>
             </div>
@@ -1089,41 +1087,42 @@
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🎼</div>
-                Coordinamento di Strumenti Complessi
+                Far Collaborare i Tools
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #cbd5e1;">
-                Quando hai tanti strumenti che devono lavorare insieme, devi organizzarli bene: capire cosa dipende da cosa, cosa può essere fatto in parallelo, e come tenere traccia di tutto.
+                Quando hai tanti tools, devi farli lavorare insieme come un'orchestra. 
+                Vediamo come organizzarli per creare sistemi potenti ma semplici da gestire.
             </p>
 
-            <!-- DAG Theory -->
+            <!-- Dependencies Visual -->
             <div class="orchestration-visual">
                 <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
-                    Grafi delle Dipendenze - Come Organizzare il Lavoro degli Strumenti
+                    Come i Tools Dipendono l'uno dall'Altro
                 </h3>
                 
                 <div class="dag-nodes">
                     <div class="dag-node">
                         <div class="dag-node-icon">🔍</div>
-                        <div class="dag-node-label">Strumento Ricerca</div>
+                        <div class="dag-node-label">Cerca Dati</div>
                     </div>
                     <div class="dag-node">
                         <div class="dag-node-icon">📊</div>
-                        <div class="dag-node-label">Strumento Analisi</div>
+                        <div class="dag-node-label">Analizza</div>
                     </div>
                     <div class="dag-node">
                         <div class="dag-node-icon">📧</div>
-                        <div class="dag-node-label">Strumento Report</div>
+                        <div class="dag-node-label">Invia Report</div>
                     </div>
                 </div>
 
                 <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(15, 23, 42, 0.8); border-radius: 10px;">
-                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Regole per Organizzare gli Strumenti:</h4>
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Regole d'oro per l'orchestrazione:</h4>
                     <ul style="list-style: none; color: #cbd5e1;">
-                        <li>📌 <strong>Niente Circoli:</strong> Gli strumenti non devono dipendere a vicenda in modo circolare</li>
-                        <li>📌 <strong>Ordine Logico:</strong> Trova l'ordine migliore per eseguire tutto</li>
-                        <li>📌 <strong>Lavoro in Parallelo:</strong> Identifica cosa può essere fatto contemporaneamente</li>
-                        <li>📌 <strong>Percorso Critico:</strong> Ottimizza la sequenza più lunga</li>
+                        <li>📌 <strong>Ordine chiaro:</strong> Ogni tool sa quando è il suo turno</li>
+                        <li>📌 <strong>Niente loop:</strong> Evita che i tools si chiamino in cerchio</li>
+                        <li>📌 <strong>Parallelo quando possibile:</strong> Fai più cose insieme se non dipendono l'una dall'altra</li>
+                        <li>📌 <strong>Gestisci gli errori:</strong> Se un tool fallisce, gli altri devono saperlo</li>
                     </ul>
                 </div>
             </div>
@@ -1131,29 +1130,29 @@
             <!-- State Management -->
             <div style="margin-top: 3rem; padding: 2rem; background: rgba(51, 65, 85, 0.3); border-radius: 15px;">
                 <h3 style="color: var(--secondary); margin-bottom: 1.5rem;">
-                    🔄 State Management tra Tools
+                    🔄 Passare Informazioni tra Tools
                 </h3>
                 
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
-                        <h4 style="color: var(--primary);">Immutable State</h4>
+                        <h4 style="color: var(--primary);">Dati Immutabili</h4>
                         <p style="font-size: 0.9rem; color: #94a3b8;">
-                            Ogni tool produce nuovo stato senza modificare input
+                            Ogni tool crea nuovi dati senza modificare quelli ricevuti
                         </p>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔐</div>
-                        <h4 style="color: var(--primary);">State Isolation</h4>
+                        <h4 style="color: var(--primary);">Isolamento</h4>
                         <p style="font-size: 0.9rem; color: #94a3b8;">
-                            Tools non condividono stato mutable direttamente
+                            I tools non si "pestano i piedi" a vicenda
                         </p>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
-                        <h4 style="color: var(--primary);">State Tracking</h4>
+                        <h4 style="color: var(--primary);">Tracciabilità</h4>
                         <p style="font-size: 0.9rem; color: #94a3b8;">
-                            Audit completo di tutte le trasformazioni
+                            Puoi sempre vedere chi ha fatto cosa
                         </p>
                     </div>
                 </div>
@@ -1162,20 +1161,20 @@
             <!-- Parallelism Strategies -->
             <div style="margin-top: 2rem;">
                 <h3 style="color: var(--accent); margin-bottom: 1rem;">
-                    ⚡ Strategie di Parallelismo
+                    ⚡ Strategie per Velocizzare
                 </h3>
                 <div style="display: grid; gap: 1rem;">
                     <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--primary);">
-                        <strong>Fork-Join:</strong> Esegui tools indipendenti in parallelo, attendi tutti prima di procedere
+                        <strong>Dividi e Conquista:</strong> Fai partire più tools insieme quando non dipendono l'uno dall'altro
                     </div>
                     <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--secondary);">
-                        <strong>Pipeline:</strong> Stream processing con buffering tra stages
+                        <strong>Pipeline:</strong> Come una catena di montaggio, ogni tool fa il suo pezzo
                     </div>
                     <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--accent);">
-                        <strong>Map-Reduce:</strong> Distribuisci lavoro su tool instances multiple
+                        <strong>Distribuisci il Carico:</strong> Se hai troppi dati, usa più copie dello stesso tool
                     </div>
                     <div style="padding: 1rem; background: rgba(15, 23, 42, 0.6); border-radius: 10px; border-left: 4px solid var(--success);">
-                        <strong>Reactive Streams:</strong> Back-pressure e flow control automatico
+                        <strong>Controllo del Flusso:</strong> Non sovraccaricare i tools con troppo lavoro
                     </div>
                 </div>
             </div>
@@ -1185,44 +1184,44 @@
         <div class="content-section">
             <h2 class="section-title">
                 <div class="section-icon">🧠</div>
-                Instructions Engineering Avanzato
+                Scrivere Instructions Efficaci
             </h2>
 
             <!-- Psychology Section -->
             <div class="psychology-insights">
                 <h3 style="color: var(--secondary); margin-bottom: 1.5rem;">
-                    🎭 Psicologia Cognitiva degli LLM
+                    🎭 Come "Pensano" gli LLM
                 </h3>
                 <p style="margin-bottom: 1.5rem;">
-                    Comprendere come gli LLM "pensano" permette di scrivere instructions più efficaci:
+                    Capire come funziona la "mente" di un AI ti aiuta a scrivere istruzioni migliori:
                 </p>
                 <ul class="insight-list">
                     <li>
                         <span class="insight-icon">💡</span>
                         <div>
-                            <strong>Attention Mechanism:</strong> Gli LLM prestano più attenzione all'inizio e alla fine delle instructions. 
-                            Posiziona informazioni critiche strategicamente.
+                            <strong>Prima e ultima impressione:</strong> L'AI presta più attenzione all'inizio e alla fine delle istruzioni. 
+                            Metti le cose importanti in questi punti!
                         </div>
                     </li>
                     <li>
                         <span class="insight-icon">💡</span>
                         <div>
-                            <strong>Token Distance:</strong> Concetti correlati dovrebbero essere vicini nel testo. 
-                            La distanza influenza la capacità di correlazione.
+                            <strong>Vicinanza conta:</strong> Concetti correlati dovrebbero stare vicini nel testo. 
+                            Non separare informazioni che vanno insieme.
                         </div>
                     </li>
                     <li>
                         <span class="insight-icon">💡</span>
                         <div>
-                            <strong>Repetition Reinforcement:</strong> Ripetere concetti chiave in forme diverse 
-                            aumenta l'aderenza alle direttive.
+                            <strong>Ripetizione aiuta:</strong> Ripetere i concetti chiave in modi diversi 
+                            aiuta l'AI a capire meglio cosa è importante.
                         </div>
                     </li>
                     <li>
                         <span class="insight-icon">💡</span>
                         <div>
-                            <strong>Cognitive Load:</strong> Instructions troppo dense riducono performance. 
-                            Struttura gerarchica e bullet points migliorano comprensione.
+                            <strong>Semplicità vince:</strong> Istruzioni troppo complicate confondono. 
+                            Usa elenchi puntati e struttura chiara.
                         </div>
                     </li>
                 </ul>
@@ -1231,72 +1230,72 @@
             <!-- Template Patterns -->
             <div class="template-gallery">
                 <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
-                    📋 Template Patterns Avanzati
+                    📋 Modelli di Instructions che Funzionano
                 </h3>
 
                 <!-- Role-Based Template -->
                 <div class="template-card">
                     <div class="template-header">
-                        <span class="template-type">Role-Based Template</span>
-                        <span style="color: #94a3b8;">Per expertise specializzata</span>
+                        <span class="template-type">Modello Basato sul Ruolo</span>
+                        <span style="color: #94a3b8;">Per dare personalità all'agente</span>
                     </div>
                     <div class="template-structure">
-# ROLE DEFINITION<br/>
-You are a [SPECIFIC_ROLE] with expertise in [DOMAINS].<br/>
-Your approach is [CHARACTERISTICS].<br/><br/>
+# CHI SEI<br/>
+Sei un [RUOLO SPECIFICO] esperto in [AMBITI].<br/>
+Il tuo approccio è [CARATTERISTICHE].<br/><br/>
 
-# CORE COMPETENCIES<br/>
-- [COMPETENCY_1]: [DETAILED_DESCRIPTION]<br/>
-- [COMPETENCY_2]: [DETAILED_DESCRIPTION]<br/><br/>
+# COSA SAI FARE BENE<br/>
+- [COMPETENZA 1]: [DESCRIZIONE]<br/>
+- [COMPETENZA 2]: [DESCRIZIONE]<br/><br/>
 
-# DECISION FRAMEWORK<br/>
-When faced with [SCENARIO_TYPE]:<br/>
-1. First assess [PRIMARY_FACTORS]<br/>
-2. Then consider [SECONDARY_FACTORS]<br/>
-3. Always prioritize [KEY_PRIORITIES]
+# COME PRENDI DECISIONI<br/>
+Quando ti trovi davanti a [TIPO DI SITUAZIONE]:<br/>
+1. Prima valuta [FATTORI PRINCIPALI]<br/>
+2. Poi considera [FATTORI SECONDARI]<br/>
+3. Dai sempre priorità a [PRIORITÀ CHIAVE]
                     </div>
                 </div>
 
                 <!-- Constraint-Based Template -->
                 <div class="template-card">
                     <div class="template-header">
-                        <span class="template-type">Constraint-Based Template</span>
-                        <span style="color: #94a3b8;">Per limiti e compliance</span>
+                        <span class="template-type">Modello con Regole Chiare</span>
+                        <span style="color: #94a3b8;">Per definire limiti precisi</span>
                     </div>
                     <div class="template-structure">
-# OPERATIONAL BOUNDARIES<br/>
-MUST: [HARD_REQUIREMENTS]<br/>
-MUST NOT: [PROHIBITIONS]<br/>
-SHOULD: [SOFT_REQUIREMENTS]<br/><br/>
+# REGOLE DA SEGUIRE<br/>
+DEVI: [COSE OBBLIGATORIE]<br/>
+NON DEVI MAI: [COSE PROIBITE]<br/>
+SAREBBE MEGLIO: [RACCOMANDAZIONI]<br/><br/>
 
-# EDGE CASE HANDLING<br/>
-IF [CONDITION] THEN [SPECIFIC_ACTION]<br/>
-ELSE IF [CONDITION] THEN [ALTERNATIVE_ACTION]<br/>
-DEFAULT: [FALLBACK_BEHAVIOR]<br/><br/>
+# CASI PARTICOLARI<br/>
+SE [CONDIZIONE] ALLORA [AZIONE SPECIFICA]<br/>
+ALTRIMENTI SE [CONDIZIONE] ALLORA [AZIONE ALTERNATIVA]<br/>
+IN TUTTI GLI ALTRI CASI: [COMPORTAMENTO STANDARD]<br/><br/>
 
-# ESCALATION PROTOCOL<br/>
-When confidence < [THRESHOLD]: [ESCALATION_PATH]
+# QUANDO CHIEDERE AIUTO<br/>
+Se non sei sicuro al [PERCENTUALE]%: [COSA FARE]
                     </div>
                 </div>
 
                 <!-- Context-Aware Template -->
                 <div class="template-card">
                     <div class="template-header">
-                        <span class="template-type">Context-Aware Template</span>
-                        <span style="color: #94a3b8;">Per adattamento dinamico</span>
+                        <span class="template-type">Modello Adattivo</span>
+                        <span style="color: #94a3b8;">Per rispondere in base al contesto</span>
                     </div>
                     <div class="template-structure">
-# CONTEXT DETECTION<br/>
-Analyze user input for:<br/>
-- Intent: [INTENT_CATEGORIES]<br/>
-- Urgency: [URGENCY_LEVELS]<br/>
-- Complexity: [COMPLEXITY_SCALE]<br/><br/>
+# CAPIRE IL CONTESTO<br/>
+Analizza la richiesta per:<br/>
+- Intento: [TIPI DI INTENTI]<br/>
+- Urgenza: [LIVELLI DI URGENZA]<br/>
+- Complessità: [SCALA DI COMPLESSITÀ]<br/><br/>
 
-# ADAPTIVE RESPONSES<br/>
-For [CONTEXT_TYPE]:<br/>
-- Tone: [APPROPRIATE_TONE]<br/>
-- Detail Level: [DETAIL_SPECIFICATION]<br/>
-- Tool Selection: [PREFERRED_TOOLS]
+# ADATTA LA RISPOSTA<br/>
+Per [TIPO DI CONTESTO]:<br/>
+- Tono: [TONO APPROPRIATO]<br/>
+- Dettaglio: [QUANTO APPROFONDIRE]<br/>
+- Tools da usare: [QUALI TOOLS]
                     </div>
                 </div>
             </div>
@@ -1304,44 +1303,44 @@ For [CONTEXT_TYPE]:<br/>
             <!-- Ambiguity Management -->
             <div style="margin-top: 3rem; padding: 2rem; background: rgba(51, 65, 85, 0.3); border-radius: 15px;">
                 <h3 style="color: var(--accent); margin-bottom: 1.5rem;">
-                    🔍 Gestione Ambiguità e Edge Cases
+                    🔍 Gestire Situazioni Poco Chiare
                 </h3>
                 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
                     <div>
-                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Strategie Preventive</h4>
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Prevenire i Problemi</h4>
                         <ul style="list-style: none; color: #cbd5e1;">
-                            <li>✓ Definizioni esplicite di termini ambigui</li>
-                            <li>✓ Esempi concreti per ogni scenario</li>
-                            <li>✓ Matrici decisionali per casi complessi</li>
-                            <li>✓ Default behaviors chiaramente specificati</li>
+                            <li>✓ Definisci chiaramente ogni termine importante</li>
+                            <li>✓ Fai esempi concreti per ogni scenario</li>
+                            <li>✓ Crea tabelle per decisioni complesse</li>
+                            <li>✓ Specifica cosa fare "di default"</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 style="color: var(--secondary); margin-bottom: 1rem;">Tecniche di Disambiguation</h4>
+                        <h4 style="color: var(--secondary); margin-bottom: 1rem;">Quando Non è Chiaro</h4>
                         <ul style="list-style: none; color: #cbd5e1;">
-                            <li>✓ Clarifying questions protocol</li>
-                            <li>✓ Confidence thresholds espliciti</li>
-                            <li>✓ Fallback su comportamenti sicuri</li>
-                            <li>✓ Audit trail per decisioni critiche</li>
+                            <li>✓ Insegna a fare domande di chiarimento</li>
+                            <li>✓ Stabilisci quando l'AI deve dire "non sono sicuro"</li>
+                            <li>✓ Definisci comportamenti sicuri di fallback</li>
+                            <li>✓ Tieni traccia delle decisioni importanti</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- A/B Testing -->
+            <!-- Testing Instructions -->
             <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(236, 72, 153, 0.1); border-radius: 15px; border: 1px solid rgba(236, 72, 153, 0.3);">
                 <h4 style="color: var(--secondary); margin-bottom: 1rem;">
-                    📊 A/B Testing di Instructions
+                    📊 Come Testare le Tue Instructions
                 </h4>
                 <p style="color: #cbd5e1; margin-bottom: 1rem;">
-                    Metriche chiave per valutare l'efficacia delle instructions:
+                    Misura l'efficacia delle tue istruzioni con questi indicatori:
                 </p>
                 <ul style="list-style: none; color: #94a3b8;">
-                    <li>📈 <strong>Task Completion Rate:</strong> Percentuale di successo nel completamento</li>
-                    <li>📈 <strong>Error Rate:</strong> Frequenza di interpretazioni errate</li>
-                    <li>📈 <strong>Efficiency Score:</strong> Token utilizzati vs risultato ottenuto</li>
-                    <li>📈 <strong>Consistency Index:</strong> Variabilità delle risposte su input simili</li>
+                    <li>📈 <strong>Successo:</strong> Quante volte l'AI completa il task correttamente?</li>
+                    <li>📈 <strong>Errori:</strong> Quanto spesso interpreta male le richieste?</li>
+                    <li>📈 <strong>Efficienza:</strong> Usa troppi passaggi per arrivare al risultato?</li>
+                    <li>📈 <strong>Coerenza:</strong> Dà risposte simili per richieste simili?</li>
                 </ul>
             </div>
         </div>
@@ -1349,69 +1348,69 @@ For [CONTEXT_TYPE]:<br/>
         <!-- Challenge Section -->
         <div class="architecture-challenge">
             <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">
-                🏗️ Sfida: Progetta l'Architettura
+                🏗️ Sfida: Progetta il Sistema
             </h2>
             <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem;">
-                Sistema di Gestione Biblioteca Intelligente - Focus su Design e Architettura
+                Sistema di Gestione Biblioteca Intelligente - Progetta Prima di Programmare!
             </p>
 
             <p style="margin-bottom: 2rem;">
-                Il tuo compito è progettare l'architettura completa per un sistema di gestione biblioteca AI-powered. 
-                Non scrivere codice, ma crea diagrammi dettagliati, decisioni di design e documentazione architetturale.
+                Prima di scrivere codice, è importante progettare bene. 
+                Usa carta e penna (o il tuo strumento preferito) per disegnare come funzionerà il sistema biblioteca.
             </p>
 
             <div class="challenge-requirements">
                 <div class="requirement-card">
-                    <h4>📊 Analisi dei Requisiti</h4>
+                    <h4>📊 Analizza i Bisogni</h4>
                     <ul class="checklist">
-                        <li>Identifica tutti gli stakeholder</li>
-                        <li>Mappa i casi d'uso principali</li>
-                        <li>Definisci requisiti non-funzionali</li>
-                        <li>Prioritizza features con MoSCoW</li>
+                        <li>Chi userà il sistema? (studenti, bibliotecari...)</li>
+                        <li>Cosa devono poter fare?</li>
+                        <li>Quali sono le funzioni più importanti?</li>
+                        <li>Cosa può aspettare per dopo?</li>
                     </ul>
                 </div>
 
                 <div class="requirement-card">
-                    <h4>🔧 Design dei Tools</h4>
+                    <h4>🔧 Progetta i Tools</h4>
                     <ul class="checklist">
-                        <li>Categorizza tools necessari</li>
-                        <li>Definisci interfacce e contratti</li>
-                        <li>Progetta error handling strategy</li>
-                        <li>Specifica data flow tra tools</li>
+                        <li>Quali tools ti servono? (ricerca, prestito...)</li>
+                        <li>Come comunicano tra loro?</li>
+                        <li>Cosa succede se qualcosa va storto?</li>
+                        <li>Come passano i dati da uno all'altro?</li>
                     </ul>
                 </div>
 
                 <div class="requirement-card">
-                    <h4>🏛️ Architettura Sistema</h4>
+                    <h4>🏛️ Disegna l'Architettura</h4>
                     <ul class="checklist">
-                        <li>Disegna component diagram</li>
-                        <li>Crea sequence diagrams</li>
-                        <li>Definisci deployment architecture</li>
-                        <li>Pianifica scalability strategy</li>
+                        <li>Fai un diagramma dei componenti</li>
+                        <li>Mostra il flusso delle operazioni</li>
+                        <li>Pensa a come crescerà il sistema</li>
+                        <li>Considera dove metterlo online</li>
                     </ul>
                 </div>
 
                 <div class="requirement-card">
-                    <h4>📋 Instructions Design</h4>
+                    <h4>📋 Scrivi le Instructions</h4>
                     <ul class="checklist">
-                        <li>Struttura gerarchica agenti</li>
-                        <li>Template per ogni agent role</li>
-                        <li>Decision trees per ambiguità</li>
-                        <li>Metriche di valutazione</li>
+                        <li>Che personalità avrà l'agente?</li>
+                        <li>Come risponderà agli utenti?</li>
+                        <li>Cosa fare in situazioni ambigue?</li>
+                        <li>Come misurare se funziona bene?</li>
                     </ul>
                 </div>
             </div>
 
             <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 12px;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem;">
-                    📐 Deliverables Richiesti
+                    📐 Cosa Dovresti Produrre
                 </h4>
                 <ol style="color: #cbd5e1; padding-left: 1.5rem;">
-                    <li>Architecture Decision Records (ADRs) per scelte chiave</li>
-                    <li>Tool interaction matrix con dependencies</li>
-                    <li>Risk assessment e mitigation strategies</li>
-                    <li>Performance benchmarks attesi</li>
-                    <li>Roadmap implementativa con milestones</li>
+                    <li>Un documento con le decisioni importanti e il perché</li>
+                    <li>Una tabella che mostra quali tools dipendono da altri</li>
+                    <li>Una lista dei rischi e come evitarli</li>
+                    <li>Le metriche per capire se il sistema funziona bene</li>
+                    <li>Un piano con le tappe per costruirlo passo dopo passo</li>
                 </ol>
             </div>
         </div>
