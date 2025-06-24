@@ -706,6 +706,10 @@
             border: none;
         }
 
+        .nav-btn.next:hover {
+            transform: translateX(5px);
+        }
+
         /* Copy Button */
         .copy-btn {
             position: absolute;
@@ -1362,14 +1366,18 @@
         <!-- Navigation -->
         <div class="lesson-nav">
             <a href="lezione-1.html" class="nav-btn">
-                ← Lezione 1
+                <span>← Lezione 1</span>
+                <div>
+                    <strong>Introduzione agli Agenti AI</strong>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0;">Cos'è un agente e quando usarlo</p>
+                </div>
             </a>
-            <div style="text-align: center;">
-                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Prossima lezione:</p>
-                <strong>Tools e Instructions Avanzate</strong>
-            </div>
-            <a href="lezione-3.html" class="nav-btn primary">
-                Continua →
+            <a href="lezione-3.html" class="nav-btn next primary">
+                <div style="text-align: right;">
+                    <strong>Tools e Instructions Avanzate</strong>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0;">Design patterns e orchestrazione</p>
+                </div>
+                <span>Lezione 3 →</span>
             </a>
         </div>
     </main>

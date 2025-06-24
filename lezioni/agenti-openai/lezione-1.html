@@ -414,6 +414,10 @@
             border: none;
         }
 
+        .nav-btn.next:hover {
+            transform: translateX(5px);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .lesson-header h1 {
@@ -697,14 +701,18 @@ weather_agent = Agent(
         <!-- Navigation -->
         <div class="lesson-nav">
             <a href="../../index.html" class="nav-btn">
-                ← Homepage
+                <span>← Homepage</span>
+                <div>
+                    <strong>Torna alla Home</strong>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0;">Esplora altre sezioni</p>
+                </div>
             </a>
-            <div style="text-align: center;">
-                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Prossima lezione:</p>
-                <strong>Fondamenti del Design degli Agenti</strong>
-            </div>
-            <a href="lezione-2.html" class="nav-btn primary">
-                Continua →
+            <a href="lezione-2.html" class="nav-btn next primary">
+                <div style="text-align: right;">
+                    <strong>Fondamenti del Design degli Agenti</strong>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0;">Model, Tools, Instructions</p>
+                </div>
+                <span>Lezione 2 →</span>
             </a>
         </div>
     </main>

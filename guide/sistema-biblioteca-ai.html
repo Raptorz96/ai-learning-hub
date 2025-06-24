@@ -744,6 +744,10 @@ OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxx</code></pre>
                 <div class="alert alert-error">
                     <strong>⚠️ Importante:</strong> Non condividere MAI la tua API key! 
                     Aggiungila al <code>.gitignore</code> se usi Git.
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <strong>⚠️ Nota importante sul formato dei tool:</strong>
+                    <br>Le versioni recenti di OpenAI richiedono che ogni tool sia wrappato in un oggetto con <code>type: "function"</code>.
+                    <br>Se ricevi errori sul formato dei tool, assicurati di seguire esattamente la struttura mostrata sopra!
                 </div>
             </div>
         </div>
@@ -1351,28 +1355,37 @@ def search_books(
 
 # Definizione del tool per OpenAI
 search_books_tool = {
-    "name": "search_books",
-    "description": "Cerca libri nel catalogo della biblioteca per titolo, autore, genere o ISBN",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "query": {
-                "type": "string",
-                "description": "Termine di ricerca"
+    "type": "function",
+    "function": {
+        "name": "search_books",
+        "description": "Cerca libri nel catalogo della biblioteca per titolo, autore, genere o ISBN",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Termine di ricerca"
+                },
+                "search_type": {
+                    "type": "string",
+                    "enum": ["all", "title", "author", "genre", "isbn"],
+                    "description": "Tipo di ricerca (default: all)"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Numero massimo di risultati (default: 10)"
+                }
             },
-            "search_type": {
-                "type": "string",
-                "enum": ["all", "title", "author", "genre", "isbn"],
-                "description": "Tipo di ricerca (default: all)"
-            },
-            "limit": {
-                "type": "integer",
-                "description": "Numero massimo di risultati (default: 10)"
-            }
-        },
-        "required": ["query"]
+            "required": ["query"]
+        }
     }
 }</code></pre>
+                </div>
+
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <strong>⚠️ Nota importante sul formato dei tool:</strong>
+                    <br>Le versioni recenti di OpenAI richiedono che ogni tool sia wrappato in un oggetto con <code>type: "function"</code>.
+                    <br>Se ricevi errori come "Missing required parameter: 'tools[0].type'", assicurati di seguire esattamente la struttura mostrata!
                 </div>
 
                 <div class="alert alert-success">
@@ -1487,17 +1500,20 @@ search_books_tool = {
 
 # Definizione del tool
 check_availability_tool = {
-    "name": "check_availability",
-    "description": "Controlla la disponibilità dettagliata di un libro specifico",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "book_id": {
-                "type": "string",
-                "description": "ID del libro da controllare"
-            }
-        },
-        "required": ["book_id"]
+    "type": "function",
+    "function": {
+        "name": "check_availability",
+        "description": "Controlla la disponibilità dettagliata di un libro specifico",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_id": {
+                    "type": "string",
+                    "description": "ID del libro da controllare"
+                }
+            },
+            "required": ["book_id"]
+        }
     }
 }</code></pre>
                 </div>
@@ -1740,32 +1756,33 @@ check_availability_tool = {
 
 # Definizione del tool
 process_loan_tool = {
-    "name": "process_loan",
-    "description": "Gestisce prestiti e restituzioni di libri",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "action": {
-                "type": "string",
-                "enum": ["checkout", "checkin"],
-                "description": "Tipo di operazione: checkout (prestito) o checkin (restituzione)"
+    "type": "function",
+    "function": {
+        "name": "process_loan",
+        "description": "Gestisce prestiti e restituzioni di libri",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": ["checkout", "checkin"],
+                    "description": "Tipo di operazione: checkout (prestito) o checkin (restituzione)"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "ID dell'utente"
+                },
+                "book_id": {
+                    "type": "string",
+                    "description": "ID del libro"
+                },
+                "rating": {
+                    "type": "integer",
+                    "description": "Valutazione del libro (1-5, solo per checkin)"
+                }
             },
-            "user_id": {
-                "type": "string",
-                "description": "ID dell'utente"
-            },
-            "book_id": {
-                "type": "string",
-                "description": "ID del libro"
-            },
-            "rating": {
-                "type": "integer",
-                "minimum": 1,
-                "maximum": 5,
-                "description": "Valutazione del libro (1-5, solo per checkin)"
-            }
-        },
-        "required": ["action", "user_id", "book_id"]
+            "required": ["action", "user_id", "book_id"]
+        }
     }
 }</code></pre>
                 </div>
@@ -1970,26 +1987,29 @@ process_loan_tool = {
 
 # Definizione del tool
 send_notification_tool = {
-    "name": "send_notification",
-    "description": "Invia notifiche agli utenti (promemoria, ritardi, nuovi arrivi)",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "user_id": {
-                "type": "string",
-                "description": "ID utente o 'all' per tutti gli utenti"
+    "type": "function",
+    "function": {
+        "name": "send_notification",
+        "description": "Invia notifiche agli utenti (promemoria, ritardi, nuovi arrivi)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "ID utente o 'all' per tutti gli utenti"
+                },
+                "notification_type": {
+                    "type": "string",
+                    "enum": ["reminder", "overdue", "new_arrival", "custom"],
+                    "description": "Tipo di notifica da inviare"
+                },
+                "custom_message": {
+                    "type": "string",
+                    "description": "Messaggio personalizzato (solo per tipo 'custom')"
+                }
             },
-            "notification_type": {
-                "type": "string",
-                "enum": ["reminder", "overdue", "new_arrival", "custom"],
-                "description": "Tipo di notifica da inviare"
-            },
-            "custom_message": {
-                "type": "string",
-                "description": "Messaggio personalizzato (solo per tipo 'custom')"
-            }
-        },
-        "required": ["user_id", "notification_type"]
+            "required": ["user_id", "notification_type"]
+        }
     }
 }</code></pre>
                 </div>
@@ -2246,25 +2266,28 @@ def get_recommendations(
 
 # Definizione del tool per OpenAI
 recommendation_tool = {
-    "name": "get_recommendations",
-    "description": "Ottieni raccomandazioni di libri personalizzate basate sulla storia dell'utente",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "user_id": {
-                "type": "string",
-                "description": "ID dell'utente per cui generare raccomandazioni"
+    "type": "function",
+    "function": {
+        "name": "get_recommendations",
+        "description": "Ottieni raccomandazioni di libri personalizzate basate sulla storia dell'utente",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "ID dell'utente per cui generare raccomandazioni"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Numero massimo di raccomandazioni (default: 5)"
+                },
+                "include_unavailable": {
+                    "type": "boolean",
+                    "description": "Includere anche libri non disponibili (default: false)"
+                }
             },
-            "limit": {
-                "type": "integer",
-                "description": "Numero massimo di raccomandazioni (default: 5)"
-            },
-            "include_unavailable": {
-                "type": "boolean",
-                "description": "Includere anche libri non disponibili (default: false)"
-            }
-        },
-        "required": ["user_id"]
+            "required": ["user_id"]
+        }
     }
 }</code></pre>
                 </div>
@@ -2748,6 +2771,27 @@ Fammi sapere come posso aiutarti! 😊</div>
                 <div class="section-icon">🔧</div>
                 Risoluzione Problemi Comuni
             </h2>
+
+            <div class="alert alert-error">
+                <h3 style="margin-bottom: 1rem;">❌ "Missing required parameter: 'tools[0].type'"</h3>
+                <strong>Soluzione rapida:</strong>
+                <p style="margin-top: 0.5rem;">Il formato dei tool è cambiato nelle nuove versioni di OpenAI. Ogni tool deve essere definito così:</p>
+                <pre style="margin-top: 0.5rem; background: #0a0a0a; padding: 1rem; border-radius: 5px;"><code>nome_tool = {
+    "type": "function",
+    "function": {
+        "name": "nome_del_tool",
+        "description": "Descrizione del tool",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                # ... parametri ...
+            },
+            "required": ["parametri_obbligatori"]
+        }
+    }
+}</code></pre>
+                <p style="margin-top: 0.5rem;"><strong>Tutti i 5 tool nella guida sono già stati aggiornati con questo formato!</strong></p>
+            </div>
 
             <div class="alert alert-error">
                 <h3 style="margin-bottom: 1rem;">❌ "ModuleNotFoundError: No module named 'openai'"</h3>
