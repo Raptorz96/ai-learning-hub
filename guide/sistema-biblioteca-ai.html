@@ -564,8 +564,75 @@
                     <li>Orchestrare sistemi multi-tool complessi</li>
                     <li>Best practices per agenti AI in produzione</li>
                 </ul>
-            </div>
-        </div>
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">🧪 Test Completo: Prestito e Restituzione con Valutazione</h4>
+                
+                <div class="step">
+                    <div class="step-number">A</div>
+                    <h3 style="margin-bottom: 1rem;">Setup Test: Prepara un Prestito</h3>
+                    
+                    <p style="margin-bottom: 1rem;">Prima di testare la restituzione, devi avere un libro in prestito. Se U001 non ha prestiti attivi, fai così:</p>
+                    
+                    <div class="test-output" style="background: #0a0a0a; padding: 1rem; border-radius: 10px;">
+👤 Tu: Voglio prendere in prestito Cent'anni di solitudine
+
+🤖 BiblioBot: Mi dispiace, ma "Cent'anni di solitudine" di Gabriel García Márquez non è attualmente disponibile (0 copie su 2). 
+
+Per processare un prestito di un altro libro, ho bisogno del tuo ID utente. Qual è il tuo ID?
+
+👤 Tu: U001
+
+🤖 BiblioBot: Perfetto Mario Rossi! Posso suggerirti altri libri disponibili di narrativa o realismo magico. 
+Oppure dimmi un altro libro che ti interessa e verifico la disponibilità!
+
+👤 Tu: Prendi il libro 003
+
+🔧 Esecuzione tool: process_loan
+   Parametri: {'action': 'checkout', 'user_id': 'U001', 'book_id': '003'}
+   ✅ Risultato: Successo
+
+🤖 BiblioBot: ✅ Prestito confermato!
+
+📚 **Libro**: 1984 di George Orwell
+📅 **Data scadenza**: 25 dicembre 2024
+
+Buona lettura! 📖</div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">B</div>
+                    <h3 style="margin-bottom: 1rem;">Test Restituzione con Valutazione</h3>
+                    
+                    <div class="test-output" style="background: #0a0a0a; padding: 1rem; border-radius: 10px;">
+👤 Tu: Voglio restituire 1984
+
+🤖 BiblioBot: Certo! Per processare la restituzione ho bisogno di confermare il tuo ID utente. Qual è?
+
+👤 Tu: Sono sempre U001
+
+🔧 Esecuzione tool: process_loan
+   Parametri: {'action': 'checkin', 'user_id': 'U001', 'book_id': '003'}
+   ✅ Risultato: Successo
+
+🤖 BiblioBot: ✅ Restituzione completata!
+
+📚 **Libro restituito**: 1984 di George Orwell
+⏱️ **Durata prestito**: 15 giorni
+✅ **Stato**: In tempo (nessuna penale)
+
+Vorresti valutare questo libro? (1-5 stelle)
+
+👤 Tu: 5 stelle, è un capolavoro distopico!
+
+🔧 Esecuzione tool: process_loan
+   Parametri: {'action': 'checkin', 'user_id': 'U001', 'book_id': '003', 'rating': 5}
+   ✅ Risultato: Rating aggiornato
+
+🤖 BiblioBot: Grazie per la tua valutazione! ⭐⭐⭐⭐⭐
+
+Il rating medio di "1984" è ora aggiornato. La tua opinione aiuterà altri lettori!
+
+Posso consigliarti altri libri distopici o di fantascienza simili? 📚</div>
+                </div>
 
         <!-- Section 2: Architecture -->
         <div class="content-section" id="architettura">
@@ -2264,7 +2331,7 @@ def get_recommendations(
     """Wrapper per l'agente di raccomandazione."""
     return recommendation_agent.get_recommendations(user_id, limit, include_unavailable)
 
-# Definizione del tool per OpenAI - FORMATO CORRETTO!
+# Definizione del tool per OpenAI
 recommendation_tool = {
     "type": "function",
     "function": {
@@ -2656,72 +2723,104 @@ if __name__ == "__main__":
 python biblioteca_agent.py</code></pre>
                 </div>
 
-                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Esempio di Conversazione Test:</h4>
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Esempio di Conversazione Test Completa:</h4>
                 
                 <div class="test-output">
 📚 Benvenuto nella Biblioteca AI!
 🤖 Sono BiblioBot, il tuo assistente bibliotecario
 ============================================================
 
-📝 Eseguiamo alcuni test automatici...
-
-👤 Utente: Ciao! Cosa puoi fare?
+👤 Tu: Ciao! Cosa puoi fare?
 
 🤖 BiblioBot: Ciao! 📚 Sono BiblioBot, il tuo assistente bibliotecario digitale! 
 
 Ecco cosa posso fare per te:
 
-🔍 **Ricerca Libri**: Posso cercare libri per titolo, autore, genere o ISBN. 
-   Basta dirmi cosa stai cercando!
+🔍 **Ricerca Libri**: Posso cercare libri per titolo, autore, genere o ISBN
+📊 **Verifica Disponibilità**: Controllo in tempo reale se un libro è disponibile
+📅 **Gestione Prestiti**: Checkout e checkin con valutazioni
+🎯 **Raccomandazioni Personalizzate**: Suggerimenti basati sui tuoi gusti
+📨 **Notifiche**: Promemoria per scadenze e nuovi arrivi
 
-📊 **Verifica Disponibilità**: Controllo in tempo reale se un libro è disponibile 
-   per il prestito e quante copie abbiamo.
+Come posso aiutarti oggi? 😊
 
-📅 **Gestione Prestiti**: 
-   - Posso processare il prestito di un libro (checkout)
-   - Gestire le restituzioni (checkin) con possibilità di valutazione
-   - Ricordarti che i prestiti durano 30 giorni
-
-🎯 **Raccomandazioni Personalizzate**: Se mi dici il tuo ID utente, posso suggerirti 
-   libri basati sui tuoi gusti e sulla tua storia di lettura.
-
-📨 **Notifiche**: Posso inviarti promemoria per libri in scadenza o avvisi per 
-   nuovi arrivi nei tuoi generi preferiti.
-
-Come posso aiutarti oggi? Vuoi cercare un libro specifico o preferisci 
-delle raccomandazioni personalizzate? 😊
-
-============================================================
-💬 Ora puoi chattare liberamente!
-   Comandi speciali:
-   - 'reset' per ricominciare la conversazione
-   - 'exit' per uscire
-============================================================
-
-👤 Tu: Cerco libri sull'intelligenza artificiale
+👤 Tu: Cerco libri di Umberto Eco
 
 🔧 Esecuzione tool: search_books
-   Parametri: {'query': 'intelligenza artificiale', 'search_type': 'all'}
+   Parametri: {'query': 'Umberto Eco', 'search_type': 'author'}
    ✅ Risultato: Successo
 
-🤖 BiblioBot: Ho trovato un libro sull'intelligenza artificiale nel nostro catalogo! 📖
+🤖 BiblioBot: Ho trovato un libro di Umberto Eco! 📚
 
-**"L'intelligenza artificiale"** di Luciano Floridi
-- 📗 Generi: Tecnologia, Filosofia, Saggistica
-- ⭐ Valutazione: 4.1/5
-- ✅ **Disponibile** (2 copie su 2)
-- 📄 180 pagine, Editore: Il Mulino
+**"Il nome della rosa"** di Umberto Eco
+- 📙 Generi: Giallo, Storico
+- ⭐ Rating: 4.5/5 (molto apprezzato!)
+- ✅ **Disponibile**: 2 copie su 3
+- 📖 624 pagine, Editore: Bompiani
 
-Questo libro del 2022 è una guida filosofica all'AI e al suo impatto sulla società. 
-È perfetto per chi vuole comprendere non solo gli aspetti tecnici, ma anche 
-le implicazioni etiche e sociali dell'intelligenza artificiale.
+Un affascinante giallo ambientato in un'abbazia medievale, considerato 
+uno dei capolavori di Eco. Perfetto per chi ama i misteri storici!
 
-Vuoi:
-1. Prendere in prestito questo libro? (Ti servirà il tuo ID utente)
-2. Cercare altri libri su argomenti correlati?
-3. Vedere libri di informatica o data science?
+Vuoi prendere in prestito questo libro? Per procedere avrò bisogno del tuo ID utente.
 
-Fammi sapere come posso aiutarti! 😊</div>
+👤 Tu: Sì, vorrei prenderlo in prestito
+
+🤖 BiblioBot: Perfetto! Per processare il prestito ho bisogno del tuo ID utente. 
+Se sei già registrato, forniscimi il tuo ID (es: U001, U002, ecc.).
+
+Se non sei ancora registrato, dovrai prima iscriverti alla biblioteca.
+
+👤 Tu: Sono U001
+
+🔧 Esecuzione tool: process_loan
+   Parametri: {'action': 'checkout', 'user_id': 'U001', 'book_id': '001'}
+   ✅ Risultato: Successo
+
+🤖 BiblioBot: Ottimo Mario Rossi! 🎉
+
+✅ **Prestito confermato!**
+
+📚 **Libro**: Il nome della rosa di Umberto Eco
+📅 **Data prestito**: 2024-11-25
+📅 **Data scadenza**: 2024-12-25 (30 giorni)
+
+Hai tempo fino al 25 dicembre per leggerlo. Ti invierò un promemoria 
+3 giorni prima della scadenza. Buona lettura! 📖
+
+Posso aiutarti con altro?
+
+👤 Tu: Voglio restituire il libro 001
+
+🤖 BiblioBot: Vedo che vuoi restituire un libro. Confermi che sei sempre U001 (Mario Rossi)?
+
+👤 Tu: Sì
+
+🔧 Esecuzione tool: process_loan
+   Parametri: {'action': 'checkin', 'user_id': 'U001', 'book_id': '004'}
+   ✅ Risultato: Successo
+
+🤖 BiblioBot: ✅ **Restituzione completata!**
+
+📚 **Libro restituito**: Cent'anni di solitudine di Gabriel García Márquez
+⏱️ **Durata prestito**: 24 giorni
+✅ **Stato**: In tempo (nessuna penale)
+
+Vorresti valutare questo libro? La tua opinione aiuta altri lettori! 
+(Puoi dare un voto da 1 a 5 stelle)
+
+👤 Tu: Gli do 5 stelle, è fantastico!
+
+🔧 Esecuzione tool: process_loan
+   Parametri: {'action': 'checkin', 'user_id': 'U001', 'book_id': '004', 'rating': 5}
+   ✅ Risultato: Rating aggiornato
+
+🤖 BiblioBot: Grazie per la tua valutazione! ⭐⭐⭐⭐⭐
+
+Il rating medio di "Cent'anni di solitudine" è ora 4.5/5.
+La tua recensione positiva aiuterà altri lettori!
+
+Vuoi vedere altri libri simili o posso consigliarti qualcosa basandomi 
+sui tuoi gusti? 📚</div>
 
                 <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Test Case da Provare:</h4>
                 
@@ -2732,35 +2831,52 @@ Fammi sapere come posso aiutarti! 😊</div>
                             <li>"Cerco libri di Umberto Eco"</li>
                             <li>"Hai libri di fantascienza?"</li>
                             <li>"Cerca ISBN 978-88-17-05364-1"</li>
+                            <li>"Mostrami libri di programmazione"</li>
                         </ul>
                     </div>
                     
                     <div class="feature-card">
                         <h4 style="color: var(--success); margin-bottom: 0.5rem;">📅 Test Prestiti</h4>
                         <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
-                            <li>"Voglio prendere in prestito il libro 001"</li>
-                            <li>"Sono U001, voglio restituire il libro 004"</li>
-                            <li>"Controlla disponibilità di 1984"</li>
+                            <li>"Voglio prendere in prestito un libro"</li>
+                            <li>"Prendi in prestito il libro 001" → Ti chiederà l'ID</li>
+                            <li>"Sono U001" → Confermerà il prestito</li>
+                            <li>"Controlla i miei prestiti attivi"</li>
                         </ul>
                     </div>
                     
                     <div class="feature-card">
-                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">🎯 Test Raccomandazioni</h4>
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">📚 Test Restituzioni</h4>
                         <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
-                            <li>"Sono U001, cosa mi consigli?"</li>
-                            <li>"Suggeriscimi libri per U002"</li>
-                            <li>"Raccomandazioni con libri non disponibili"</li>
+                            <li>"Voglio restituire un libro"</li>
+                            <li>"Restituisci il libro 004" → Ti chiederà l'ID</li>
+                            <li>"Gli do 5 stelle" → Aggiornerà il rating</li>
+                            <li>"Ho libri in ritardo?"</li>
                         </ul>
                     </div>
                     
                     <div class="feature-card">
-                        <h4 style="color: var(--warning); margin-bottom: 0.5rem;">📨 Test Notifiche</h4>
+                        <h4 style="color: var(--warning); margin-bottom: 0.5rem;">🎯 Test Raccomandazioni</h4>
                         <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
-                            <li>"Invia promemoria a U002"</li>
-                            <li>"Controlla libri in ritardo"</li>
-                            <li>"Notifica nuovi arrivi a tutti"</li>
+                            <li>"Cosa mi consigli di leggere?"</li>
+                            <li>"Sono U001, suggeriscimi libri"</li>
+                            <li>"Mostra anche libri non disponibili"</li>
+                            <li>"Voglio libri simili a 1984"</li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-top: 2rem;">
+                    <h4 style="margin-bottom: 1rem;">💡 Suggerimento per i Test</h4>
+                    <p>Il sistema ora chiede automaticamente l'ID utente quando necessario. Ecco un flusso completo di test:</p>
+                    <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li><strong>Ricerca</strong>: "Cerco il nome della rosa"</li>
+                        <li><strong>Richiesta prestito</strong>: "Voglio prenderlo in prestito"</li>
+                        <li><strong>Sistema chiede ID</strong>: Rispondi "Sono U001"</li>
+                        <li><strong>Conferma prestito</strong>: Il sistema conferma per Mario Rossi</li>
+                        <li><strong>Restituzione</strong>: "Voglio restituire il libro 001"</li>
+                        <li><strong>Valutazione</strong>: "Gli do 4 stelle"</li>
+                    </ol>
                 </div>
             </div>
         </div>

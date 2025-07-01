@@ -3,117 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guida: Integrare API Meteo Reali negli Agenti AI - AI Learning Hub</title>
+    <title>Agenti AI con API Meteo Reali - Guida Make.com | AI Learning Hub</title>
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark);
+            color: #e2e8f0;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
-        /* Weather Animation Background */
+        /* Background Animation */
         .weather-bg {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             z-index: -1;
             overflow: hidden;
-            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+            opacity: 0.3;
         }
 
         .weather-element {
             position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
             animation: float 20s infinite ease-in-out;
         }
 
         .sun {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #f59e0b 0%, #f59e0b 60%, transparent 70%);
-            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #f59e0b, #dc2626);
             top: 10%;
             right: 10%;
-            box-shadow: 0 0 60px #f59e0b;
         }
 
         .cloud {
-            width: 100px;
-            height: 40px;
-            background: rgba(148, 163, 184, 0.3);
-            border-radius: 100px;
-            position: relative;
+            background: radial-gradient(circle, #60a5fa, #3b82f6);
         }
 
-        .cloud::before {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: rgba(148, 163, 184, 0.3);
-            border-radius: 50%;
-            top: -25px;
-            left: 10px;
+        .cloud1 {
+            width: 400px;
+            height: 200px;
+            bottom: 20%;
+            left: -10%;
+            animation-delay: -5s;
         }
 
-        .cloud::after {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 40px;
-            background: rgba(148, 163, 184, 0.3);
-            border-radius: 50%;
-            top: -15px;
-            right: 10px;
+        .cloud2 {
+            width: 250px;
+            height: 150px;
+            top: 40%;
+            left: 30%;
+            animation-delay: -10s;
         }
-
-        .cloud1 { top: 20%; left: 20%; animation-delay: 0s; }
-        .cloud2 { top: 60%; left: 60%; animation-delay: 5s; }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(30px, -20px); }
-            50% { transform: translate(-20px, 10px); }
-            75% { transform: translate(10px, -30px); }
+            25% { transform: translate(30px, -40px); }
+            50% { transform: translate(-30px, 20px); }
+            75% { transform: translate(20px, -30px); }
         }
 
         /* Header */
         header {
-            padding: 1.5rem 0;
-            backdrop-filter: blur(20px);
             background: rgba(15, 23, 42, 0.9);
-            position: fixed;
-            width: 100%;
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
 
         nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -122,26 +107,34 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            font-size: 2rem;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
             list-style: none;
+            gap: 2rem;
             align-items: center;
         }
 
         .nav-links a {
             color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
+            position: relative;
         }
 
         .nav-links a:hover {
@@ -150,41 +143,51 @@
 
         /* Main Content */
         main {
-            margin-top: 80px;
-            padding: 2rem;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
         /* Guide Header */
         .guide-header {
             text-align: center;
-            padding: 3rem 0;
-            position: relative;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .guide-badge {
             display: inline-block;
-            background: rgba(6, 182, 212, 0.1);
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
             padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            margin-bottom: 1rem;
+            border-radius: 20px;
             font-size: 0.9rem;
-            color: var(--accent);
-            border: 1px solid rgba(6, 182, 212, 0.2);
+            margin-bottom: 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
         .guide-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            font-size: 3rem;
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
         }
 
         .guide-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #94a3b8;
             max-width: 800px;
             margin: 0 auto;
@@ -192,17 +195,19 @@
 
         /* Table of Contents */
         .toc {
-            background: rgba(30, 41, 59, 0.3);
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 20px;
             padding: 2rem;
-            margin: 3rem 0;
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            margin-bottom: 3rem;
         }
 
         .toc h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
             color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .toc-list {
@@ -211,61 +216,58 @@
         }
 
         .toc-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
         }
 
-        .toc-list li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
+        .toc-list li:last-child {
+            border-bottom: none;
         }
 
         .toc-list a {
             color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .toc-list a:hover {
             color: var(--primary);
+            transform: translateX(5px);
         }
 
         /* Content Sections */
         .content-section {
-            margin: 3rem 0;
-            background: rgba(30, 41, 59, 0.2);
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 4rem;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        .content-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-title {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
         .section-icon {
+            background: var(--gradient);
             width: 50px;
             height: 50px;
-            background: var(--gradient);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -273,72 +275,146 @@
             font-size: 1.5rem;
         }
 
-        /* API Comparison Cards */
+        /* API Comparison Grid */
         .api-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             margin: 2rem 0;
         }
 
         .api-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 15px;
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
             padding: 2rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         .api-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
         }
 
         .api-logo {
-            width: 60px;
-            height: 60px;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
         }
 
         .api-card h3 {
-            font-size: 1.5rem;
+            color: var(--primary);
             margin-bottom: 0.5rem;
         }
 
         .api-features {
-            margin-top: 1rem;
-            padding-left: 1.5rem;
-            color: #cbd5e1;
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
         }
 
         .api-features li {
-            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            color: #cbd5e1;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .api-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
         }
 
         .price-tag {
             display: inline-block;
             background: rgba(16, 185, 129, 0.1);
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
             color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            margin-top: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
         }
 
-        /* Code Examples */
-        .code-example {
-            background: #1e293b;
+        /* Alert Boxes */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.3);
+            color: #67e8f9;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        /* Step Cards */
+        .step-card {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gradient);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-right: 3rem;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 10px;
             padding: 1.5rem;
-            margin: 1.5rem 0;
+            overflow-x: auto;
+            margin: 1rem 0;
             position: relative;
-            border: 1px solid rgba(148, 163, 184, 0.1);
+            font-family: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+        }
+
+        code {
+            color: #e2e8f0;
+            font-size: 0.9rem;
         }
 
         .code-header {
@@ -347,113 +423,60 @@
             align-items: center;
             margin-bottom: 1rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
         }
 
-        .code-lang {
+        .code-language {
             color: var(--primary);
-            font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .copy-btn {
             background: rgba(99, 102, 241, 0.1);
             border: 1px solid rgba(99, 102, 241, 0.3);
             color: var(--primary);
-            padding: 0.4rem 1rem;
-            border-radius: 8px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-size: 0.85rem;
         }
 
-        pre {
-            color: #e2e8f0;
-            overflow-x: auto;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Steps */
-        .step {
-            background: rgba(99, 102, 241, 0.05);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            position: relative;
-            padding-left: 4rem;
-        }
-
-        .step-number {
-            position: absolute;
-            left: 1rem;
-            top: 2rem;
-            width: 40px;
-            height: 40px;
-            background: var(--gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* Alert Boxes */
-        .alert {
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        }
-
-        .alert-info {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #cbd5e1;
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #cbd5e1;
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #cbd5e1;
-        }
-
-        /* Navigation */
-        .guide-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 4rem 0 2rem;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
+        .copy-btn:hover {
             background: rgba(99, 102, 241, 0.2);
             transform: translateY(-2px);
+        }
+
+        /* Make.com Workflow Visualization */
+        .workflow-container {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .workflow-step {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .workflow-step:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .workflow-arrow {
+            color: var(--primary);
+            margin: 0 1rem;
+            font-size: 1.5rem;
         }
 
         /* Responsive */
@@ -495,11 +518,11 @@
         <!-- Guide Header -->
         <div class="guide-header">
             <div class="guide-badge">
-                🌡️ Guida Avanzata
+                🌡️ Guida No-Code
             </div>
             <h1>Agenti AI con API Meteo Reali</h1>
             <p class="guide-subtitle">
-                Passa da dati simulati a informazioni meteo in tempo reale integrando API professionali nel tuo agente AI
+                Crea un assistente meteo AI completamente funzionante usando Make.com - nessuna programmazione richiesta!
             </p>
         </div>
 
@@ -507,13 +530,12 @@
         <div class="toc">
             <h2>📑 Indice della Guida</h2>
             <ul class="toc-list">
-                <li><a href="#introduzione">Introduzione: Perché usare API reali?</a></li>
+                <li><a href="#introduzione">Introduzione: Perché Make.com?</a></li>
                 <li><a href="#confronto">Confronto tra le principali API meteo</a></li>
-                <li><a href="#openweather">Implementazione con OpenWeatherMap</a></li>
-                <li><a href="#weatherapi">Implementazione con WeatherAPI</a></li>
-                <li><a href="#gestione-errori">Gestione errori e fallback</a></li>
-                <li><a href="#caching">Ottimizzazione con caching</a></li>
-                <li><a href="#best-practices">Best practices e sicurezza</a></li>
+                <li><a href="#openweather-make">Implementazione con Make.com (8 step)</a></li>
+                <li><a href="#testing">Testing Avanzato</a></li>
+                <li><a href="#ottimizzazioni">Costi e Ottimizzazioni</a></li>
+                <li><a href="#template">Risorse Utili</a></li>
             </ul>
         </div>
 
@@ -521,36 +543,40 @@
         <div class="content-section" id="introduzione">
             <h2 class="section-title">
                 <div class="section-icon">🎯</div>
-                Perché Usare API Meteo Reali?
+                Perché Make.com per gli Agenti AI?
             </h2>
 
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Mentre i dati simulati sono perfetti per imparare, in produzione vorrai fornire informazioni accurate e aggiornate.
+                Make.com (ex Integromat) ti permette di creare agenti AI potenti senza scrivere codice. È perfetto per:
             </p>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
                 <div>
-                    <h3 style="color: var(--warning); margin-bottom: 1rem;">⚠️ Dati Simulati</h3>
-                    <ul style="color: #94a3b8; padding-left: 1.5rem;">
-                        <li>Sempre gli stessi valori</li>
-                        <li>Non riflettono la realtà</li>
-                        <li>Limitati a poche città</li>
-                        <li>Buoni solo per test</li>
+                    <h3 style="color: var(--success); margin-bottom: 1rem;">✅ Vantaggi di Make.com</h3>
+                    <ul style="color: #cbd5e1; padding-left: 1.5rem;">
+                        <li>Interfaccia visuale drag-and-drop</li>
+                        <li>Nessun codice da scrivere o server da gestire</li>
+                        <li>Integrazione nativa con OpenAI</li>
+                        <li>Hosting automatico dell'endpoint</li>
+                        <li>Logs e debugging visuale</li>
+                        <li>Piano gratuito generoso</li>
                     </ul>
                 </div>
                 <div>
-                    <h3 style="color: var(--success); margin-bottom: 1rem;">✅ API Reali</h3>
+                    <h3 style="color: var(--warning); margin-bottom: 1rem;">🎓 Cosa imparerai</h3>
                     <ul style="color: #cbd5e1; padding-left: 1.5rem;">
-                        <li>Dati in tempo reale</li>
-                        <li>Copertura globale</li>
-                        <li>Previsioni accurate</li>
-                        <li>Informazioni dettagliate</li>
+                        <li>Creare webhook per ricevere richieste</li>
+                        <li>Integrare API meteo esterne</li>
+                        <li>Usare OpenAI per generare risposte</li>
+                        <li>Gestire errori e casi limite</li>
+                        <li>Testare con strumenti professionali</li>
+                        <li>Ottimizzare costi e performance</li>
                     </ul>
                 </div>
             </div>
 
             <div class="alert alert-info">
-                <strong>💡 Nota:</strong> L'agente AI rimane lo stesso - cambiamo solo la fonte dei dati meteo!
+                <strong>💡 Nota:</strong> Questa guida è perfetta per chi vuole creare agenti AI senza programmare. Se preferisci Python, consulta la <a href="#" style="color: var(--accent);">versione con codice</a>.
             </div>
         </div>
 
@@ -603,1045 +629,513 @@
             </div>
         </div>
 
-        <!-- Section 3: OpenWeatherMap Implementation -->
-        <div class="content-section" id="openweather">
+        <!-- Section 3: Make.com Implementation -->
+        <div class="content-section" id="openweather-make">
             <h2 class="section-title">
                 <div class="section-icon">🛠️</div>
-                Implementazione con OpenWeatherMap - Guida per Principianti
+                Implementazione con Make.com - Guida Completa
             </h2>
 
             <div class="alert alert-info" style="margin-bottom: 2rem;">
-                <strong>👋 Non hai mai programmato?</strong> Nessun problema! Ti guiderò in ogni singolo passaggio. 
-                Alla fine avrai un agente AI che fornisce meteo reale di qualsiasi città del mondo!
+                <strong>👋 Mai usato Make.com?</strong> Nessun problema! È come costruire con i LEGO - trascini moduli, li colleghi, e funziona! Ti guiderò passo passo.
             </div>
 
-            <div class="alert alert-warning" style="margin-bottom: 2rem;">
-                <strong>📋 Prerequisito: API Key OpenAI</strong><br>
-                Prima di iniziare, assicurati di avere la tua API Key di OpenAI. Se non ce l'hai ancora, 
-                trovi la guida completa per ottenerla nella 
-                <a href="../lezioni/agenti-openai/lezione-2.html" style="color: var(--warning); text-decoration: underline;">
-                    Lezione 2 - Configurazione Ambiente
-                </a>.
-            </div>
-
-            <div class="step">
+            <!-- Step 1 -->
+            <div class="step-card">
                 <div class="step-number">1</div>
-                <h3 style="margin-bottom: 1rem;">Ottieni la tua API Key (Chiave di Accesso)</h3>
+                <h3>🔑 Crea Account OpenWeatherMap</h3>
                 
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Un'API Key è come una password che ti permette di accedere ai dati meteo. È gratuita!
-                </p>
+                <p>Prima di tutto ci serve una chiave API per accedere ai dati meteo reali:</p>
                 
-                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Apri il browser</strong> e vai su questo link: 
-                        <a href="https://openweathermap.org/api" target="_blank" style="color: var(--primary);">openweathermap.org/api</a>
-                    </li>
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Clicca su "Sign Up"</strong> (in alto a destra)
-                        <br><small style="color: #94a3b8;">→ Ti chiederà email e password per creare un account</small>
-                    </li>
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Controlla la tua email</strong>
-                        <br><small style="color: #94a3b8;">→ OpenWeather ti manda un'email. Clicca sul link per confermare</small>
-                    </li>
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Torna sul sito e fai login</strong>
-                        <br><small style="color: #94a3b8;">→ Usa email e password che hai appena creato</small>
-                    </li>
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Clicca sul tuo nome</strong> (in alto a destra) → <strong>"My API Keys"</strong>
-                    </li>
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Vedrai una chiave tipo questa:</strong>
-                        <br><code style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 5px; display: inline-block; margin-top: 0.5rem;">
-                            b4d6c8f9a2e1d3b5c7a9f8e2d4c6b8a0
-                        </code>
-                        <br><small style="color: #94a3b8;">→ Copiala! Ti servirà tra poco</small>
-                    </li>
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Vai su <a href="https://openweathermap.org/api" target="_blank" style="color: var(--accent);">OpenWeatherMap</a></li>
+                    <li>Clicca su "Sign Up" (è gratis!)</li>
+                    <li>Conferma la tua email</li>
+                    <li>Vai su "API Keys" nel tuo profilo</li>
+                    <li>Copia la tua chiave API (sembra: <code>abc123def456...</code>)</li>
                 </ol>
 
-                <div class="alert alert-warning" style="margin-top: 1rem;">
-                    <strong>⏰ Nota:</strong> L'API key potrebbe metterci 10-15 minuti per attivarsi dopo la registrazione
+                <div class="alert alert-warning">
+                    <strong>⚠️ Importante:</strong> La chiave API può impiegare 10-15 minuti per attivarsi. Nel frattempo, continua con i prossimi step!
                 </div>
             </div>
 
-            <div class="step">
+            <!-- Step 2 -->
+            <div class="step-card">
                 <div class="step-number">2</div>
-                <h3 style="margin-bottom: 1rem;">Prepara la Cartella del Progetto</h3>
+                <h3>🚀 Setup Scenario Make.com</h3>
                 
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Prima di scrivere codice, organizziamo i file nel computer.
-                </p>
-
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Windows:</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 0.5rem;">Apri <strong>Esplora File</strong></li>
-                        <li style="margin-bottom: 0.5rem;">Vai sul <strong>Desktop</strong> o in <strong>Documenti</strong></li>
-                        <li style="margin-bottom: 0.5rem;">Click destro → <strong>Nuovo</strong> → <strong>Cartella</strong></li>
-                        <li style="margin-bottom: 0.5rem;">Chiamala <code>agente-meteo-reale</code></li>
-                        <li>Apri la cartella facendo doppio click</li>
-                    </ol>
-                </div>
-
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Mac:</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 0.5rem;">Apri <strong>Finder</strong></li>
-                        <li style="margin-bottom: 0.5rem;">Vai sul <strong>Desktop</strong> o in <strong>Documenti</strong></li>
-                        <li style="margin-bottom: 0.5rem;">Click destro → <strong>Nuova Cartella</strong></li>
-                        <li style="margin-bottom: 0.5rem;">Chiamala <code>agente-meteo-reale</code></li>
-                        <li>Apri la cartella facendo doppio click</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3 style="margin-bottom: 1rem;">Crea il File delle Password Segrete (.env)</h3>
+                <p>Ora creiamo il nostro "scenario" (workflow) in Make:</p>
                 
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Questo file conterrà le tue "chiavi segrete". È importante tenerle separate dal codice!
-                </p>
-
-                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Apri il Blocco Note</strong> (Windows) o <strong>TextEdit</strong> (Mac)
-                        <br><small style="color: #94a3b8;">→ Su Windows: tasto Windows → scrivi "blocco note" → Enter</small>
-                        <br><small style="color: #94a3b8;">→ Su Mac: Spotlight (⌘+Spazio) → scrivi "textedit" → Enter</small>
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Copia e incolla questo testo:</strong>
-                        <div class="code-example" style="margin-top: 0.5rem;">
-                            <div class="code-header">
-                                <span class="code-lang">File .env</span>
-                                <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                            </div>
-                            <pre><code># Le tue chiavi API segrete
-OPENAI_API_KEY=incolla-qui-la-tua-openai-key
-OPENWEATHERMAP_API_KEY=incolla-qui-la-tua-weather-key</code></pre>
-                        </div>
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Sostituisci i placeholder:</strong>
-                        <br>→ Al posto di <code>incolla-qui-la-tua-openai-key</code> metti la tua chiave OpenAI
-                        <br>→ Al posto di <code>incolla-qui-la-tua-weather-key</code> metti la chiave che hai copiato dal sito OpenWeather
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Salva il file:</strong>
-                        <br>→ File → Salva con nome
-                        <br>→ Naviga nella cartella <code>agente-meteo-reale</code> che hai creato
-                        <br>→ <strong>IMPORTANTE:</strong> Come nome scrivi esattamente <code>.env</code> (con il punto davanti!)
-                        <br>→ Se ti chiede il tipo di file, scegli "Tutti i file (*.*)"
-                    </li>
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Registrati su <a href="https://www.make.com" target="_blank" style="color: var(--accent);">Make.com</a> (piano gratuito)</li>
+                    <li>Clicca su "Create a new scenario"</li>
+                    <li>Dai un nome tipo "Assistente Meteo AI"</li>
+                    <li>Sei nell'editor visuale - qui costruiremo tutto!</li>
                 </ol>
 
-                <div class="alert alert-success">
-                    <strong>✅ Controllo:</strong> Nella tua cartella ora dovresti vedere un file chiamato <code>.env</code>
-                    <br>Se su Windows vedi <code>.env.txt</code>, devi rinominarlo togliendo il <code>.txt</code>!
+                <div class="workflow-container">
+                    <div class="workflow-step">📥 Webhook</div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">🌍 HTTP Request</div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">🤖 OpenAI</div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">📤 Response</div>
                 </div>
             </div>
 
-            <div class="step">
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>📥 Configura Webhook Trigger</h3>
+                
+                <p>Il webhook è il punto di ingresso del nostro agente - è come dare un indirizzo web al tuo assistente:</p>
+                
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Clicca sul grande "+" al centro dello schermo</li>
+                    <li>Nella barra di ricerca scrivi "Webhooks" e clicca sull'icona</li>
+                    <li>Seleziona "Custom webhook"</li>
+                    <li>Clicca sul pulsante "Add"</li>
+                    <li>Dai un nome tipo "Weather Assistant Input"</li>
+                    <li><strong>IMPORTANTE:</strong> Copia e salva l'URL che appare (es: https://hook.eu1.make.com/abc123...)</li>
+                </ol>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ Non chiudere ancora!</strong> Dobbiamo dire a Make che tipo di dati riceverà:
+                    <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Lascia la finestra del webhook aperta</li>
+                        <li>Apri un nuovo tab del browser e vai su <a href="https://httpie.io/app" target="_blank" style="color: var(--accent);">httpie.io/app</a> (versione web gratuita)</li>
+                        <li>Incolla il tuo webhook URL</li>
+                        <li>Cambia metodo da GET a POST</li>
+                        <li>Nel body, incolla: <code>{"city": "Roma"}</code></li>
+                        <li>Clicca "Send"</li>
+                        <li>Torna su Make - vedrai "Successfully determined" ✅</li>
+                        <li>Ora clicca "Save" per chiudere</li>
+                    </ol>
+                </div>
+
+                <p style="margin-top: 1rem;"><strong>🎯 Cosa abbiamo fatto:</strong> Make ora sa che riceverà oggetti con il campo "city"!</p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-card">
                 <div class="step-number">4</div>
-                <h3 style="margin-bottom: 1rem;">Installa Python (se non ce l'hai)</h3>
+                <h3>🌍 Aggiungi la Chiamata API Meteo</h3>
                 
+                <p>Ora colleghiamo OpenWeatherMap per ottenere dati meteo reali:</p>
+                
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Clicca sul cerchietto a destra del modulo Webhook (apparirà una linea)</li>
+                    <li>Apparirà un nuovo "+" - cliccalo</li>
+                    <li>Cerca "HTTP" e seleziona l'icona blu</li>
+                    <li>Scegli "Make a request"</li>
+                    <li>Compila i campi come segue:</li>
+                </ol>
+
+                <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <p><strong>URL:</strong></p>
+                    <code style="display: block; margin: 0.5rem 0;">https://api.openweathermap.org/data/2.5/weather</code>
+                    
+                    <p style="margin-top: 1rem;"><strong>Method:</strong> GET (già selezionato)</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Query String (clicca "Add parameter" per ogni riga):</strong></p>
+                    <ul style="list-style: none; padding: 0; margin: 0.5rem 0;">
+                        <li>• Key: <code>q</code> → Value: clicca nel campo e seleziona <code>city</code> dal menu che appare</li>
+                        <li>• Key: <code>appid</code> → Value: incolla la tua API key di OpenWeatherMap</li>
+                        <li>• Key: <code>units</code> → Value: <code>metric</code></li>
+                        <li>• Key: <code>lang</code> → Value: <code>it</code></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Parse response:</strong> ✅ Yes (assicurati sia attivo!)</p>
+                </div>
+
+                <p style="margin-top: 1rem;">Clicca "Save" per salvare il modulo.</p>
+
                 <div class="alert alert-info">
-                    <strong>Come verificare se hai già Python:</strong>
-                    <br>1. Apri il Prompt dei comandi (Windows) o Terminale (Mac)
-                    <br>2. Scrivi <code>python --version</code> e premi Enter
-                    <br>3. Se vedi "Python 3.x.x" sei a posto! Altrimenti continua sotto.
-                </div>
-
-                <div style="margin-top: 1.5rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Installazione Python:</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 0.5rem;">Vai su <a href="https://www.python.org/downloads/" target="_blank" style="color: var(--primary);">python.org/downloads</a></li>
-                        <li style="margin-bottom: 0.5rem;">Clicca sul grande pulsante giallo "Download Python"</li>
-                        <li style="margin-bottom: 0.5rem;">Apri il file scaricato</li>
-                        <li style="margin-bottom: 0.5rem;"><strong>IMPORTANTE:</strong> Metti la spunta su "Add Python to PATH"</li>
-                        <li>Clicca "Install Now" e aspetta che finisca</li>
-                    </ol>
+                    <strong>💡 Cosa fa questo modulo:</strong> Quando riceve una città, chiede a OpenWeatherMap il meteo attuale in italiano con temperature in Celsius.
                 </div>
             </div>
 
-            <div class="step">
+            <!-- Step 5 -->
+            <div class="step-card">
                 <div class="step-number">5</div>
-                <h3 style="margin-bottom: 1rem;">Apri il Terminale nella Cartella Giusta</h3>
+                <h3>🤖 Connetti OpenAI per le Risposte</h3>
                 
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Il terminale è dove daremo i comandi al computer. Non spaventarti, è più facile di quanto sembri!
-                </p>
+                <p>Ora aggiungiamo l'intelligenza artificiale che trasformerà i dati meteo in risposte amichevoli:</p>
+                
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Clicca sul cerchietto a destra del modulo HTTP</li>
+                    <li>Clicca sul nuovo "+" che appare</li>
+                    <li>Cerca "OpenAI" e seleziona l'icona</li>
+                    <li>Scegli "Create a Chat Completion"</li>
+                    <li>Clicca "Add" accanto a Connection per collegare il tuo account OpenAI:
+                        <ul style="margin-top: 0.5rem;">
+                            <li>Dai un nome alla connessione (es: "Il mio OpenAI")</li>
+                            <li>Incolla la tua API key di OpenAI (<a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--accent);">ottienila qui</a>)</li>
+                            <li>Clicca "Save"</li>
+                        </ul>
+                    </li>
+                    <li><strong>IMPORTANTE:</strong> Clicca su "Show advanced settings" in basso</li>
+                </ol>
 
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Windows (Metodo Facile):</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 0.5rem;">Apri la cartella <code>agente-meteo-reale</code> in Esplora File</li>
-                        <li style="margin-bottom: 0.5rem;">Clicca sulla barra dell'indirizzo in alto (dove c'è il percorso)</li>
-                        <li style="margin-bottom: 0.5rem;">Cancella tutto e scrivi <code>cmd</code></li>
-                        <li style="margin-bottom: 0.5rem;">Premi Enter</li>
-                        <li>Si aprirà una finestra nera - questo è il terminale!</li>
-                    </ol>
+                <div class="alert alert-info">
+                    <strong>💳 Nota su OpenAI:</strong> Se è la prima volta che usi OpenAI, dovrai aggiungere un minimo di credito ($5) al tuo account. Ogni richiesta costa circa $0.002 (0,2 centesimi).
                 </div>
 
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Mac:</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 0.5rem;">Apri Spotlight (⌘+Spazio)</li>
-                        <li style="margin-bottom: 0.5rem;">Scrivi "Terminal" e premi Enter</li>
-                        <li style="margin-bottom: 0.5rem;">Nel terminale scrivi: <code>cd Desktop/agente-meteo-reale</code></li>
-                        <li style="margin-bottom: 0.5rem;">Premi Enter</li>
-                    </ol>
+                <p style="margin-top: 1.5rem;"><strong>Configura i messaggi (clicca "Add message" sotto Messages):</strong></p>
+
+                <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <p><strong>Messaggio 1 - System:</strong></p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Role: <code>System</code></li>
+                        <li>• Content: copia questo testo:</li>
+                    </ul>
+                    <pre style="margin-top: 0.5rem;"><code>Sei un assistente meteorologico italiano super amichevole!
+
+Quando ricevi dati meteo per una città:
+1. Rispondi sempre in modo conversazionale e simpatico
+2. Dai consigli pratici su cosa indossare o fare
+3. Usa emoji per rendere la risposta più vivace 😊
+4. Mantieni le risposte concise ma informative
+
+Rispondi SEMPRE in italiano.</code></pre>
                 </div>
+
+                <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <p><strong>Messaggio 2 - User (clicca "Add message" di nuovo):</strong></p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Role: <code>User</code></li>
+                        <li>• Content: costruisci questo messaggio usando i campi dinamici:</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;">Nel campo Content, scrivi questo testo e inserisci i dati cliccando sui campi dal pannello a destra:</p>
+                    <pre style="margin-top: 0.5rem;"><code>Dammi il meteo attuale per {{2.name}} con questi dati:
+- Temperatura: {{2.main.temp}}°C
+- Condizioni: {{2.weather[0].description}}
+- Temperatura percepita: {{2.main.feels_like}}°C
+- Umidità: {{2.main.humidity}}%
+- Vento: {{2.wind.speed}} m/s</code></pre>
+                    
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Come inserire i campi dinamici:</strong>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Clicca nel campo "Text Content" dove vuoi inserire un dato</li>
+                            <li>Nel pannello a destra, clicca su "HTTP - Make a request" (modulo 2)</li>
+                            <li>Trova e clicca sui campi che ti servono (name, main.temp, ecc.)</li>
+                            <li>I campi verranno inseriti automaticamente nel formato {{2.campo}}</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <p style="margin-top: 1.5rem;"><strong>Altre impostazioni:</strong></p>
+                <ul style="padding-left: 1.5rem;">
+                    <li>Model: <code>gpt-3.5-turbo</code> (più economico)</li>
+                    <li>Max Tokens: <code>300</code></li>
+                    <li>Temperature: <code>0.7</code></li>
+                </ul>
+
+                <p>Clicca "Save" per salvare il modulo.</p>
             </div>
 
-            <div class="step">
+            <!-- Step 6 -->
+            <div class="step-card">
                 <div class="step-number">6</div>
-                <h3 style="margin-bottom: 1rem;">Crea un Ambiente Virtuale (Raccomandato)</h3>
+                <h3>📤 Invia la Risposta Finale</h3>
                 
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Un ambiente virtuale è come una "bolla" separata per questo progetto. Evita conflitti tra librerie diverse!
-                </p>
+                <p>Ultimo passaggio! Dobbiamo inviare la risposta dell'AI a chi ha fatto la richiesta:</p>
+                
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Clicca sul cerchietto a destra del modulo OpenAI</li>
+                    <li>Clicca sul "+" che appare</li>
+                    <li>Cerca "Webhooks" di nuovo</li>
+                    <li>Questa volta scegli "Webhook response"</li>
+                    <li><strong>IMPORTANTE:</strong> Clicca su "Show advanced settings" in basso</li>
+                </ol>
 
-                <div class="alert alert-info" style="margin-bottom: 1.5rem;">
-                    <strong>💡 Perché usare un ambiente virtuale?</strong>
-                    <br>• Mantiene le librerie organizzate per progetto
-                    <br>• Evita conflitti tra versioni diverse
-                    <br>• È considerata una best practice professionale
+                <p style="margin-top: 1.5rem;"><strong>Configura la risposta:</strong></p>
+                
+                <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <p><strong>Status:</strong> <code>200</code> (lascia così)</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Headers (clicca "Add parameter"):</strong></p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Key: <code>Content-Type</code></li>
+                        <li>• Value: <code>application/json</code></li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Body:</strong> costruisci questo JSON cliccando sui campi:</p>
+                    <pre style="margin-top: 0.5rem;"><code>{
+  "response": {{3.choices[0].message.content}},
+  "city": {{2.name}},
+  "success": true
+}</code></pre>
                 </div>
 
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Windows:</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 1rem;">
-                            <strong>Nel terminale che hai aperto, scrivi:</strong>
-                            <div class="code-example" style="margin-top: 0.5rem;">
-                                <pre><code>python -m venv agente-env</code></pre>
-                            </div>
-                            <small style="color: #94a3b8;">→ Questo crea una cartella chiamata "agente-env" con l'ambiente virtuale</small>
-                        </li>
-                        <li style="margin-bottom: 1rem;">
-                            <strong>Attiva l'ambiente virtuale:</strong>
-                            <div class="code-example" style="margin-top: 0.5rem;">
-                                <pre><code>agente-env\Scripts\activate</code></pre>
-                            </div>
-                            <small style="color: #94a3b8;">→ Dovresti vedere "(agente-env)" all'inizio della riga del terminale</small>
-                        </li>
-                    </ol>
-                </div>
-
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">Su Mac/Linux:</h4>
-                    <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                        <li style="margin-bottom: 1rem;">
-                            <strong>Nel terminale, scrivi:</strong>
-                            <div class="code-example" style="margin-top: 0.5rem;">
-                                <pre><code>python3 -m venv agente-env</code></pre>
-                            </div>
-                            <small style="color: #94a3b8;">→ Su Mac usa sempre python3</small>
-                        </li>
-                        <li style="margin-bottom: 1rem;">
-                            <strong>Attiva l'ambiente virtuale:</strong>
-                            <div class="code-example" style="margin-top: 0.5rem;">
-                                <pre><code>source agente-env/bin/activate</code></pre>
-                            </div>
-                            <small style="color: #94a3b8;">→ Dovresti vedere "(agente-env)" all'inizio della riga del terminale</small>
-                        </li>
-                    </ol>
-                </div>
+                <p>Clicca "Save" per salvare il modulo.</p>
 
                 <div class="alert alert-success">
-                    <strong>✅ Controllo:</strong> Se vedi <code>(agente-env)</code> prima del cursore nel terminale, l'ambiente è attivo!
-                    <br>Esempio: <code>(agente-env) C:\Users\tuonome\Desktop\agente-meteo-reale></code>
-                </div>
-
-                <div class="alert alert-warning" style="margin-top: 1rem;">
-                    <strong>📝 Importante:</strong> Ogni volta che lavori su questo progetto, dovrai riattivare l'ambiente virtuale con il comando di attivazione. Le librerie che installerai nel prossimo step saranno disponibili solo quando l'ambiente è attivo.
+                    <strong>🎉 Quasi finito!</strong> Il tuo workflow è completo. Ora dobbiamo solo salvarlo e testarlo!
                 </div>
             </div>
 
-            <div class="step">
+            <!-- Step 7 -->
+            <div class="step-card">
                 <div class="step-number">7</div>
-                <h3 style="margin-bottom: 1rem;">Installa le Librerie Necessarie</h3>
+                <h3>💾 Salva e Attiva lo Scenario</h3>
                 
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Le librerie sono come "app" che Python usa per fare cose specifiche. Ne servono solo 3!
-                </p>
+                <p><strong>IMPORTANTE - Non dimenticare questi passaggi!</strong></p>
+                
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>In basso a sinistra, clicca sul pulsante <strong>"Save"</strong> (icona dischetto)</li>
+                    <li>In alto a sinistra, clicca sull'interruttore per attivare lo scenario (diventa viola)</li>
+                    <li>Sempre in alto, clicca su "Run once" per testare</li>
+                </ol>
 
-                <div class="code-example">
+                <div class="alert alert-warning">
+                    <strong>⚠️ Errori comuni:</strong>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Se vedi pallini rossi = c'è un errore in quel modulo, cliccaci e controlla</li>
+                        <li>Se non funziona = controlla che lo scenario sia attivo (interruttore viola)</li>
+                        <li>Se l'API meteo dà errore = aspetta 10-15 min che la chiave si attivi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div class="step-card">
+                <div class="step-number">8</div>
+                <h3>🧪 Testa il Tuo Assistente!</h3>
+                
+                <p>È il momento della verità! Testiamo se tutto funziona:</p>
+                
+                <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <p><strong>Metodo 1 - Test Veloce (Web):</strong></p>
+                    <ol style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                        <li>Vai su <a href="https://httpie.io/app" target="_blank" style="color: var(--accent);">httpie.io/app</a></li>
+                        <li>Incolla il tuo webhook URL</li>
+                        <li>Metodo: POST</li>
+                        <li>Body: <code>{"city": "Milano"}</code></li>
+                        <li>Clicca "Send"</li>
+                    </ol>
+                </div>
+
+                <div style="background: rgba(15, 23, 42, 0.9); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <p><strong>Metodo 2 - Test Pro (se hai HTTPie installato):</strong></p>
+                    <pre><code>http POST YOUR_WEBHOOK_URL city="Roma"</code></pre>
+                </div>
+
+                <p style="margin-top: 1.5rem;"><strong>Risposta di esempio che dovresti ricevere:</strong></p>
+                <pre style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);"><code>{
+  "response": "Ciao! 🌤️ A Roma oggi c'è un bel sole con 22°C! 
+               La temperatura è perfetta per una passeggiata. 
+               Ti consiglio una maglietta leggera e occhiali da sole! 😎",
+  "city": "Roma",
+  "success": true
+}</code></pre>
+            </div>
+
+            <!-- Workflow Summary -->
+            <div style="background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 20px; padding: 2rem; margin: 2rem 0;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">🔄 Il Tuo Workflow Completo</h3>
+                <div class="workflow-container">
+                    <div class="workflow-step">📥 Webhook<br><small>Riceve città</small></div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">🌍 HTTP<br><small>Chiama API meteo</small></div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">🤖 OpenAI<br><small>Genera risposta</small></div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">📤 Response<br><small>Invia risultato</small></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Testing -->
+        <div class="content-section" id="testing">
+            <h2 class="section-title">
+                <div class="section-icon">🧪</div>
+                Testing Avanzato
+            </h2>
+
+            <p style="margin-bottom: 2rem;">
+                Hai già testato il tuo assistente, ma ecco alcuni test più avanzati per assicurarti che funzioni in ogni situazione:
+            </p>
+
+            <div class="step-card">
+                <h3>🌍 Test con Diverse Città</h3>
+                
+                <pre>
                     <div class="code-header">
-                        <span class="code-lang">Comandi da copiare uno per volta</span>
+                        <span class="code-language">Test Internazionali</span>
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
                     </div>
-                    <pre><code># Copia e incolla questi comandi UNO ALLA VOLTA nel terminale
+                    <code># Città italiana
+{"city": "Venezia"}
 
-pip install openai
-pip install python-dotenv
-pip install requests</code></pre>
-                </div>
+# Città con caratteri speciali
+{"city": "São Paulo"}
 
-                <p style="margin-top: 1rem; color: #94a3b8;">
-                    <strong>Cosa fare:</strong>
-                    <br>1. Copia il primo comando (<code>pip install openai</code>)
-                    <br>2. Incollalo nel terminale e premi Enter
-                    <br>3. Aspetta che finisca (vedrai scritte che scorrono)
-                    <br>4. Ripeti per gli altri due comandi
-                </p>
+# Città asiatica
+{"city": "Tokyo"}
 
-                <div class="alert alert-warning" style="margin-top: 1rem;">
-                    <strong>Se vedi errori:</strong>
-                    <br>• Prova con <code>pip3</code> invece di <code>pip</code>
-                    <br>• Su Mac potresti dover usare <code>python3</code> invece di <code>python</code>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">8</div>
-                <h3 style="margin-bottom: 1rem;">Crea il File Python con il Codice</h3>
-                
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Ora creiamo il cuore del nostro agente AI! Non preoccuparti se non capisci tutto il codice, 
-                    ti spiegherò le parti importanti.
-                </p>
-
-                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Apri di nuovo il Blocco Note o TextEdit</strong>
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Copia TUTTO questo codice:</strong>
-                        <div class="code-example" style="margin-top: 0.5rem;">
-                            <div class="code-header">
-                                <span class="code-lang">Python - agente_meteo.py</span>
-                                <button class="copy-btn" onclick="copyCode(this)">📋 Copia Tutto</button>
-                            </div>
-                            <pre><code>import os
-import requests
-import json
-from dotenv import load_dotenv
-from openai import OpenAI
-
-# Carica le password segrete dal file .env
-load_dotenv()
-
-print("🚀 Avvio dell'Agente Meteo AI...")
-print("=" * 50)
-
-# Configura OpenAI
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-WEATHER_API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
-
-def get_weather(city):
-    """
-    Questa funzione prende il nome di una città e restituisce il meteo REALE
-    usando l'API di OpenWeatherMap
-    """
-    print(f"\n🔍 Cerco il meteo per: {city}")
-    
-    # Controlla se abbiamo la chiave API
-    if not WEATHER_API_KEY:
-        return json.dumps({
-            "errore": "Non hai configurato la OPENWEATHERMAP_API_KEY nel file .env!",
-            "suggerimento": "Controlla di aver salvato correttamente il file .env"
-        }, ensure_ascii=False)
-    
-    # URL dell'API OpenWeather
-    url = "https://api.openweathermap.org/data/2.5/weather"
-    
-    # Parametri da inviare
-    params = {
-        "q": city,                # Nome della città
-        "appid": WEATHER_API_KEY, # La tua chiave API
-        "units": "metric",        # Temperatura in Celsius
-        "lang": "it"              # Risposte in italiano
-    }
-    
-    try:
-        # Chiama l'API e ottieni i dati
-        print("📡 Contatto OpenWeatherMap...")
-        response = requests.get(url, params=params)
-        
-        if response.status_code == 200:
-            # Successo! Abbiamo i dati
-            data = response.json()
-            print("✅ Dati meteo ricevuti!")
-            
-            # Estrai le informazioni importanti
-            weather_info = {
-                "città": data["name"],
-                "nazione": data["sys"]["country"],
-                "temperatura": f"{round(data['main']['temp'])}°C",
-                "percepita": f"{round(data['main']['feels_like'])}°C",
-                "descrizione": data["weather"][0]["description"],
-                "umidità": f"{data['main']['humidity']}%",
-                "vento": f"{data['wind']['speed']} m/s"
-            }
-            
-            return json.dumps(weather_info, ensure_ascii=False, indent=2)
-            
-        elif response.status_code == 404:
-            # Città non trovata
-            return json.dumps({
-                "errore": "Città non trovata",
-                "suggerimento": f"Controlla che '{city}' sia scritta correttamente"
-            }, ensure_ascii=False)
-        else:
-            # Altri errori
-            return json.dumps({
-                "errore": f"Errore nel recuperare i dati (codice {response.status_code})"
-            }, ensure_ascii=False)
-            
-    except Exception as e:
-        # Errore di connessione
-        print(f"❌ Errore: {e}")
-        return json.dumps({
-            "errore": "Impossibile connettersi al servizio meteo",
-            "dettagli": str(e)
-        }, ensure_ascii=False)
-
-# Configura le funzioni disponibili per l'AI
-functions = [
-    {
-        "name": "get_weather",
-        "description": "Ottiene il meteo attuale per qualsiasi città del mondo",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string",
-                    "description": "Nome della città (es: Milano, Paris, New York)"
-                }
-            },
-            "required": ["city"]
-        }
-    }
-]
-
-def chiedi_meteo(domanda_utente):
-    """
-    Questa è la funzione principale che gestisce la conversazione
-    """
-    print(f"\n💬 Tu: {domanda_utente}")
-    
-    # Prepara la conversazione per l'AI
-    messages = [
-        {
-            "role": "system",
-            "content": """Sei un assistente meteorologico italiano super amichevole!
-            
-Quando qualcuno ti chiede del meteo:
-1. Capisci di quale città sta parlando
-2. Usa la funzione get_weather per ottenere i dati REALI
-3. Rispondi in modo amichevole e dettagliato
-4. Dai consigli su cosa indossare o cosa fare
-5. Usa emoji per rendere la risposta più simpatica 😊
-
-Rispondi SEMPRE in italiano!"""
-        },
-        {
-            "role": "user",
-            "content": domanda_utente
-        }
-    ]
-    
-    print("\n🤖 Sto pensando...")
-    
-    # Prima chiamata all'AI - decide se chiamare la funzione meteo
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        functions=functions,
-        function_call="auto"
-    )
-    
-    message = response.choices[0].message
-    
-    # Controlla se l'AI vuole chiamare la funzione meteo
-    if message.function_call:
-        # Sì! L'AI vuole sapere il meteo
-        function_args = json.loads(message.function_call.arguments)
-        city = function_args["city"]
-        
-        # Chiama la nostra funzione per ottenere i dati reali
-        weather_data = get_weather(city)
-        
-        # Dai i dati all'AI per generare la risposta finale
-        messages.append({
-            "role": "function",
-            "name": "get_weather",
-            "content": weather_data
-        })
-        
-        # Seconda chiamata - l'AI crea la risposta finale
-        print("💭 Preparo la risposta...")
-        final_response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        
-        risposta = final_response.choices[0].message.content
-        print(f"\n🌤️ Assistente: {risposta}")
-        return risposta
-    else:
-        # L'AI risponde senza bisogno del meteo
-        risposta = message.content
-        print(f"\n🌤️ Assistente: {risposta}")
-        return risposta
-
-# PARTE PRINCIPALE - Qui inizia il programma!
-if __name__ == "__main__":
-    print("\n🎉 Benvenuto nell'Assistente Meteo AI!")
-    print("Chiedimi il meteo di qualsiasi città del mondo!")
-    print("\n📌 Esempi di domande che puoi fare:")
-    print("  - Com'è il tempo a Roma?")
-    print("  - Che tempo fa a New York?")
-    print("  - Mi serve l'ombrello a Londra?")
-    print("  - Fa freddo a Milano oggi?")
-    print("\n💡 Scrivi 'esci' per terminare")
-    print("-" * 50)
-    
-    # Loop infinito per continuare la conversazione
-    while True:
-        # Chiedi all'utente cosa vuole sapere
-        domanda = input("\n❓ Cosa vuoi sapere sul meteo? ")
-        
-        # Controlla se l'utente vuole uscire
-        if domanda.lower() in ['esci', 'exit', 'quit', 'basta']:
-            print("\n👋 Arrivederci! Buona giornata!")
-            break
-        
-        # Se la domanda è vuota, chiedi di nuovo
-        if not domanda.strip():
-            print("⚠️  Per favore, scrivi una domanda!")
-            continue
-        
-        # Elabora la domanda
-        try:
-            chiedi_meteo(domanda)
-        except Exception as e:
-            print(f"\n❌ Ops! Qualcosa è andato storto: {e}")
-            print("Riprova con un'altra domanda!")
-    
-    print("\n✨ Grazie per aver usato l'Assistente Meteo AI!")</code></pre>
-                        </div>
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Salva il file:</strong>
-                        <br>→ File → Salva con nome
-                        <br>→ Naviga nella cartella <code>agente-meteo-reale</code>
-                        <br>→ Come nome scrivi: <code>agente_meteo.py</code>
-                        <br>→ <strong>IMPORTANTE:</strong> Assicurati che finisca con <code>.py</code> non <code>.py.txt</code>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="step">
-                <div class="step-number">9</div>
-                <h3 style="margin-bottom: 1rem;">Esegui il Tuo Agente AI!</h3>
-                
-                <p style="margin-bottom: 1rem; color: #cbd5e1;">
-                    Momento della verità! Facciamo partire il nostro agente.
-                </p>
-
-                <ol style="padding-left: 1.5rem; color: #cbd5e1;">
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Torna al terminale</strong> (la finestra nera che avevi aperto)
-                        <br><small style="color: #94a3b8;">→ Assicurati che sia ancora attivo l'ambiente virtuale (dovresti vedere "(agente-env)")</small>
-                        <br><small style="color: #94a3b8;">→ Se non lo vedi, riattivalo con: <code>agente-env\Scripts\activate</code> (Windows) o <code>source agente-env/bin/activate</code> (Mac/Linux)</small>
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Scrivi questo comando e premi Enter:</strong>
-                        <div class="code-example" style="margin-top: 0.5rem;">
-                            <pre><code>python agente_meteo.py</code></pre>
-                        </div>
-                        <small style="color: #94a3b8;">Su Mac potrebbe essere <code>python3 agente_meteo.py</code></small>
-                    </li>
-                    
-                    <li style="margin-bottom: 1rem;">
-                        <strong>Cosa dovresti vedere:</strong>
-                        <div style="background: #0a0a0a; padding: 1rem; border-radius: 8px; font-family: monospace; color: #10b981;">
-                            🚀 Avvio dell'Agente Meteo AI...<br>
-                            ==================================================<br>
-                            <br>
-                            🎉 Benvenuto nell'Assistente Meteo AI!<br>
-                            Chiedimi il meteo di qualsiasi città del mondo!<br>
-                            <br>
-                            📌 Esempi di domande che puoi fare:<br>
-                            &nbsp;&nbsp;- Com'è il tempo a Roma?<br>
-                            &nbsp;&nbsp;- Che tempo fa a New York?<br>
-                            <br>
-                            ❓ Cosa vuoi sapere sul meteo? _
-                        </div>
-                    </li>
-                    
-                    <li>
-                        <strong>Fai una domanda!</strong> Scrivi per esempio: <code>Com'è il tempo a Milano?</code>
-                    </li>
-                </ol>
-
-                <div class="alert alert-success" style="margin-top: 2rem;">
-                    <h4>🎊 Congratulazioni!</h4>
-                    <p>Hai appena creato un agente AI che fornisce meteo reale di qualsiasi città del mondo!</p>
-                    <p style="margin-top: 0.5rem;">L'AI capisce le tue domande in italiano e risponde con dati meteo aggiornati.</p>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">10</div>
-                <h3 style="margin-bottom: 1rem;">Risoluzione Problemi Comuni</h3>
-                
-                <div style="margin-bottom: 2rem;">
-                    <h4 style="color: var(--error); margin-bottom: 1rem;">❌ "ModuleNotFoundError: No module named 'openai'"</h4>
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
-                        <strong>Soluzione:</strong> Non hai installato le librerie. Torna allo Step 6 e esegui i comandi pip.
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h4 style="color: var(--error); margin-bottom: 1rem;">❌ "Invalid API Key"</h4>
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
-                        <strong>Soluzioni:</strong>
-                        <br>• Controlla di aver salvato il file <code>.env</code> nella stessa cartella
-                        <br>• Verifica di aver copiato correttamente le API key
-                        <br>• Assicurati che il file si chiami <code>.env</code> e non <code>.env.txt</code>
-                        <br>• Aspetta 10-15 minuti se hai appena creato l'account OpenWeather
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h4 style="color: var(--error); margin-bottom: 1rem;">❌ "python non è riconosciuto come comando"</h4>
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
-                        <strong>Soluzioni:</strong>
-                        <br>• Prova con <code>python3</code> invece di <code>python</code>
-                        <br>• Riavvia il computer dopo aver installato Python
-                        <br>• Reinstalla Python assicurandoti di spuntare "Add to PATH"
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h4 style="color: var(--error); margin-bottom: 1rem;">❌ "Città non trovata"</h4>
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
-                        <strong>Soluzioni:</strong>
-                        <br>• Scrivi il nome della città in modo corretto
-                        <br>• Per città italiane usa il nome italiano (Milano, non Milan)
-                        <br>• Per città straniere prova il nome inglese
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <h4 style="color: var(--error); margin-bottom: 1rem;">❌ Problemi con l'Ambiente Virtuale</h4>
-                    <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;">
-                        <strong>Soluzioni:</strong>
-                        <br>• <strong>Non vedo "(agente-env)":</strong> L'ambiente non è attivo, riattivalo
-                        <br>• <strong>Windows:</strong> <code>agente-env\Scripts\activate</code>
-                        <br>• <strong>Mac/Linux:</strong> <code>source agente-env/bin/activate</code>
-                        <br>• <strong>Cartella non trovata:</strong> Assicurati di essere nella cartella giusta del progetto
-                        <br>• <strong>Comando non funziona:</strong> Ricontrolla la sintassi (attenzione a backslash vs slash)
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert alert-info" style="margin: 2rem 0;">
-                <h3 style="margin-bottom: 1rem;">🎯 Cosa Hai Imparato</h3>
-                <ul style="padding-left: 1.5rem;">
-                    <li>Come ottenere e usare API key per servizi esterni</li>
-                    <li>Come proteggere le password in file .env</li>
-                    <li>Come installare e usare librerie Python</li>
-                    <li>Come un agente AI usa funzioni per ottenere dati reali</li>
-                    <li>Come l'AI interpreta domande e genera risposte naturali</li>
-                </ul>
-            </div>
-
-            <div class="alert alert-success">
-                <h3 style="margin-bottom: 1rem;">🚀 Prossimi Passi</h3>
-                <p>Ora che hai un agente funzionante, puoi:</p>
-                <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
-                    <li>Modificare la personalità dell'assistente cambiando il "system" message</li>
-                    <li>Aggiungere più città o informazioni meteo dettagliate</li>
-                    <li>Creare altri agenti per diversi scopi (news, borsa, sport...)</li>
-                    <li>Integrare altre API per rendere l'agente ancora più potente!</li>
-                </ul>
+# Test errore - città inesistente
+{"city": "CittàCheNonEsiste123"}</code>
+                </pre>
             </div>
         </div>
 
-        <!-- Section 4: WeatherAPI Implementation -->
-        <div class="content-section" id="weatherapi">
-            <h2 class="section-title">
-                <div class="section-icon">🌈</div>
-                Alternativa: WeatherAPI
-            </h2>
-
-            <p style="margin-bottom: 2rem;">
-                WeatherAPI offre più dati gratuiti e funzionalità avanzate. Ecco come implementarla:
-            </p>
-
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - WeatherAPI Implementation</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code>def get_weather_advanced(city: str) -> str:
-    """
-    Usa WeatherAPI per dati ancora più dettagliati
-    """
-    WEATHERAPI_KEY = os.getenv("WEATHERAPI_KEY")
-    
-    url = "https://api.weatherapi.com/v1/current.json"
-    params = {
-        "key": WEATHERAPI_KEY,
-        "q": city,
-        "lang": "it"
-    }
-    
-    response = requests.get(url, params=params)
-    
-    if response.status_code == 200:
-        data = response.json()
-        
-        # WeatherAPI fornisce molti più dettagli
-        weather_info = {
-            "città": data["location"]["name"],
-            "regione": data["location"]["region"],
-            "paese": data["location"]["country"],
-            "ora_locale": data["location"]["localtime"],
-            "temperatura": f"{data['current']['temp_c']}°C",
-            "percepita": f"{data['current']['feelslike_c']}°C",
-            "descrizione": data["current"]["condition"]["text"],
-            "umidità": f"{data['current']['humidity']}%",
-            "vento": {
-                "velocità_kmh": f"{data['current']['wind_kph']} km/h",
-                "direzione": data['current']['wind_dir'],
-                "raffiche": f"{data['current']['gust_kph']} km/h"
-            },
-            "visibilità": f"{data['current']['vis_km']} km",
-            "indice_uv": data['current']['uv'],
-            "precipitazioni": f"{data['current']['precip_mm']} mm"
-        }
-        
-        return json.dumps(weather_info, ensure_ascii=False, indent=2)</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 5: Error Handling -->
-        <div class="content-section" id="gestione-errori">
-            <h2 class="section-title">
-                <div class="section-icon">🛡️</div>
-                Gestione Errori e Fallback
-            </h2>
-
-            <p style="margin-bottom: 2rem;">
-                In produzione, è fondamentale gestire i possibili errori delle API esterne:
-            </p>
-
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Sistema di Fallback Robusto</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
-                </div>
-                <pre><code># Dizionario di fallback per città comuni
-FALLBACK_WEATHER = {
-    "milano": {
-        "temperatura": "15°C",
-        "descrizione": "variabile",
-        "nota": "⚠️ Dati di fallback - API temporaneamente non disponibile"
-    },
-    "roma": {
-        "temperatura": "18°C",
-        "descrizione": "soleggiato",
-        "nota": "⚠️ Dati di fallback - API temporaneamente non disponibile"
-    }
-}
-
-def get_weather_with_fallback(city: str) -> str:
-    """
-    Tenta prima l'API reale, poi fallback su dati statici
-    """
-    try:
-        # Prova prima l'API reale
-        result = get_weather(city)
-        data = json.loads(result)
-        
-        # Se c'è un errore nell'API
-        if "errore" in data:
-            # Prova il fallback
-            city_lower = city.lower()
-            if city_lower in FALLBACK_WEATHER:
-                return json.dumps(FALLBACK_WEATHER[city_lower], ensure_ascii=False)
-            else:
-                # Suggerisci città disponibili
-                return json.dumps({
-                    "errore": "Servizio temporaneamente limitato",
-                    "città_disponibili": list(FALLBACK_WEATHER.keys()),
-                    "suggerimento": "Riprova tra qualche minuto"
-                }, ensure_ascii=False)
-        
-        return result
-        
-    except Exception as e:
-        # Log dell'errore (in produzione useresti un vero logger)
-        print(f"⚠️ Errore API: {e}")
-        
-        # Usa fallback
-        city_lower = city.lower()
-        if city_lower in FALLBACK_WEATHER:
-            return json.dumps(FALLBACK_WEATHER[city_lower], ensure_ascii=False)
-        else:
-            return json.dumps({
-                "errore": "Servizio non disponibile",
-                "messaggio": "Riprova più tardi"
-            }, ensure_ascii=False)</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 6: Caching -->
-        <div class="content-section" id="caching">
+        <!-- Section 5: Optimization -->
+        <div class="content-section" id="ottimizzazioni">
             <h2 class="section-title">
                 <div class="section-icon">⚡</div>
-                Ottimizzazione con Cache
+                Costi e Ottimizzazioni
             </h2>
 
-            <p style="margin-bottom: 2rem;">
-                Per ridurre le chiamate API e migliorare le performance, implementa un sistema di cache:
-            </p>
-
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Sistema di Cache Semplice</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+                <div class="step-card">
+                    <h3>💰 Stima Costi Mensili</h3>
+                    <ul style="padding-left: 1.5rem;">
+                        <li><strong>Make.com Free:</strong> 1000 operazioni/mese</li>
+                        <li><strong>OpenWeatherMap Free:</strong> 1000 call/giorno</li>
+                        <li><strong>OpenAI:</strong> ~$0.002 per richiesta</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--success);">
+                        <strong>Totale:</strong> ~$2/mese per 1000 richieste
+                    </p>
                 </div>
-                <pre><code>from datetime import datetime, timedelta
-from typing import Dict, Optional, Tuple
 
-# Cache in memoria
-weather_cache: Dict[str, Tuple[str, datetime]] = {}
-CACHE_DURATION = timedelta(minutes=10)  # Cache valida per 10 minuti
-
-def get_weather_cached(city: str) -> str:
-    """
-    Ottiene dati meteo con sistema di cache
-    """
-    city_key = city.lower()
-    
-    # Controlla se abbiamo dati in cache
-    if city_key in weather_cache:
-        cached_data, timestamp = weather_cache[city_key]
-        
-        # Verifica se la cache è ancora valida
-        if datetime.now() - timestamp < CACHE_DURATION:
-            print(f"📦 Uso cache per {city} (salvata {(datetime.now() - timestamp).seconds}s fa)")
-            # Aggiungi nota sulla cache
-            data = json.loads(cached_data)
-            data["cache_info"] = f"Dati aggiornati {(datetime.now() - timestamp).seconds} secondi fa"
-            return json.dumps(data, ensure_ascii=False)
-    
-    # Se non in cache o scaduta, chiama l'API
-    print(f"🌐 Chiamata API per {city}")
-    fresh_data = get_weather(city)
-    
-    # Salva in cache solo se la chiamata ha successo
-    try:
-        data = json.loads(fresh_data)
-        if "errore" not in data:
-            weather_cache[city_key] = (fresh_data, datetime.now())
-    except:
-        pass
-    
-    return fresh_data
-
-# Pulizia periodica della cache
-def clean_cache():
-    """Rimuove elementi scaduti dalla cache"""
-    current_time = datetime.now()
-    expired_keys = [
-        key for key, (_, timestamp) in weather_cache.items()
-        if current_time - timestamp > CACHE_DURATION
-    ]
-    
-    for key in expired_keys:
-        del weather_cache[key]
-    
-    if expired_keys:
-        print(f"🧹 Rimossi {len(expired_keys)} elementi scaduti dalla cache")</code></pre>
+                <div class="step-card">
+                    <h3>💡 Consigli per Risparmiare</h3>
+                    <ul style="padding-left: 1.5rem;">
+                        <li>Usa sempre gpt-3.5-turbo (non gpt-4)</li>
+                        <li>Limita Max Tokens a 200-300</li>
+                        <li>Testa prima di lasciarlo sempre attivo</li>
+                        <li>Disattiva lo scenario quando non serve</li>
+                    </ul>
+                </div>
             </div>
+        </div>
 
-            <div class="alert alert-info">
-                <strong>💡 Vantaggi della Cache:</strong>
-                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                    <li>Riduce le chiamate API del 80-90%</li>
-                    <li>Risparmia sui costi delle API</li>
-                    <li>Migliora i tempi di risposta</li>
-                    <li>Riduce il carico sui server meteo</li>
+        <!-- Section 6: Resources -->
+        <div class="content-section" id="template">
+            <h2 class="section-title">
+                <div class="section-icon">📦</div>
+                Risorse Utili
+            </h2>
+
+            <div class="step-card">
+                <h3>🔗 Link Importanti</h3>
+                
+                <ul style="padding-left: 1.5rem; line-height: 2;">
+                    <li><a href="https://openweathermap.org/api" target="_blank" style="color: var(--accent);">OpenWeatherMap API</a> - Per la chiave meteo</li>
+                    <li><a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--accent);">OpenAI API Keys</a> - Per la chiave AI</li>
+                    <li><a href="https://www.make.com/en/help" target="_blank" style="color: var(--accent);">Make.com Help Center</a> - Se ti blocchi</li>
+                    <li><a href="https://httpie.io/app" target="_blank" style="color: var(--accent);">HTTPie Web</a> - Per testare</li>
                 </ul>
             </div>
-        </div>
 
-        <!-- Section 7: Best Practices -->
-        <div class="content-section" id="best-practices">
-            <h2 class="section-title">
-                <div class="section-icon">🏆</div>
-                Best Practices e Sicurezza
-            </h2>
-
-            <div style="display: grid; gap: 1.5rem;">
-                <div class="alert alert-warning">
-                    <h4 style="margin-bottom: 0.5rem;">🔐 Sicurezza delle API Key</h4>
-                    <ul style="padding-left: 1.5rem;">
-                        <li>MAI committare API key su Git</li>
-                        <li>Usa sempre variabili d'ambiente</li>
-                        <li>Aggiungi <code>.env</code> al <code>.gitignore</code></li>
-                        <li>Ruota le key periodicamente</li>
-                        <li>Usa key diverse per dev/prod</li>
-                    </ul>
+            <div class="step-card">
+                <h3>❓ Problemi Comuni</h3>
+                
+                <div style="margin: 1rem 0;">
+                    <p><strong>L'API meteo dà errore 401:</strong></p>
+                    <p style="color: #94a3b8;">→ La chiave API non è ancora attiva. Aspetta 10-15 minuti.</p>
                 </div>
-
-                <div class="alert alert-success">
-                    <h4 style="margin-bottom: 0.5rem;">📈 Monitoraggio e Limiti</h4>
-                    <ul style="padding-left: 1.5rem;">
-                        <li>Monitora l'uso delle API</li>
-                        <li>Implementa rate limiting</li>
-                        <li>Usa webhook per alert sui limiti</li>
-                        <li>Pianifica per picchi di traffico</li>
-                    </ul>
+                
+                <div style="margin: 1rem 0;">
+                    <p><strong>OpenAI dà errore di billing:</strong></p>
+                    <p style="color: #94a3b8;">→ Devi aggiungere credito al tuo account OpenAI (minimo $5).</p>
                 </div>
-
-                <div class="alert alert-info">
-                    <h4 style="margin-bottom: 0.5rem;">🌍 Gestione Internazionale</h4>
-                    <ul style="padding-left: 1.5rem;">
-                        <li>Supporta nomi città in più lingue</li>
-                        <li>Gestisci fusi orari correttamente</li>
-                        <li>Converti unità di misura (°C/°F)</li>
-                        <li>Localizza le descrizioni meteo</li>
-                    </ul>
+                
+                <div style="margin: 1rem 0;">
+                    <p><strong>Il webhook non riceve dati:</strong></p>
+                    <p style="color: #94a3b8;">→ Assicurati che lo scenario sia attivo (interruttore viola).</p>
                 </div>
-            </div>
-
-            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Codice di Produzione Completo</h3>
-            <div class="code-example">
-                <div class="code-header">
-                    <span class="code-lang">Python - Setup Professionale</span>
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copia</button>
+                
+                <div style="margin: 1rem 0;">
+                    <p><strong>La risposta è in inglese:</strong></p>
+                    <p style="color: #94a3b8;">→ Controlla che nel system prompt ci sia "Rispondi SEMPRE in italiano".</p>
                 </div>
-                <pre><code># config.py
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-class Config:
-    # API Keys
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    WEATHER_API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
-    
-    # API Settings
-    WEATHER_API_TIMEOUT = 10  # secondi
-    CACHE_DURATION_MINUTES = 10
-    MAX_RETRIES = 3
-    
-    # Rate Limiting
-    RATE_LIMIT_CALLS = 50
-    RATE_LIMIT_WINDOW = 60  # secondi
-    
-    # Fallback
-    ENABLE_FALLBACK = True
-    
-    @classmethod
-    def validate(cls):
-        """Valida la configurazione all'avvio"""
-        if not cls.OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY mancante!")
-        
-        if not cls.WEATHER_API_KEY and not cls.ENABLE_FALLBACK:
-            raise ValueError("WEATHER_API_KEY mancante e fallback disabilitato!")
-        
-        return True
-
-# Uso
-if __name__ == "__main__":
-    Config.validate()
-    print("✅ Configurazione valida!")</code></pre>
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="guide-nav">
-            <a href="../lezioni/agenti-openai/lezione-2.html" class="nav-btn">
-                ← Torna alla Lezione 2
-            </a>
-            <a href="../guide.html" class="nav-btn">
-                📚 Altre Guide
-            </a>
+        <!-- Conclusion -->
+        <div class="content-section">
+            <div style="background: var(--gradient); padding: 3rem; border-radius: 20px; text-align: center; color: white;">
+                <h2 style="margin-bottom: 1rem;">🎉 Ce l'hai fatta!</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Hai appena creato un assistente AI che risponde con il meteo in tempo reale - senza scrivere codice!
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div>
+                        <h3 style="margin-bottom: 1rem;">✅ Cosa Hai Imparato</h3>
+                        <ul style="text-align: left; padding-left: 1.5rem;">
+                            <li>Creare workflow visuali in Make</li>
+                            <li>Ricevere dati con Webhook</li>
+                            <li>Chiamare API esterne (OpenWeather)</li>
+                            <li>Usare l'AI di OpenAI</li>
+                            <li>Testare API professionalmente</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 style="margin-bottom: 1rem;">🚀 Prossimi Passi</h3>
+                        <ul style="text-align: left; padding-left: 1.5rem;">
+                            <li>Prova con diverse città</li>
+                            <li>Personalizza le risposte dell'AI</li>
+                            <li>Esplora altri moduli di Make</li>
+                            <li>Integra con altre API</li>
+                            <li>Condividi con gli amici!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div style="margin-top: 3rem; text-align: center;">
+                <h3 style="color: var(--primary); margin-bottom: 2rem;">📚 Continua il Tuo Percorso</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <a href="../lezioni/agenti-openai/lezione-1.html" style="text-decoration: none;">
+                        <div class="step-card" style="cursor: pointer;">
+                            <h4 style="color: var(--primary);">🎓 Corso Completo Agenti AI</h4>
+                            <p>Scopri la teoria dietro gli agenti e costruisci sistemi più complessi</p>
+                        </div>
+                    </a>
+                    <a href="../guide.html" style="text-decoration: none;">
+                        <div class="step-card" style="cursor: pointer;">
+                            <h4 style="color: var(--primary);">📖 Altre Guide Pratiche</h4>
+                            <p>Tutorial step-by-step per progetti AI</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </main>
 
     <script>
         // Copy code function
         function copyCode(button) {
-            const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
-            const text = codeBlock.innerText;
+            const codeBlock = button.parentElement.nextElementSibling;
+            const code = codeBlock.textContent;
             
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.innerText;
-                button.innerText = '✅ Copiato!';
-                button.style.background = 'rgba(16, 185, 129, 0.2)';
-                button.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-                button.style.color = '#10b981';
-                
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiato!';
                 setTimeout(() => {
-                    button.innerText = originalText;
-                    button.style.background = '';
-                    button.style.borderColor = '';
-                    button.style.color = '';
+                    button.textContent = originalText;
                 }, 2000);
             });
         }
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
-        });
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '0';
-                    entry.target.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        entry.target.style.transition = 'all 0.6s ease-out';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observe all content sections
-        document.querySelectorAll('.content-section').forEach(section => {
-            observer.observe(section);
         });
     </script>
 </body>

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduzione a Make.com per Agenti AI - AI Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(0deg, #0a0a0a 0%, #1a1a2e 100%);
+            overflow: hidden;
+        }
+
+        .make-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float-icon 20s infinite ease-in-out;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg); 
+                opacity: 0.1;
+            }
+            25% { 
+                transform: translate(30px, -30px) rotate(90deg); 
+                opacity: 0.15;
+            }
+            50% { 
+                transform: translate(-20px, 20px) rotate(180deg); 
+                opacity: 0.08;
+            }
+            75% { 
+                transform: translate(20px, 30px) rotate(270deg); 
+                opacity: 0.12;
+            }
+        }
+
+        .make-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .make-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 3s; }
+        .make-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 6s; }
+        .make-icon:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 9s; }
+        .make-icon:nth-child(5) { top: 50%; left: 50%; animation-delay: 12s; }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Guide Header */
+        .guide-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .guide-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .guide-subtitle {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .guide-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 30px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .badge {
+            background: var(--gradient);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Table of Contents */
+        .toc-section {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .toc-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .toc-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(10px);
+        }
+
+        .toc-item a {
+            color: #e2e8f0;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toc-number {
+            background: var(--gradient);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 120px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #f8fafc;
+        }
+
+        /* Cards */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-card {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        /* Visual Examples */
+        .visual-example {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .example-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .example-icon-box {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            transition: all 0.3s;
+        }
+
+        .example-icon-box:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .icon-large {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Step by Step */
+        .steps-container {
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(30, 41, 59, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            background: rgba(30, 41, 59, 0.3);
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            background: var(--gradient);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: #cbd5e1;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 1px solid;
+        }
+
+        .info-box.what-happening {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .info-box.tip {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .info-box.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .info-box-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Concepts Grid */
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .concept-card {
+            background: rgba(99, 102, 241, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .concept-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .concept-name {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-analogy {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Screenshot Placeholder */
+        .screenshot {
+            background: rgba(30, 41, 59, 0.3);
+            border: 2px dashed rgba(148, 163, 184, 0.3);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            color: #64748b;
+            margin: 1rem 0;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Resources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .resource-card {
+            background: rgba(30, 41, 59, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .resource-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Tips List */
+        .tips-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .tips-list li {
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--success);
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s;
+        }
+
+        .tips-list li:hover {
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateX(10px);
+        }
+
+        /* Navigation */
+        .guide-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-container">
+        <div class="make-icon">⚡</div>
+        <div class="make-icon">🔗</div>
+        <div class="make-icon">🤖</div>
+        <div class="make-icon">⚙️</div>
+        <div class="make-icon">🎯</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="../../index.html" class="logo">
+                <span>🧠</span> AI Learning Hub
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../lezioni.html">Lezioni</a></li>
+                <li><a href="../../guide.html">Guide</a></li>
+                <li><a href="../../index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Guide Header -->
+        <div class="guide-header">
+            <span class="badge">🎯 Guida Essenziale</span>
+            <h1>Introduzione a Make.com per Agenti AI</h1>
+            <p class="guide-subtitle">Costruisci agenti AI potenti senza scrivere codice</p>
+            <div class="guide-meta">
+                <div class="meta-item">
+                    <span>⚡</span> Difficoltà: Principiante
+                </div>
+                <div class="meta-item">
+                    <span>⏱️</span> Durata: 30 min
+                </div>
+                <div class="meta-item">
+                    <span>💳</span> Piano gratuito disponibile
+                </div>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <section class="toc-section">
+            <h2 class="toc-title">📚 Indice della Guida</h2>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#why-make">
+                        <span class="toc-number">1</span>
+                        <span>Cos'è Make.com e perché lo usiamo</span>
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="#registration">
+                        <span class="toc-number">2</span>
+                        <span>Registrazione e setup iniziale</span>
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="#interface">
+                        <span class="toc-number">3</span>
+                        <span>Interfaccia e concetti base</span>
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="#first-scenario">
+                        <span class="toc-number">4</span>
+                        <span>Il tuo primo scenario AI</span>
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="#best-practices">
+                        <span class="toc-number">5</span>
+                        <span>Best practices per il piano gratuito</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Why Make.com -->
+        <section id="why-make" class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2 class="section-title">Perché Make.com</h2>
+            </div>
+
+            <p style="font-size: 1.2rem; color: #cbd5e1; margin-bottom: 2rem;">
+                Immagina di poter costruire agenti AI complessi come se stessi giocando con i LEGO: prendi i pezzi, li connetti, e voilà! Ecco esattamente cosa ti permette di fare Make.com.
+            </p>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3 class="card-title">
+                        <span>👨‍💻</span> Approccio Tradizionale
+                    </h3>
+                    <div class="card-content">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem;">❌ Scrivere centinaia di righe di codice</li>
+                            <li style="margin-bottom: 0.5rem;">❌ Gestire server e infrastruttura</li>
+                            <li style="margin-bottom: 0.5rem;">❌ Debug complessi e time-consuming</li>
+                            <li style="margin-bottom: 0.5rem;">❌ Settimane di sviluppo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <h3 class="card-title">
+                        <span>🚀</span> Con Make.com
+                    </h3>
+                    <div class="card-content">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem;">✅ Drag & drop visuale intuitivo</li>
+                            <li style="margin-bottom: 0.5rem;">✅ Infrastruttura gestita automaticamente</li>
+                            <li style="margin-bottom: 0.5rem;">✅ Testing in tempo reale</li>
+                            <li style="margin-bottom: 0.5rem;">✅ Ore invece di settimane</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visual-example">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Cosa puoi costruire?</h3>
+                <div class="example-icons">
+                    <div class="example-icon-box">
+                        <div class="icon-large">💬</div>
+                        <div>Chatbot Intelligenti</div>
+                    </div>
+                    <div class="example-icon-box">
+                        <div class="icon-large">📧</div>
+                        <div>Assistenti Email</div>
+                    </div>
+                    <div class="example-icon-box">
+                        <div class="icon-large">📊</div>
+                        <div>Analizzatori Dati</div>
+                    </div>
+                    <div class="example-icon-box">
+                        <div class="icon-large">🔄</div>
+                        <div>Automazioni Workflow</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box tip">
+                <div class="info-box-title">
+                    <span>💡</span> Il Vantaggio del Piano Gratuito
+                </div>
+                <p>Make.com offre 1000 operations al mese GRATIS! Perfetto per iniziare e testare i tuoi primi agenti AI senza spendere un centesimo.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Registration -->
+        <section id="registration" class="content-section">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h2 class="section-title">Registrazione Step-by-Step</h2>
+            </div>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Vai su make.com</h4>
+                        <p>Apri il browser e naviga su <a href="https://www.make.com" target="_blank" style="color: var(--primary);">make.com</a>. Clicca sul grande pulsante "Get started free" in alto a destra.</p>
+                        <div class="screenshot">
+                            📸 Screenshot: Homepage di Make.com con freccia sul pulsante
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Crea il tuo account</h4>
+                        <p>Puoi registrarti con Google (consigliato per velocità) o con email. Se usi l'email, ricordati di confermare l'account.</p>
+                        <div class="info-box what-happening">
+                            <div class="info-box-title">
+                                <span>🤔</span> Cosa sta succedendo?
+                            </div>
+                            <p>Make.com sta creando il tuo workspace personale dove potrai costruire tutti i tuoi agenti.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Completa il profilo</h4>
+                        <p>Ti verranno fatte alcune domande sul tuo livello di esperienza. Non preoccuparti, seleziona pure "Beginner" - crescerai velocemente!</p>
+                        <div class="screenshot">
+                            📸 Screenshot: Form di onboarding
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Tour guidato (opzionale)</h4>
+                        <p>Make.com offre un tour interattivo. Ti consiglio di farlo, dura solo 2 minuti e ti dà una panoramica veloce.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Interface and Concepts -->
+        <section id="interface" class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h2 class="section-title">Concetti Base</h2>
+            </div>
+
+            <p style="font-size: 1.1rem; color: #cbd5e1; margin-bottom: 2rem;">
+                Prima di tuffarci nella pratica, familiarizziamo con i termini che userai ogni giorno. Non preoccuparti, sono super semplici!
+            </p>
+
+            <div class="concepts-grid">
+                <div class="concept-card">
+                    <div class="concept-icon">📋</div>
+                    <h3 class="concept-name">Scenarios</h3>
+                    <p class="concept-analogy">Come le "ricette" per i tuoi agenti</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-icon">🧱</div>
+                    <h3 class="concept-name">Modules</h3>
+                    <p class="concept-analogy">I "mattoncini LEGO" da combinare</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-icon">⚡</div>
+                    <h3 class="concept-name">Operations</h3>
+                    <p class="concept-analogy">Ogni volta che un modulo "fa qualcosa"</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-icon">🔗</div>
+                    <h3 class="concept-name">Connections</h3>
+                    <p class="concept-analogy">I "tubi" che collegano i moduli</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-icon">🔀</div>
+                    <h3 class="concept-name">Router</h3>
+                    <p class="concept-analogy">Il "semaforo" che decide dove vanno i dati</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-icon">🔄</div>
+                    <h3 class="concept-name">Iterator</h3>
+                    <p class="concept-analogy">Il "ripetitore" per processare liste</p>
+                </div>
+            </div>
+
+            <div class="info-box tip">
+                <div class="info-box-title">
+                    <span>💡</span> Analogia del Giorno
+                </div>
+                <p>Pensa a Make.com come a una catena di montaggio: ogni modulo è un operaio specializzato che fa una cosa specifica. I dati viaggiano da un operaio all'altro fino al prodotto finale!</p>
+            </div>
+        </section>
+
+        <!-- Section 4: First Scenario -->
+        <section id="first-scenario" class="content-section">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2 class="section-title">Il Tuo Primo Scenario "Hello AI"</h2>
+            </div>
+
+            <p style="font-size: 1.1rem; color: #cbd5e1; margin-bottom: 2rem;">
+                Costruiamo insieme il tuo primo agente AI! Sarà semplice ma potente: un assistente che risponde con una barzelletta ogni volta che lo attivi.
+            </p>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Crea un nuovo scenario</h4>
+                        <p>Dal dashboard, clicca su "Create a new scenario". Si aprirà una bellissima tela bianca - la tua area di lavoro!</p>
+                        <div class="screenshot">
+                            📸 Screenshot: Canvas vuoto di Make.com
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Aggiungi il trigger manuale</h4>
+                        <p>Clicca sul grande "+" e cerca "Webhook". Seleziona "Custom webhook". Questo sarà il "pulsante" per attivare il tuo agente.</p>
+                        <div class="info-box what-happening">
+                            <div class="info-box-title">
+                                <span>🤔</span> Cosa sta succedendo?
+                            </div>
+                            <p>Un webhook è come un campanello: quando qualcuno lo suona (invia una richiesta), il tuo scenario si attiva!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Configura OpenAI</h4>
+                        <p>Clicca su "+" dopo il webhook e cerca "OpenAI". Seleziona "Create a completion".</p>
+                        <div class="code-block">
+                            <code>
+Prompt: "Raccontami una barzelletta divertente sulla programmazione"
+Model: gpt-3.5-turbo
+Max tokens: 150
+                            </code>
+                        </div>
+                        <div class="info-box warning">
+                            <div class="info-box-title">
+                                <span>⚠️</span> Nota Importante
+                            </div>
+                            <p>Avrai bisogno di una API key di OpenAI. Puoi ottenerla gratuitamente su platform.openai.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Test del tuo agente</h4>
+                        <p>Clicca su "Run once" in basso. Make.com aspetterà che tu invii una richiesta al webhook. Usa lo strumento di test integrato!</p>
+                        <div class="screenshot">
+                            📸 Screenshot: Risultato con barzelletta generata
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Aggiungi l'output</h4>
+                        <p>Ultimo step! Aggiungi un modulo "Webhook response" per restituire la barzelletta a chi l'ha richiesta.</p>
+                        <div class="info-box tip">
+                            <div class="info-box-title">
+                                <span>💡</span> Pro Tip
+                            </div>
+                            <p>Nella risposta del webhook, usa il campo {{1.choices[0].text}} per includere la barzelletta generata da OpenAI!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visual-example" style="margin-top: 3rem;">
+                <h3 style="color: var(--primary);">🎉 Congratulazioni!</h3>
+                <p style="font-size: 1.1rem; margin: 1rem 0;">Hai appena creato il tuo primo agente AI! Ecco cosa hai imparato:</p>
+                <ul style="list-style: none; padding: 0; text-align: left; max-width: 600px; margin: 0 auto;">
+                    <li style="margin: 0.5rem 0;">✅ Come creare e configurare scenari</li>
+                    <li style="margin: 0.5rem 0;">✅ Collegare moduli tra loro</li>
+                    <li style="margin: 0.5rem 0;">✅ Integrare OpenAI per generare contenuti</li>
+                    <li style="margin: 0.5rem 0;">✅ Testare in tempo reale</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 5: Best Practices -->
+        <section id="best-practices" class="content-section">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <h2 class="section-title">Ottimizza il Piano Gratuito</h2>
+            </div>
+
+            <p style="font-size: 1.1rem; color: #cbd5e1; margin-bottom: 2rem;">
+                Con 1000 operations al mese, puoi fare tantissimo se sai come ottimizzare. Ecco i miei consigli da esperto:
+            </p>
+
+            <div class="info-box tip" style="margin-bottom: 2rem;">
+                <div class="info-box-title">
+                    <span>📊</span> Come Contare le Operations
+                </div>
+                <p>Ogni modulo che "fa qualcosa" = 1 operation. Un scenario con 3 moduli che gira 100 volte = 300 operations.</p>
+            </div>
+
+            <ul class="tips-list">
+                <li>
+                    <strong>🕐 Scheduling Intelligente:</strong> Invece di controllare ogni minuto, usa intervalli più lunghi (ogni ora o giorno)
+                </li>
+                <li>
+                    <strong>📦 Batch Processing:</strong> Accumula più richieste e processale insieme invece che una alla volta
+                </li>
+                <li>
+                    <strong>💾 Data Stores:</strong> Salva dati frequenti localmente invece di richiamarli ogni volta da API esterne
+                </li>
+                <li>
+                    <strong>🔀 Router Conditions:</strong> Usa condizioni per evitare di eseguire moduli non necessari
+                </li>
+                <li>
+                    <strong>🎯 Aggregazione:</strong> Combina risultati multipli in un'unica operation quando possibile
+                </li>
+            </ul>
+
+            <div class="comparison-grid" style="margin-top: 2rem;">
+                <div class="comparison-card">
+                    <h3 class="card-title" style="color: var(--error);">
+                        ❌ Scenario Inefficiente
+                    </h3>
+                    <div class="card-content">
+                        <p>Check email → Per ogni email → Analizza → Rispondi = 4 operations per email</p>
+                        <p style="margin-top: 1rem; color: #94a3b8;">100 email = 400 operations 😱</p>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <h3 class="card-title" style="color: var(--success);">
+                        ✅ Scenario Ottimizzato
+                    </h3>
+                    <div class="card-content">
+                        <p>Check email → Filtra importanti → Batch analyze → Risposte aggregate = 4 operations totali</p>
+                        <p style="margin-top: 1rem; color: #94a3b8;">100 email = 4 operations 🎉</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h2 class="section-title">Risorse Utili</h2>
+            </div>
+
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">📖 Documentazione</h3>
+                    <a href="https://www.make.com/en/help" target="_blank" class="resource-link">
+                        Make Academy →
+                    </a>
+                    <p style="margin-top: 0.5rem; color: #94a3b8;">Tutorial ufficiali e guide dettagliate</p>
+                </div>
+
+                <div class="resource-card">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">👥 Community</h3>
+                    <a href="#" class="resource-link">
+                        Gruppo Facebook Italia →
+                    </a>
+                    <p style="margin-top: 0.5rem; color: #94a3b8;">Unisciti ad altri makers italiani</p>
+                </div>
+
+                <div class="resource-card">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🎁 Template</h3>
+                    <a href="#" class="resource-link">
+                        I nostri template gratuiti →
+                    </a>
+                    <p style="margin-top: 0.5rem; color: #94a3b8;">Scenari pronti da importare e usare</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="guide-nav">
+            <a href="../../guide.html" class="nav-btn">
+                <span>←</span> Torna alle Guide
+            </a>
+            <a href="#" class="nav-btn">
+                <span>Prossima Guida:</span> Integrare ChatGPT <span>→</span>
+            </a>
+        </nav>
+    </main>
+</body>
+</html>
