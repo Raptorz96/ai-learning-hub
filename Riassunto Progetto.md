@@ -20,7 +20,7 @@
 - Stats animate e percorsi di apprendimento
 - Fully responsive con effetti parallax
 
-### **Corso Agenti OpenAI** (4/6 lezioni)
+### **Corso Agenti OpenAI** (5/6 lezioni)
 1. **Lezione 1**: Introduzione agli Agenti AI ✅
 2. **Lezione 2**: Fondamenti del Design ✅
 3. **Lezione 3**: Tools e Instructions Avanzate ✅
@@ -31,10 +31,13 @@
    - Decision Matrix e State Management
    - Flow Designer drag-and-drop
    - Link a futura guida pratica
+5. **Lezione 5**: Sistemi Multi-Agent ✅ **NUOVA**
+   - Visual + Demo interattive
+   - 40 minuti di contenuto
 
 ### **Pagine Strutturali**
 - **Catalogo Lezioni** (`lezioni.html`) ✅ **AGGIORNATA**
-  - Progress: 4/6 lezioni Agenti AI
+  - Progress: 5/6 lezioni Agenti AI
   - Filter system per categoria
   - Cards animate e responsive
 
@@ -47,12 +50,6 @@
 ## 🚧 In Sviluppo
 
 ### **Lezioni Immediate**
-- Lezione 5: Sistemi Multi-Agent
-  - Manager Pattern teoria
-  - Decentralized Pattern
-  - Comunicazione inter-agent
-  - Visualizzazioni workflow
-
 - Lezione 6: Guardrails e Produzione
   - Sicurezza e compliance
   - Monitoring e observability
@@ -72,7 +69,7 @@
 | Metrica | Valore |
 |---------|--------|
 | **Pagine Create** | 8 |
-| **Lezioni Disponibili** | 4/40+ |
+| **Lezioni Disponibili** | 5/40+ |
 | **Guide Disponibili** | 2/9 |
 | **Visual Interattive** | 15+ |
 | **Responsive** | ✅ 100% |
@@ -103,7 +100,7 @@
 
 ### 1. **Completare Corso Agenti OpenAI**
 ```
-- [ ] Lezione 5: Multi-Agent Systems
+- [x] Lezione 5: Multi-Agent Systems ✅
 - [ ] Lezione 6: Guardrails & Production
 ```
 
@@ -144,7 +141,8 @@ ai-learning-hub/
 │       ├── lezione-1.html  ✅
 │       ├── lezione-2.html  ✅
 │       ├── lezione-3.html  ✅
-│       └── lezione-4.html  ✅ RISCRITTA - Solo teoria
+│       ├── lezione-4.html  ✅ RISCRITTA - Solo teoria
+│       └── lezione-5.html  ✅ NUOVA - Multi-Agent Systems
 ├── guide/
 │   ├── agenti-api-reali.html           ✅
 │   ├── sistema-multi-tool.html         ✅
